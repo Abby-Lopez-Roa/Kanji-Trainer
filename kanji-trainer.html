@@ -11,7 +11,7 @@
 <title>漢字 Trainer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0f0f13;--surface:#17171e;--surface2:#1e1e28;--surface3:#252533;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#f0eeeb;--text2:#8b8a96;--text3:#55535f;--accent:#c8a96e;--accent2:#e8c98a;--green:#5ecb8a;--green-bg:rgba(94,203,138,0.12);--red:#e8685a;--red-bg:rgba(232,104,90,0.12);--blue:#6eb4f7;--blue-bg:rgba(110,180,247,0.1);--amber:#f0a84a;--amber-bg:rgba(240,168,74,0.1);--radius:12px;--radius-lg:18px;--radius-xl:24px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -36,8 +36,6 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 .session-counts{margin-left:auto;display:flex;gap:8px;font-size:12px;font-family:'DM Mono',monospace}
 .s-correct{color:var(--green)}
 .s-wrong{color:var(--red)}
-
-/* Session options panel */
 .options-panel{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-lg);margin-bottom:14px;overflow:hidden}
 .options-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;user-select:none}
 .options-title{font-size:13px;font-weight:500;color:var(--text2);letter-spacing:0.04em;text-transform:uppercase}
@@ -65,19 +63,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 .qty-input{width:70px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;padding:6px 10px;text-align:center}
 .qty-input:focus{outline:none;border-color:var(--accent)}
 .qty-hint{font-size:11px;color:var(--text3)}
-
-/* Mode label */
 .mode-label{display:inline-block;background:var(--surface);border:0.5px solid var(--border2);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--text2);margin-bottom:12px;letter-spacing:0.04em;text-transform:uppercase}
-
-/* Flashcard */
 .flashcard{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-xl);min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px 24px;position:relative;transition:border-color 0.3s}
 .flashcard.correct-flash{border-color:var(--green);animation:flashG 0.5s ease}
 .flashcard.wrong-flash{border-color:var(--red);animation:flashR 0.5s ease}
 @keyframes flashG{0%{background:var(--green-bg)}100%{background:var(--surface)}}
 @keyframes flashR{0%{background:var(--red-bg)}100%{background:var(--surface)}}
-.kanji-big{font-family:'Noto Sans JP',sans-serif;font-size:80px;line-height:1;color:var(--text)}
-.reading-big{font-family:'Noto Sans JP',sans-serif;font-size:32px;font-weight:500;color:var(--text)}
-.compound-display{font-family:'Noto Sans JP',sans-serif;font-size:28px;font-weight:500;color:var(--text);text-align:center;line-height:1.4}
+.kanji-big{font-family:'Klee One',sans-serif;font-size:80px;line-height:1;color:var(--text)}
+.reading-big{font-family:'Klee One',sans-serif;font-size:32px;font-weight:500;color:var(--text)}
+.compound-display{font-family:'Klee One',sans-serif;font-size:28px;font-weight:500;color:var(--text);text-align:center;line-height:1.4}
 .eng-tag{background:var(--surface2);border:0.5px solid var(--border);border-radius:8px;padding:5px 12px;font-size:13px;color:var(--text2);text-align:center}
 .lesson-tag{position:absolute;top:12px;right:12px;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:0.08em}
 .missed-badge{position:absolute;top:12px;left:12px;background:var(--red-bg);border:0.5px solid rgba(232,104,90,0.3);border-radius:6px;font-size:10px;color:var(--red);padding:3px 7px;font-family:'DM Mono',monospace}
@@ -97,13 +91,9 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 .btn-missed:hover{background:rgba(232,104,90,0.2)}
 .btn-skip{background:none;border:none;color:var(--text3);font-size:13px;padding:10px;margin:4px auto 0;display:block;cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.03em}
 .btn-skip:hover{color:var(--text2)}
-
-/* Progress counter */
 .prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px;font-family:'DM Mono',monospace}
 .prog-track{height:2px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:14px}
 .prog-fill{height:100%;background:var(--accent);border-radius:99px;transition:width 0.3s}
-
-/* Stats */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
 .stat-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px}
 .stat-val{font-size:28px;font-weight:700;letter-spacing:-0.03em}
@@ -116,15 +106,13 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 .lesson-group-title{font-size:13px;font-weight:500;color:var(--text2)}
 .lesson-error-pill{font-size:11px;font-family:'DM Mono',monospace;color:var(--red);background:var(--red-bg);border-radius:99px;padding:2px 8px}
 .wrong-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:11px 14px;margin-bottom:6px}
-.wrong-kanji{font-family:'Noto Sans JP',sans-serif;font-size:26px;min-width:34px;text-align:center}
+.wrong-kanji{font-family:'Klee One',sans-serif;font-size:26px;min-width:34px;text-align:center}
 .wrong-info{flex:1;min-width:0}
-.wrong-reading{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--text2)}
+.wrong-reading{font-family:'Klee One',sans-serif;font-size:13px;color:var(--text2)}
 .wrong-eng{font-size:11px;color:var(--text3);margin-top:1px}
 .wrong-count{font-family:'DM Mono',monospace;font-size:12px;color:var(--red);background:var(--red-bg);border-radius:6px;padding:3px 8px;white-space:nowrap}
 .no-wrong{font-size:13px;color:var(--text3);text-align:center;padding:20px}
 .reset-btn{width:100%;margin-top:16px;border-color:rgba(232,104,90,0.3);color:var(--red);font-size:13px;padding:11px}
-
-/* Settings */
 .setting-group{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:14px}
 .setting-row{display:flex;align-items:center;padding:14px 16px;border-bottom:0.5px solid var(--border)}
 .setting-row:last-child{border-bottom:none}
@@ -141,9 +129,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 <body>
 <div id="app"></div>
 <script>
-// type: 'single' = individual kanji, 'compound' = vocab word (kanji+kana mix)
 const RAW = [
-  // L3
   {k:"一",r:"いち",e:"one",l:3,type:"single"},
   {k:"二",r:"に",e:"two",l:3,type:"single"},
   {k:"三",r:"さん",e:"three",l:3,type:"single"},
@@ -159,7 +145,6 @@ const RAW = [
   {k:"万",r:"まん",e:"ten-thousand",l:3,type:"single"},
   {k:"千",r:"せん",e:"thousand",l:3,type:"single"},
   {k:"時",r:"じ",e:"hour / o'clock",l:3,type:"single"},
-  // L3 compounds
   {k:"一時",r:"いちじ",e:"1 o'clock",l:3,type:"compound"},
   {k:"三百円",r:"さんびゃくえん",e:"300 yen",l:3,type:"compound"},
   {k:"六百円",r:"ろっぴゃくえん",e:"600 yen",l:3,type:"compound"},
@@ -167,7 +152,6 @@ const RAW = [
   {k:"三千",r:"さんぜん",e:"3,000",l:3,type:"compound"},
   {k:"八千",r:"はっせん",e:"8,000",l:3,type:"compound"},
   {k:"一万",r:"いちまん",e:"10,000",l:3,type:"compound"},
-  // L4
   {k:"日",r:"にち・ひ",e:"day / sun",l:4,type:"single"},
   {k:"本",r:"ほん",e:"book / origin",l:4,type:"single"},
   {k:"人",r:"じん・ひと",e:"person",l:4,type:"single"},
@@ -182,7 +166,6 @@ const RAW = [
   {k:"下",r:"した",e:"below",l:4,type:"single"},
   {k:"中",r:"なか・ちゅう",e:"inside / middle",l:4,type:"single"},
   {k:"半",r:"はん",e:"half",l:4,type:"single"},
-  // L4 compounds
   {k:"日本人",r:"にほんじん",e:"Japanese person",l:4,type:"compound"},
   {k:"月曜日",r:"げつようび",e:"Monday",l:4,type:"compound"},
   {k:"火曜日",r:"かようび",e:"Tuesday",l:4,type:"compound"},
@@ -207,7 +190,6 @@ const RAW = [
   {k:"下",r:"した",e:"below (location)",l:4,type:"single"},
   {k:"中",r:"なか",e:"inside (location)",l:4,type:"single"},
   {k:"四時半",r:"よじはん",e:"4:30",l:4,type:"compound"},
-  // L5
   {k:"飲",r:"のむ",e:"to drink",l:5,type:"single"},
   {k:"食",r:"たべる",e:"to eat",l:5,type:"single"},
   {k:"行",r:"いく",e:"to go",l:5,type:"single"},
@@ -222,7 +204,6 @@ const RAW = [
   {k:"元",r:"もと・げん",e:"origin / health",l:5,type:"single"},
   {k:"川",r:"かわ",e:"river",l:5,type:"single"},
   {k:"山",r:"やま",e:"mountain",l:5,type:"single"},
-  // L5 compounds
   {k:"元気",r:"げんき",e:"healthy / energetic",l:5,type:"compound"},
   {k:"天気",r:"てんき",e:"weather",l:5,type:"compound"},
   {k:"今日",r:"きょう",e:"today",l:5,type:"compound"},
@@ -230,7 +211,6 @@ const RAW = [
   {k:"川山",r:"やまかわ",e:"Yamakawa (surname)",l:5,type:"compound"},
   {k:"男の人",r:"おとこのひと",e:"man (polite)",l:5,type:"compound"},
   {k:"女の人",r:"おんなのひと",e:"woman (polite)",l:5,type:"compound"},
-  // L6
   {k:"東",r:"ひがし",e:"east",l:6,type:"single"},
   {k:"西",r:"にし",e:"west",l:6,type:"single"},
   {k:"南",r:"みなみ",e:"south",l:6,type:"single"},
@@ -246,7 +226,6 @@ const RAW = [
   {k:"学",r:"がく",e:"study",l:6,type:"single"},
   {k:"外",r:"そと・がい",e:"outside",l:6,type:"single"},
   {k:"国",r:"くに・こく",e:"country",l:6,type:"single"},
-  // L6 compounds
   {k:"五分",r:"ごふん",e:"5 minutes",l:6,type:"compound"},
   {k:"十分",r:"じゅっぷん",e:"10 minutes",l:6,type:"compound"},
   {k:"先生",r:"せんせい",e:"teacher",l:6,type:"compound"},
@@ -256,7 +235,6 @@ const RAW = [
   {k:"国外",r:"がいこく",e:"foreign country",l:6,type:"compound"},
   {k:"南口",r:"みなみぐち",e:"south exit",l:6,type:"compound"},
   {k:"出口",r:"でぐち",e:"exit",l:6,type:"compound"},
-  // L7
   {k:"入",r:"はいる",e:"to enter",l:7,type:"single"},
   {k:"帰",r:"かえる",e:"to return home",l:7,type:"single"},
   {k:"文",r:"ぶん",e:"sentence / writing",l:7,type:"single"},
@@ -271,7 +249,6 @@ const RAW = [
   {k:"小",r:"ちいさい・しょう",e:"small",l:7,type:"single"},
   {k:"子",r:"こ",e:"child",l:7,type:"single"},
   {k:"京",r:"きょう",e:"capital",l:7,type:"single"},
-  // L7 compounds
   {k:"日本語",r:"にほんご",e:"Japanese language",l:7,type:"compound"},
   {k:"会社",r:"かいしゃ",e:"company",l:7,type:"compound"},
   {k:"高校",r:"こうこう",e:"high school",l:7,type:"compound"},
@@ -282,7 +259,6 @@ const RAW = [
   {k:"文学",r:"ぶんがく",e:"literature",l:7,type:"compound"},
   {k:"二人",r:"ふたり",e:"two people",l:7,type:"compound"},
   {k:"三人",r:"さんにん",e:"three people",l:7,type:"compound"},
-  // L8
   {k:"何",r:"なに・なん",e:"what",l:8,type:"single"},
   {k:"次",r:"つぎ",e:"next",l:8,type:"single"},
   {k:"思",r:"おもう",e:"to think",l:8,type:"single"},
@@ -297,7 +273,6 @@ const RAW = [
   {k:"聞",r:"きく",e:"to listen",l:8,type:"single"},
   {k:"新",r:"あたらしい",e:"new",l:8,type:"single"},
   {k:"員",r:"いん",e:"member",l:8,type:"single"},
-  // L8 compounds
   {k:"新聞",r:"しんぶん",e:"newspaper",l:8,type:"compound"},
   {k:"電気",r:"でんき",e:"electricity / light",l:8,type:"compound"},
   {k:"電車",r:"でんしゃ",e:"train",l:8,type:"compound"},
@@ -305,7 +280,6 @@ const RAW = [
   {k:"会社員",r:"かいしゃいん",e:"company employee",l:8,type:"compound"},
   {k:"何時",r:"なんじ",e:"what time",l:8,type:"compound"},
   {k:"今月",r:"こんげつ",e:"this month",l:8,type:"compound"},
-  // L9
   {k:"午",r:"ご",e:"noon",l:9,type:"single"},
   {k:"後",r:"ご・あと",e:"after / behind",l:9,type:"single"},
   {k:"前",r:"まえ",e:"before / front",l:9,type:"single"},
@@ -321,7 +295,6 @@ const RAW = [
   {k:"古",r:"ふるい",e:"old",l:9,type:"single"},
   {k:"来",r:"くる",e:"to come",l:9,type:"single"},
   {k:"少",r:"すこし",e:"a little",l:9,type:"single"},
-  // L9 compounds
   {k:"午後",r:"ごご",e:"afternoon / PM",l:9,type:"compound"},
   {k:"午前",r:"ごぜん",e:"morning / AM",l:9,type:"compound"},
   {k:"名前",r:"なまえ",e:"name",l:9,type:"compound"},
@@ -331,7 +304,6 @@ const RAW = [
   {k:"電話",r:"でんわ",e:"telephone",l:9,type:"compound"},
   {k:"先月",r:"せんげつ",e:"last month",l:9,type:"compound"},
   {k:"来月",r:"らいげつ",e:"next month",l:9,type:"compound"},
-  // L10
   {k:"住",r:"すむ",e:"to live / reside",l:10,type:"single"},
   {k:"年",r:"ねん・とし",e:"year",l:10,type:"single"},
   {k:"買",r:"かう",e:"to buy",l:10,type:"single"},
@@ -343,7 +315,6 @@ const RAW = [
   {k:"持",r:"もつ",e:"to hold",l:10,type:"single"},
   {k:"雪",r:"ゆき",e:"snow",l:10,type:"single"},
   {k:"売",r:"うる",e:"to sell",l:10,type:"single"},
-  // L10 compounds
   {k:"四年生",r:"よねんせい",e:"4th-year student",l:10,type:"compound"},
   {k:"来年",r:"らいねん",e:"next year",l:10,type:"compound"},
   {k:"今年",r:"ことし",e:"this year",l:10,type:"compound"},
@@ -352,7 +323,6 @@ const RAW = [
   {k:"今朝",r:"けさ",e:"this morning",l:10,type:"compound"},
   {k:"お金持ち",r:"おかねもち",e:"wealthy person",l:10,type:"compound"},
   {k:"三年後",r:"さんねんご",e:"three years later",l:10,type:"compound"},
-  // L11
   {k:"手",r:"て",e:"hand",l:11,type:"single"},
   {k:"紙",r:"かみ",e:"paper",l:11,type:"single"},
   {k:"病",r:"びょう",e:"illness",l:11,type:"single"},
@@ -368,7 +338,6 @@ const RAW = [
   {k:"旅",r:"たび",e:"travel",l:11,type:"single"},
   {k:"所",r:"ところ",e:"place",l:11,type:"single"},
   {k:"歌",r:"うたう",e:"to sing",l:11,type:"single"},
-  // L11 compounds
   {k:"上手",r:"じょうず",e:"skilled / good at",l:11,type:"compound"},
   {k:"下手",r:"へた",e:"unskilled / bad at",l:11,type:"compound"},
   {k:"手紙",r:"てがみ",e:"letter (mail)",l:11,type:"compound"},
@@ -382,7 +351,6 @@ const RAW = [
   {k:"旅行",r:"りょこう",e:"travel / trip",l:11,type:"compound"},
   {k:"場所",r:"ばしょ",e:"place / location",l:11,type:"compound"},
   {k:"社長",r:"しゃちょう",e:"company president",l:11,type:"compound"},
-  // L12
   {k:"早",r:"はやい",e:"early / fast",l:12,type:"single"},
   {k:"起",r:"おきる",e:"to wake up",l:12,type:"single"},
   {k:"使",r:"つかう",e:"to use",l:12,type:"single"},
@@ -393,14 +361,12 @@ const RAW = [
   {k:"神",r:"かみ",e:"god / spirit",l:12,type:"single"},
   {k:"牛",r:"うし",e:"cow",l:12,type:"single"},
   {k:"色",r:"いろ",e:"color",l:12,type:"single"},
-  // L12 compounds
   {k:"今度",r:"こんど",e:"this time / next time",l:12,type:"compound"},
   {k:"一度",r:"いちど",e:"once / one time",l:12,type:"compound"},
   {k:"神社",r:"じんじゃ",e:"Shinto shrine",l:12,type:"compound"},
   {k:"大事",r:"だいじ",e:"important",l:12,type:"compound"},
   {k:"時々",r:"ときどき",e:"sometimes",l:12,type:"compound"},
   {k:"人々",r:"ひとびと",e:"people (plural)",l:12,type:"compound"},
-  // L13
   {k:"物",r:"もの",e:"thing / object",l:13,type:"single"},
   {k:"料",r:"りょう",e:"fee / material",l:13,type:"single"},
   {k:"理",r:"り",e:"reason / logic",l:13,type:"single"},
@@ -414,7 +380,6 @@ const RAW = [
   {k:"海",r:"うみ",e:"sea / ocean",l:13,type:"single"},
   {k:"同",r:"おなじ",e:"same",l:13,type:"single"},
   {k:"昼",r:"ひる",e:"daytime / noon",l:13,type:"single"},
-  // L13 compounds
   {k:"食べ物",r:"たべもの",e:"food",l:13,type:"compound"},
   {k:"買い物",r:"かいもの",e:"shopping",l:13,type:"compound"},
   {k:"料理",r:"りょうり",e:"cooking / cuisine",l:13,type:"compound"},
@@ -426,7 +391,6 @@ const RAW = [
   {k:"昼ご飯",r:"ひるごはん",e:"lunch",l:13,type:"compound"},
   {k:"大人",r:"おとな",e:"adult",l:13,type:"compound"},
   {k:"一日中",r:"いちにちじゅう",e:"all day long",l:13,type:"compound"},
-  // L14
   {k:"彼",r:"かれ",e:"he / him",l:14,type:"single"},
   {k:"族",r:"ぞく",e:"family / group",l:14,type:"single"},
   {k:"親",r:"おや",e:"parent",l:14,type:"single"},
@@ -439,7 +403,6 @@ const RAW = [
   {k:"楽",r:"たのしい・がく",e:"fun / music",l:14,type:"single"},
   {k:"医",r:"い",e:"medicine",l:14,type:"single"},
   {k:"者",r:"もの・しゃ",e:"person / one who",l:14,type:"single"},
-  // L14 compounds
   {k:"彼女",r:"かのじょ",e:"she / girlfriend",l:14,type:"compound"},
   {k:"留学生",r:"りゅうがくせい",e:"international student",l:14,type:"compound"},
   {k:"家族",r:"かぞく",e:"family",l:14,type:"compound"},
@@ -456,7 +419,6 @@ const RAW = [
   {k:"一本",r:"いっぽん",e:"one (long object)",l:14,type:"compound"},
   {k:"年上",r:"としうえ",e:"older (in age)",l:14,type:"compound"},
   {k:"年下",r:"としした",e:"younger (in age)",l:14,type:"compound"},
-  // L15
   {k:"死",r:"しぬ",e:"to die",l:15,type:"single"},
   {k:"意",r:"い",e:"intention",l:15,type:"single"},
   {k:"味",r:"あじ",e:"taste / flavor",l:15,type:"single"},
@@ -471,7 +433,6 @@ const RAW = [
   {k:"建",r:"たてる",e:"to build",l:15,type:"single"},
   {k:"場",r:"ば",e:"place / scene",l:15,type:"single"},
   {k:"足",r:"あし",e:"foot / leg",l:15,type:"single"},
-  // L15 compounds
   {k:"意味",r:"いみ",e:"meaning",l:15,type:"compound"},
   {k:"注意",r:"ちゅうい",e:"caution / attention",l:15,type:"compound"},
   {k:"夏休み",r:"なつやすみ",e:"summer vacation",l:15,type:"compound"},
@@ -480,7 +441,6 @@ const RAW = [
   {k:"地下鉄",r:"ちかてつ",e:"subway",l:15,type:"compound"},
   {k:"広場",r:"ひろば",e:"plaza / open space",l:15,type:"compound"},
   {k:"足りる",r:"たりる",e:"to be sufficient",l:15,type:"compound"},
-  // L16
   {k:"供",r:"とも・きょう",e:"accompany",l:16,type:"single"},
   {k:"世",r:"せ・よ",e:"world / generation",l:16,type:"single"},
   {k:"界",r:"かい",e:"world / boundary",l:16,type:"single"},
@@ -494,7 +454,6 @@ const RAW = [
   {k:"運",r:"うん",e:"luck / carry",l:16,type:"single"},
   {k:"動",r:"どう",e:"to move",l:16,type:"single"},
   {k:"教",r:"おしえる",e:"to teach",l:16,type:"single"},
-  // L16 compounds
   {k:"子供",r:"こども",e:"child",l:16,type:"compound"},
   {k:"世界",r:"せかい",e:"world",l:16,type:"compound"},
   {k:"全部",r:"ぜんぶ",e:"all / everything",l:16,type:"compound"},
@@ -508,7 +467,6 @@ const RAW = [
   {k:"運動",r:"うんどう",e:"exercise",l:16,type:"compound"},
   {k:"教室",r:"きょうしつ",e:"classroom",l:16,type:"compound"},
   {k:"読み方",r:"よみかた",e:"how to read",l:16,type:"compound"},
-  // L17
   {k:"歳",r:"さい",e:"age (years)",l:17,type:"single"},
   {k:"習",r:"ならう",e:"to learn / practice",l:17,type:"single"},
   {k:"主",r:"おも・しゅ",e:"main / master",l:17,type:"single"},
@@ -522,7 +480,6 @@ const RAW = [
   {k:"写",r:"うつす",e:"to copy / photograph",l:17,type:"single"},
   {k:"真",r:"しん",e:"true / genuine",l:17,type:"single"},
   {k:"歩",r:"あるく",e:"to walk",l:17,type:"single"},
-  // L17 compounds
   {k:"結婚",r:"けっこん",e:"marriage",l:17,type:"compound"},
   {k:"発表",r:"はっぴょう",e:"presentation / announcement",l:17,type:"compound"},
   {k:"作品",r:"さくひん",e:"work of art / piece",l:17,type:"compound"},
@@ -532,7 +489,6 @@ const RAW = [
   {k:"写真",r:"しゃしん",e:"photograph",l:17,type:"compound"},
   {k:"主人",r:"しゅじん",e:"husband / master",l:17,type:"compound"},
   {k:"旅行会社",r:"りょこうがいしゃ",e:"travel agency",l:17,type:"compound"},
-  // L18
   {k:"目",r:"め",e:"eye",l:18,type:"single"},
   {k:"力",r:"ちから",e:"power / strength",l:18,type:"single"},
   {k:"洋",r:"よう",e:"Western / ocean",l:18,type:"single"},
@@ -547,7 +503,6 @@ const RAW = [
   {k:"終",r:"おわる",e:"to end",l:18,type:"single"},
   {k:"宿",r:"しゅく",e:"lodge / inn",l:18,type:"single"},
   {k:"題",r:"だい",e:"topic / title",l:18,type:"single"},
-  // L18 compounds
   {k:"目的",r:"もくてき",e:"purpose / goal",l:18,type:"compound"},
   {k:"力仕事",r:"ちからしごと",e:"physical labor",l:18,type:"compound"},
   {k:"洋服",r:"ようふく",e:"Western clothes",l:18,type:"compound"},
@@ -562,7 +517,6 @@ const RAW = [
   {k:"注文",r:"ちゅうもん",e:"order (food etc.)",l:18,type:"compound"},
   {k:"女子",r:"じょし",e:"girl / female",l:18,type:"compound"},
   {k:"男子",r:"だんし",e:"boy / male",l:18,type:"compound"},
-  // L19
   {k:"春",r:"はる",e:"spring",l:19,type:"single"},
   {k:"秋",r:"あき",e:"autumn",l:19,type:"single"},
   {k:"冬",r:"ふゆ",e:"winter",l:19,type:"single"},
@@ -577,7 +531,6 @@ const RAW = [
   {k:"質",r:"しつ",e:"quality / nature",l:19,type:"single"},
   {k:"問",r:"もん",e:"question / problem",l:19,type:"single"},
   {k:"多",r:"おおい",e:"many / much",l:19,type:"single"},
-  // L19 compounds
   {k:"冬休み",r:"ふゆやすみ",e:"winter vacation",l:19,type:"compound"},
   {k:"漢字",r:"かんじ",e:"kanji",l:19,type:"compound"},
   {k:"卒業",r:"そつぎょう",e:"graduation",l:19,type:"compound"},
@@ -588,7 +541,6 @@ const RAW = [
   {k:"問題",r:"もんだい",e:"problem / question",l:19,type:"compound"},
   {k:"部長",r:"ぶちょう",e:"department head",l:19,type:"compound"},
   {k:"大切",r:"たいせつ",e:"important / precious",l:19,type:"compound"},
-  // L20
   {k:"茶",r:"ちゃ",e:"tea",l:20,type:"single"},
   {k:"枚",r:"まい",e:"flat-thing counter",l:20,type:"single"},
   {k:"両",r:"りょう",e:"both",l:20,type:"single"},
@@ -603,7 +555,6 @@ const RAW = [
   {k:"絶",r:"ぜつ",e:"absolute / cut off",l:20,type:"single"},
   {k:"対",r:"たい",e:"opposite / versus",l:20,type:"single"},
   {k:"続",r:"つづける",e:"to continue",l:20,type:"single"},
-  // L20 compounds
   {k:"お茶",r:"おちゃ",e:"tea (polite)",l:20,type:"compound"},
   {k:"茶色",r:"ちゃいろ",e:"brown (tea color)",l:20,type:"compound"},
   {k:"一枚",r:"いちまい",e:"one sheet / one piece",l:20,type:"compound"},
@@ -615,7 +566,6 @@ const RAW = [
   {k:"無理",r:"むり",e:"impossible / unreasonable",l:20,type:"compound"},
   {k:"絶対に",r:"ぜったいに",e:"absolutely",l:20,type:"compound"},
   {k:"心配",r:"しんぱい",e:"worry / concern",l:20,type:"compound"},
-  // L21
   {k:"犬",r:"いぬ",e:"dog",l:21,type:"single"},
   {k:"初",r:"はじめて",e:"for the first time",l:21,type:"single"},
   {k:"若",r:"わかい",e:"young",l:21,type:"single"},
@@ -631,7 +581,6 @@ const RAW = [
   {k:"重",r:"おもい",e:"heavy",l:21,type:"single"},
   {k:"計",r:"けい",e:"plan / meter",l:21,type:"single"},
   {k:"配",r:"くばる",e:"to distribute",l:21,type:"single"},
-  // L21 compounds
   {k:"最初",r:"さいしょ",e:"first / beginning",l:21,type:"compound"},
   {k:"兄弟",r:"きょうだい",e:"siblings (brothers)",l:21,type:"compound"},
   {k:"姉妹",r:"しまい",e:"sisters",l:21,type:"compound"},
@@ -643,57 +592,45 @@ const RAW = [
   {k:"心配",r:"しんぱい",e:"worry / concern",l:21,type:"compound"},
 ];
 
-const LESSONS = [...new Set(RAW.map(x=>x.l))].sort((a,b)=>a-b);
-const MODES = [
-  {id:'kana_to_kanji', label:'Reading → Kanji', desc:'See hiragana + meaning, recall the kanji'},
-  {id:'kanji_to_kana', label:'Kanji → Reading', desc:'See kanji only, recall the reading'},
-  {id:'kanji_eng_to_kana', label:'Kanji + Meaning → Reading', desc:'See kanji and meaning, recall the reading'}
+const LESSONS=[...new Set(RAW.map(x=>x.l))].sort((a,b)=>a-b);
+const MODES=[
+  {id:'kana_to_kanji',label:'Reading → Kanji',desc:'See hiragana + meaning, recall the kanji'},
+  {id:'kanji_to_kana',label:'Kanji → Reading',desc:'See kanji only, recall the reading'},
+  {id:'kanji_eng_to_kana',label:'Kanji + Meaning → Reading',desc:'See kanji and meaning, recall the reading'}
 ];
-const XP_PER_CORRECT = 10;
-const XP_PER_LEVEL = 100;
+const XP_PER_CORRECT=10,XP_PER_LEVEL=100;
 
 function defaultState(){
-  return {scores:{},xp:0,streak:0,bestStreak:0,totalCorrect:0,totalAnswered:0,
+  return{scores:{},xp:0,streak:0,bestStreak:0,totalCorrect:0,totalAnswered:0,
     activeModes:['kana_to_kanji','kanji_to_kana','kanji_eng_to_kana'],
-    activeLessons:LESSONS.slice(),focusWrong:false,
-    includeCompounds:true, includeSingles:true,
-    sessionLimit:0};
+    activeLessons:LESSONS.slice(),focusWrong:false,includeCompounds:true,includeSingles:true,sessionLimit:0};
 }
 
-let state = (()=>{
-  try{const s=localStorage.getItem('kj_v3');if(s)return JSON.parse(s);}catch(e){}
-  return defaultState();
-})();
-
-// migrate older saves
-if(state.includeCompounds===undefined) state.includeCompounds=true;
-if(state.includeSingles===undefined) state.includeSingles=true;
-if(state.sessionLimit===undefined) state.sessionLimit=0;
+let state=(()=>{try{const s=localStorage.getItem('kj_v3');if(s)return JSON.parse(s);}catch(e){}return defaultState();})();
+if(state.includeCompounds===undefined)state.includeCompounds=true;
+if(state.includeSingles===undefined)state.includeSingles=true;
+if(state.sessionLimit===undefined)state.sessionLimit=0;
 
 function save(){try{localStorage.setItem('kj_v3',JSON.stringify(state));}catch(e){}}
 function getLevel(){return Math.floor(state.xp/XP_PER_LEVEL)+1;}
 function getLevelXP(){return state.xp%XP_PER_LEVEL;}
 
-let card=null, revealed=false, modeId=null, view='study';
-let sCorrect=0, sWrong=0;
-let sessionDeck=[], sessionIdx=0, sessionActive=false;
+let card=null,revealed=false,modeId=null,view='study';
+let sCorrect=0,sWrong=0;
+let sessionDeck=[],sessionIdx=0,sessionActive=false;
 let optionsOpen=false;
 
 function buildSessionDeck(){
   let pool=RAW.filter(c=>{
-    if(!state.activeLessons.includes(c.l)) return false;
-    if(c.type==='compound'&&!state.includeCompounds) return false;
-    if(c.type==='single'&&!state.includeSingles) return false;
+    if(!state.activeLessons.includes(c.l))return false;
+    if(c.type==='compound'&&!state.includeCompounds)return false;
+    if(c.type==='single'&&!state.includeSingles)return false;
     return true;
   });
-  if(state.focusWrong){
-    const w=pool.filter(c=>(state.scores[c.k]||{}).wrong>0);
-    if(w.length) pool=w;
-  }
+  if(state.focusWrong){const w=pool.filter(c=>(state.scores[c.k]||{}).wrong>0);if(w.length)pool=w;}
   const wts=pool.map(c=>Math.max(1,1+((state.scores[c.k]||{}).wrong||0)*3));
   const tot=wts.reduce((a,b)=>a+b,0);
-  const shuffled=[];
-  const used=new Set();
+  const shuffled=[],used=new Set();
   const limit=state.sessionLimit>0?Math.min(state.sessionLimit,pool.length):pool.length;
   let attempts=0;
   while(shuffled.length<limit&&attempts<pool.length*3){
@@ -707,26 +644,20 @@ function buildSessionDeck(){
 
 function pickCard(){
   if(sessionActive){
-    if(sessionIdx>=sessionDeck.length){
-      sessionActive=false; sessionDeck=[]; sessionIdx=0;
-      return null;
-    }
+    if(sessionIdx>=sessionDeck.length){sessionActive=false;sessionDeck=[];sessionIdx=0;return null;}
     const c=sessionDeck[sessionIdx++];
     const mp=state.activeModes.length?state.activeModes:MODES.map(m=>m.id);
     modeId=mp[Math.floor(Math.random()*mp.length)];
     return c;
   }
   let pool=RAW.filter(c=>{
-    if(!state.activeLessons.includes(c.l)) return false;
-    if(c.type==='compound'&&!state.includeCompounds) return false;
-    if(c.type==='single'&&!state.includeSingles) return false;
+    if(!state.activeLessons.includes(c.l))return false;
+    if(c.type==='compound'&&!state.includeCompounds)return false;
+    if(c.type==='single'&&!state.includeSingles)return false;
     return true;
   });
-  if(state.focusWrong){
-    const w=pool.filter(c=>(state.scores[c.k]||{}).wrong>0);
-    if(w.length) pool=w;
-  }
-  if(!pool.length) return null;
+  if(state.focusWrong){const w=pool.filter(c=>(state.scores[c.k]||{}).wrong>0);if(w.length)pool=w;}
+  if(!pool.length)return null;
   const mp=state.activeModes.length?state.activeModes:MODES.map(m=>m.id);
   modeId=mp[Math.floor(Math.random()*mp.length)];
   const wts=pool.map(c=>Math.max(1,1+((state.scores[c.k]||{}).wrong||0)*3));
@@ -748,8 +679,8 @@ function svgIcon(name){
 function render(){
   const app=document.getElementById('app');
   let html='';
-  if(view==='study') html=studyScreen();
-  else if(view==='stats') html=statsScreen();
+  if(view==='study')html=studyScreen();
+  else if(view==='stats')html=statsScreen();
   else html=settingsScreen();
   html+=navBar();
   app.innerHTML=html;
@@ -785,10 +716,7 @@ function optionsPanel(){
         </div>
       </div>
       <div class="opt-row">
-        <div class="opt-label">
-          Focus on mistakes
-          <div class="opt-sub">${focusOk?'Drill your weak spots only':'Study more cards first'}</div>
-        </div>
+        <div class="opt-label">Focus on mistakes<div class="opt-sub">${focusOk?'Drill your weak spots only':'Study more cards first'}</div></div>
         <label class="toggle"><input type="checkbox" id="focusTog" ${state.focusWrong?'checked':''} ${!focusOk?'disabled':''}><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
       </div>
       <div>
@@ -813,16 +741,13 @@ function optionsPanel(){
   }
   return `<div class="options-panel">
     <div class="options-header" id="optHeader">
-      <span class="options-title">Study options</span>
-      ${chevron}
-    </div>
-    ${body}
+      <span class="options-title">Study options</span>${chevron}
+    </div>${body}
   </div>`;
 }
 
 function studyScreen(){
   if(!card&&!sessionActive){card=pickCard();revealed=false;}
-
   if(sessionActive&&!card&&sessionIdx>=sessionDeck.length){
     return `<div class="screen"><div class="screen-inner">
       <div class="app-header"><span class="app-title"><span>漢字</span> Trainer</span><span class="level-pill"><span class="level-dot"></span>Lv ${getLevel()}</span></div>
@@ -835,8 +760,7 @@ function studyScreen(){
       </div>
     </div></div>`;
   }
-
-  if(!card) return `<div class="screen"><div class="screen-inner">
+  if(!card)return `<div class="screen"><div class="screen-inner">
     <div class="app-header"><span class="app-title"><span>漢字</span> Trainer</span></div>
     ${optionsPanel()}
     <div style="text-align:center;padding:40px 20px;color:var(--text2)">
@@ -845,49 +769,35 @@ function studyScreen(){
     </div>
   </div></div>`;
 
-  const c=card;
-  const mode=MODES.find(m=>m.id===modeId);
-  const sc=state.scores[c.k]||{};
-  const wc=sc.wrong||0;
-  const lv=getLevel(), lvxp=getLevelXP();
-  const pct=Math.round(lvxp/XP_PER_LEVEL*100);
-
+  const c=card,mode=MODES.find(m=>m.id===modeId);
+  const wc=(state.scores[c.k]||{}).wrong||0;
+  const lv=getLevel(),lvxp=getLevelXP(),pct=Math.round(lvxp/XP_PER_LEVEL*100);
   let progHTML='';
   if(sessionActive){
-    const done=sessionIdx-1;
-    const total=sessionDeck.length;
-    const ppct=Math.round(done/total*100);
-    progHTML=`<div class="prog-row"><span>Session</span><span>${done} / ${total}</span></div>
-    <div class="prog-track"><div class="prog-fill" style="width:${ppct}%"></div></div>`;
+    const done=sessionIdx-1,total=sessionDeck.length,ppct=Math.round(done/total*100);
+    progHTML=`<div class="prog-row"><span>Session</span><span>${done} / ${total}</span></div><div class="prog-track"><div class="prog-fill" style="width:${ppct}%"></div></div>`;
   }
-
-  let front='',revealHTML='';
   const isCompound=c.type==='compound';
-
+  let front='',revealHTML='';
   if(modeId==='kana_to_kanji'){
-    front=`<div class="reading-big" style="font-family:'Noto Sans JP',sans-serif">${c.r}</div><div class="eng-tag">${c.e}</div>`;
-    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="${isCompound?'compound-display':'kanji-big'}">${c.k}</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:14px;color:var(--text2)">${c.r} — ${c.e}</div></div>`;
+    front=`<div class="reading-big" style="font-family:'Klee One',sans-serif">${c.r}</div><div class="eng-tag">${c.e}</div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="${isCompound?'compound-display':'kanji-big'}">${c.k}</div><div style="font-family:'Klee One',sans-serif;font-size:14px;color:var(--text2)">${c.r} — ${c.e}</div></div>`;
   } else if(modeId==='kanji_to_kana'){
     front=`<div class="${isCompound?'compound-display':'kanji-big'}">${c.k}</div>`;
-    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div style="font-family:'Noto Sans JP',sans-serif;font-size:28px;font-weight:500;color:var(--text)">${c.r}</div><div style="font-size:13px;color:var(--text2);margin-top:4px">${c.e}</div></div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div style="font-family:'Klee One',sans-serif;font-size:28px;font-weight:500;color:var(--text)">${c.r}</div><div style="font-size:13px;color:var(--text2);margin-top:4px">${c.e}</div></div>`;
   } else {
     front=`<div class="${isCompound?'compound-display':'kanji-big'}">${c.k}</div><div class="eng-tag">${c.e}</div>`;
-    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div style="font-family:'Noto Sans JP',sans-serif;font-size:28px;font-weight:500;color:var(--text)">${c.r}</div></div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div style="font-family:'Klee One',sans-serif;font-size:28px;font-weight:500;color:var(--text)">${c.r}</div></div>`;
   }
-
   return `<div class="screen"><div class="screen-inner">
-    <div class="app-header">
-      <span class="app-title"><span>漢字</span> Trainer</span>
-      <span class="level-pill"><span class="level-dot"></span>Lv ${lv}</span>
-    </div>
+    <div class="app-header"><span class="app-title"><span>漢字</span> Trainer</span><span class="level-pill"><span class="level-dot"></span>Lv ${lv}</span></div>
     <div class="xp-row"><span>XP</span><span>${lvxp} / ${XP_PER_LEVEL}</span></div>
     <div class="xp-track"><div class="xp-fill" style="width:${pct}%"></div></div>
     <div class="session-row">
       <div class="streak-badge"><span style="color:var(--amber)">🔥</span>${state.streak}</div>
       <div class="session-counts"><span class="s-correct">✓ ${sCorrect}</span><span class="s-wrong">✗ ${sWrong}</span></div>
     </div>
-    ${progHTML}
-    ${optionsPanel()}
+    ${progHTML}${optionsPanel()}
     <div class="mode-label">${mode.label}</div>
     <div class="flashcard" id="fc">
       <span class="lesson-tag">L${c.l}</span>
@@ -897,51 +807,32 @@ function studyScreen(){
       ${revealed?revealHTML:''}
       ${!revealed?`<button class="btn btn-reveal" id="revBtn">Reveal</button>`:''}
     </div>
-    ${revealed?`<div class="btn-row">
-      <button class="btn btn-got" id="gotBtn">Got it ✓</button>
-      <button class="btn btn-missed" id="missBtn">Missed ✗</button>
-    </div>`:''}
+    ${revealed?`<div class="btn-row"><button class="btn btn-got" id="gotBtn">Got it ✓</button><button class="btn btn-missed" id="missBtn">Missed ✗</button></div>`:''}
     <button class="btn-skip" id="skipBtn">skip →</button>
   </div></div>`;
 }
 
 function statsScreen(){
   const acc=state.totalAnswered?Math.round(state.totalCorrect/state.totalAnswered*100):0;
-
   const wrongByLesson={};
   RAW.forEach(c=>{
     const s=state.scores[c.k]||{};
-    if((s.wrong||0)>0){
-      if(!wrongByLesson[c.l]) wrongByLesson[c.l]=[];
-      wrongByLesson[c.l].push({c,wrong:s.wrong});
-    }
+    if((s.wrong||0)>0){if(!wrongByLesson[c.l])wrongByLesson[c.l]=[];wrongByLesson[c.l].push({c,wrong:s.wrong});}
   });
   const lessonKeys=Object.keys(wrongByLesson).map(Number).sort((a,b)=>a-b);
-
-  let wrongHTML='';
-  if(lessonKeys.length===0){
-    wrongHTML=`<div class="no-wrong">No trouble spots yet — keep going!</div>`;
-  } else {
-    wrongHTML=lessonKeys.map(l=>{
+  let wrongHTML=lessonKeys.length===0?`<div class="no-wrong">No trouble spots yet — keep going!</div>`:
+    lessonKeys.map(l=>{
       const items=wrongByLesson[l].sort((a,b)=>b.wrong-a.wrong);
       const totalWrong=items.reduce((s,x)=>s+x.wrong,0);
       return `<div class="lesson-group">
-        <div class="lesson-group-header">
-          <span class="lesson-group-title">Lesson ${l}</span>
-          <span class="lesson-error-pill">${totalWrong} missed</span>
-        </div>
+        <div class="lesson-group-header"><span class="lesson-group-title">Lesson ${l}</span><span class="lesson-error-pill">${totalWrong} missed</span></div>
         ${items.map(({c,wrong})=>`<div class="wrong-card">
           <div class="wrong-kanji">${c.k}</div>
-          <div class="wrong-info">
-            <div class="wrong-reading">${c.r}</div>
-            <div class="wrong-eng">${c.e}${c.type==='compound'?' · compound':''}</div>
-          </div>
+          <div class="wrong-info"><div class="wrong-reading">${c.r}</div><div class="wrong-eng">${c.e}${c.type==='compound'?' · compound':''}</div></div>
           <span class="wrong-count">${wrong}✗</span>
         </div>`).join('')}
       </div>`;
     }).join('');
-  }
-
   return `<div class="screen"><div class="screen-inner">
     <div class="app-header"><span class="app-title"><span>漢字</span> Progress</span></div>
     <div class="stats-grid">
@@ -972,24 +863,14 @@ function settingsScreen(){
 
 function record(correct){
   const c=card;
-  if(!state.scores[c.k]) state.scores[c.k]={correct:0,wrong:0};
+  if(!state.scores[c.k])state.scores[c.k]={correct:0,wrong:0};
   state.totalAnswered++;
   if(correct){
-    state.scores[c.k].correct++;
-    state.totalCorrect++;
-    state.streak++;
-    sCorrect++;
-    if(state.streak>state.bestStreak) state.bestStreak=state.streak;
+    state.scores[c.k].correct++;state.totalCorrect++;state.streak++;sCorrect++;
+    if(state.streak>state.bestStreak)state.bestStreak=state.streak;
     state.xp+=XP_PER_CORRECT;
-  } else {
-    state.scores[c.k].wrong++;
-    state.streak=0;
-    sWrong++;
-  }
-  save();
-  card=pickCard();
-  revealed=false;
-  render();
+  } else {state.scores[c.k].wrong++;state.streak=0;sWrong++;}
+  save();card=pickCard();revealed=false;render();
 }
 
 function bind(){
@@ -1000,65 +881,41 @@ function bind(){
       render();
     });
   });
-  const rev=document.getElementById('revBtn');
-  if(rev) rev.addEventListener('click',()=>{revealed=true;render();});
-  const got=document.getElementById('gotBtn');
-  if(got) got.addEventListener('click',()=>record(true));
-  const miss=document.getElementById('missBtn');
-  if(miss) miss.addEventListener('click',()=>record(false));
-  const skip=document.getElementById('skipBtn');
-  if(skip) skip.addEventListener('click',()=>{card=pickCard();revealed=false;render();});
+  const rev=document.getElementById('revBtn');if(rev)rev.addEventListener('click',()=>{revealed=true;render();});
+  const got=document.getElementById('gotBtn');if(got)got.addEventListener('click',()=>record(true));
+  const miss=document.getElementById('missBtn');if(miss)miss.addEventListener('click',()=>record(false));
+  const skip=document.getElementById('skipBtn');if(skip)skip.addEventListener('click',()=>{card=pickCard();revealed=false;render();});
   const newSess=document.getElementById('newSession');
-  if(newSess) newSess.addEventListener('click',()=>{
-    sessionActive=false;sessionDeck=[];sessionIdx=0;
-    card=pickCard();revealed=false;render();
-  });
+  if(newSess)newSess.addEventListener('click',()=>{sessionActive=false;sessionDeck=[];sessionIdx=0;card=pickCard();revealed=false;render();});
   const rst=document.getElementById('resetBtn');
-  if(rst) rst.addEventListener('click',()=>{
-    if(!confirm('Reset all progress and scores?')) return;
-    const kept={activeModes:state.activeModes,activeLessons:state.activeLessons,
-      focusWrong:state.focusWrong,includeCompounds:state.includeCompounds,
-      includeSingles:state.includeSingles,sessionLimit:state.sessionLimit};
+  if(rst)rst.addEventListener('click',()=>{
+    if(!confirm('Reset all progress and scores?'))return;
+    const kept={activeModes:state.activeModes,activeLessons:state.activeLessons,focusWrong:state.focusWrong,
+      includeCompounds:state.includeCompounds,includeSingles:state.includeSingles,sessionLimit:state.sessionLimit};
     state=Object.assign(defaultState(),kept);
     sCorrect=0;sWrong=0;card=null;revealed=false;sessionActive=false;
     save();view='study';render();
   });
-
-  const optH=document.getElementById('optHeader');
-  if(optH) optH.addEventListener('click',()=>{optionsOpen=!optionsOpen;render();});
-
+  const optH=document.getElementById('optHeader');if(optH)optH.addEventListener('click',()=>{optionsOpen=!optionsOpen;render();});
   document.querySelectorAll('[data-mode]').forEach(el=>{
     el.addEventListener('click',()=>{
       const id=el.dataset.mode;
-      if(state.activeModes.includes(id)){
-        if(state.activeModes.length>1) state.activeModes=state.activeModes.filter(m=>m!==id);
-      } else { state.activeModes.push(id); }
+      if(state.activeModes.includes(id)){if(state.activeModes.length>1)state.activeModes=state.activeModes.filter(m=>m!==id);}
+      else state.activeModes.push(id);
       save();render();
     });
   });
-
   document.querySelectorAll('[data-cardtype]').forEach(el=>{
     el.addEventListener('click',()=>{
       const t=el.dataset.cardtype;
-      if(t==='singles'){
-        state.includeSingles=!state.includeSingles;
-        if(!state.includeCompounds&&!state.includeSingles) state.includeCompounds=true;
-      } else {
-        state.includeCompounds=!state.includeCompounds;
-        if(!state.includeCompounds&&!state.includeSingles) state.includeSingles=true;
-      }
+      if(t==='singles'){state.includeSingles=!state.includeSingles;if(!state.includeCompounds&&!state.includeSingles)state.includeCompounds=true;}
+      else{state.includeCompounds=!state.includeCompounds;if(!state.includeCompounds&&!state.includeSingles)state.includeSingles=true;}
       save();render();
     });
   });
-
-  const ft=document.getElementById('focusTog');
-  if(ft) ft.addEventListener('change',()=>{state.focusWrong=ft.checked;save();render();});
-
-  const allL=document.getElementById('allL');
-  if(allL) allL.addEventListener('click',()=>{state.activeLessons=LESSONS.slice();save();render();});
-  const noneL=document.getElementById('noneL');
-  if(noneL) noneL.addEventListener('click',()=>{state.activeLessons=[LESSONS[0]];save();render();});
-
+  const ft=document.getElementById('focusTog');if(ft)ft.addEventListener('change',()=>{state.focusWrong=ft.checked;save();render();});
+  const allL=document.getElementById('allL');if(allL)allL.addEventListener('click',()=>{state.activeLessons=LESSONS.slice();save();render();});
+  const noneL=document.getElementById('noneL');if(noneL)noneL.addEventListener('click',()=>{state.activeLessons=[LESSONS[0]];save();render();});
   document.querySelectorAll('[data-lesson]').forEach(el=>{
     el.addEventListener('click',()=>{
       const l=parseInt(el.dataset.lesson);
@@ -1067,11 +924,8 @@ function bind(){
       save();render();
     });
   });
-
-  const allLs=document.getElementById('allLs');
-  if(allLs) allLs.addEventListener('click',()=>{state.activeLessons=LESSONS.slice();save();render();});
-  const noneLs=document.getElementById('noneLs');
-  if(noneLs) noneLs.addEventListener('click',()=>{state.activeLessons=[LESSONS[0]];save();render();});
+  const allLs=document.getElementById('allLs');if(allLs)allLs.addEventListener('click',()=>{state.activeLessons=LESSONS.slice();save();render();});
+  const noneLs=document.getElementById('noneLs');if(noneLs)noneLs.addEventListener('click',()=>{state.activeLessons=[LESSONS[0]];save();render();});
   document.querySelectorAll('[data-lesson2]').forEach(el=>{
     el.addEventListener('click',()=>{
       const l=parseInt(el.dataset.lesson2);
@@ -1080,25 +934,15 @@ function bind(){
       save();render();
     });
   });
-
   const qi=document.getElementById('qtyInput');
-  if(qi) qi.addEventListener('change',()=>{
-    const v=parseInt(qi.value);
-    state.sessionLimit=isNaN(v)||v<1?0:v;
-    save();
-  });
+  if(qi)qi.addEventListener('change',()=>{const v=parseInt(qi.value);state.sessionLimit=isNaN(v)||v<1?0:v;save();});
   const ss=document.getElementById('startSession');
-  if(ss) ss.addEventListener('click',()=>{
+  if(ss)ss.addEventListener('click',()=>{
     const qi2=document.getElementById('qtyInput');
     if(qi2){const v=parseInt(qi2.value);state.sessionLimit=isNaN(v)||v<1?0:v;save();}
-    sessionDeck=buildSessionDeck();
-    sessionIdx=0;
-    sessionActive=true;
-    sCorrect=0;sWrong=0;
-    optionsOpen=false;
-    card=pickCard();
-    revealed=false;
-    render();
+    sessionDeck=buildSessionDeck();sessionIdx=0;sessionActive=true;
+    sCorrect=0;sWrong=0;optionsOpen=false;
+    card=pickCard();revealed=false;render();
   });
 }
 
