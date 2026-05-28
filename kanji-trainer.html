@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="漢字">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0f0f13">
+<title>漢字 Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f0f13;
+  --surface: #17171e;
+  --surface2: #1e1e28;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0eeeb;
+  --text2: #8b8a96;
+  --text3: #55535f;
+  --accent: #c8a96e;
+  --accent2: #e8c98a;
+  --green: #5ecb8a;
+  --green-bg: rgba(94,203,138,0.12);
+  --red: #e8685a;
+  --red-bg: rgba(232,104,90,0.12);
+  --blue: #6eb4f7;
+  --blue-bg: rgba(110,180,247,0.1);
+  --amber: #f0a84a;
+  --amber-bg: rgba(240,168,74,0.1);
+  --radius: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow:hidden}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative}
+
+/* Nav */
+.nav{display:flex;border-top:0.5px solid var(--border);background:var(--bg);padding:0 8px;padding-bottom:env(safe-area-inset-bottom,0)}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;background:none;border:none;cursor:pointer;color:var(--text3);font-size:10px;font-family:'Syne',sans-serif;letter-spacing:0.05em;transition:color 0.2s}
+.nav-btn.active{color:var(--accent)}
+.nav-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+
+/* Screens */
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0;-webkit-overflow-scrolling:touch}
+.screen-inner{padding:20px 18px;padding-top:max(20px, env(safe-area-inset-top))}
+
+/* Header */
+.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.app-title{font-size:22px;font-weight:700;letter-spacing:-0.02em}
+.app-title span{color:var(--accent)}
+.level-pill{display:flex;align-items:center;gap:6px;background:var(--surface);border:0.5px solid var(--border2);border-radius:99px;padding:5px 12px;font-size:12px;color:var(--text2)}
+.level-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+/* XP bar */
+.xp-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px;font-family:'DM Mono',monospace}
+.xp-track{height:3px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:20px}
+.xp-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)}
+
+/* Session bar */
+.session-row{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.streak-badge{display:flex;align-items:center;gap:5px;background:var(--surface);border:0.5px solid var(--border);border-radius:99px;padding:5px 10px;font-size:12px;font-family:'DM Mono',monospace}
+.streak-fire{color:var(--amber);font-size:14px}
+.session-counts{margin-left:auto;display:flex;gap:8px;font-size:12px;font-family:'DM Mono',monospace}
+.s-correct{color:var(--green)}
+.s-wrong{color:var(--red)}
+
+/* Mode chip */
+.mode-label{display:inline-block;background:var(--surface);border:0.5px solid var(--border2);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--text2);margin-bottom:12px;letter-spacing:0.04em;text-transform:uppercase}
+
+/* Flashcard */
+.flashcard{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-xl);min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px 24px;position:relative;transition:border-color 0.3s}
+.flashcard.correct-flash{border-color:var(--green);animation:flashGreen 0.5s ease}
+.flashcard.wrong-flash{border-color:var(--red);animation:flashRed 0.5s ease}
+@keyframes flashGreen{0%{background:var(--green-bg)}100%{background:var(--surface)}}
+@keyframes flashRed{0%{background:var(--red-bg)}100%{background:var(--surface)}}
+.kanji-big{font-family:'Noto Sans JP',sans-serif;font-size:88px;line-height:1;color:var(--text);letter-spacing:-0.02em}
+.reading-big{font-family:'Noto Sans JP',sans-serif;font-size:34px;font-weight:500;color:var(--text)}
+.eng-tag{background:var(--surface2);border:0.5px solid var(--border);border-radius:8px;padding:5px 12px;font-size:13px;color:var(--text2)}
+.lesson-tag{position:absolute;top:14px;right:14px;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:0.08em}
+.missed-badge{position:absolute;top:14px;left:14px;background:var(--red-bg);border:0.5px solid rgba(232,104,90,0.3);border-radius:6px;font-size:10px;color:var(--red);padding:3px 7px;font-family:'DM Mono',monospace}
+
+/* Reveal section */
+.reveal-divider{width:40px;height:1px;background:var(--border2);margin:4px 0}
+.reveal-section{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;animation:fadeUp 0.25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+/* Buttons */
+.btn{cursor:pointer;border:0.5px solid var(--border2);border-radius:var(--radius);padding:13px 20px;font-size:14px;font-family:'Syne',sans-serif;font-weight:500;letter-spacing:0.01em;transition:all 0.15s;background:transparent;color:var(--text)}
+.btn:hover{background:var(--surface2)}
+.btn:active{transform:scale(0.97)}
+.btn-reveal{background:var(--accent);border-color:var(--accent);color:#0f0f13;font-weight:600;padding:13px 32px;margin-top:8px}
+.btn-reveal:hover{background:var(--accent2);border-color:var(--accent2)}
+.btn-row{display:flex;gap:8px;margin-top:14px}
+.btn-got{flex:1;background:var(--green-bg);border-color:rgba(94,203,138,0.3);color:var(--green);font-weight:600}
+.btn-got:hover{background:rgba(94,203,138,0.2)}
+.btn-missed{flex:1;background:var(--red-bg);border-color:rgba(232,104,90,0.3);color:var(--red);font-weight:600}
+.btn-missed:hover{background:rgba(232,104,90,0.2)}
+.btn-skip{background:none;border:none;color:var(--text3);font-size:13px;padding:10px;margin:4px auto 0;display:block;cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.03em}
+.btn-skip:hover{color:var(--text2)}
+
+/* No cards */
+.empty-state{text-align:center;padding:40px 20px;color:var(--text2)}
+.empty-icon{font-size:48px;margin-bottom:12px}
+.empty-state p{font-size:14px;line-height:1.6}
+
+/* Stats */
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
+.stat-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px}
+.stat-val{font-size:28px;font-weight:700;letter-spacing:-0.03em;font-family:'Syne',sans-serif}
+.stat-lbl{font-size:11px;color:var(--text3);margin-top:3px;letter-spacing:0.05em;text-transform:uppercase}
+.stat-val.green{color:var(--green)}
+.stat-val.amber{color:var(--amber)}
+
+.section-head{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;margin-top:8px}
+.wrong-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:7px}
+.wrong-kanji{font-family:'Noto Sans JP',sans-serif;font-size:28px;min-width:36px;text-align:center}
+.wrong-info{flex:1;min-width:0}
+.wrong-reading{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--text2)}
+.wrong-eng{font-size:11px;color:var(--text3);margin-top:1px}
+.wrong-count{font-family:'DM Mono',monospace;font-size:12px;color:var(--red);background:var(--red-bg);border-radius:6px;padding:3px 8px;white-space:nowrap}
+.no-wrong{font-size:13px;color:var(--text3);text-align:center;padding:20px}
+
+.reset-btn{width:100%;margin-top:16px;border-color:rgba(232,104,90,0.3);color:var(--red);font-size:13px;padding:11px}
+
+/* Settings */
+.setting-group{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:14px}
+.setting-row{display:flex;align-items:center;padding:14px 16px;border-bottom:0.5px solid var(--border)}
+.setting-row:last-child{border-bottom:none}
+.setting-label{flex:1;min-width:0}
+.setting-name{font-size:14px;color:var(--text)}
+.setting-desc{font-size:11px;color:var(--text3);margin-top:2px}
+.toggle{position:relative;width:42px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--surface2);border:0.5px solid var(--border2);border-radius:99px;cursor:pointer;transition:background 0.2s,border-color 0.2s}
+.toggle-thumb{position:absolute;width:18px;height:18px;background:var(--text3);border-radius:50%;top:2px;left:2px;transition:transform 0.2s,background 0.2s}
+.toggle input:checked~.toggle-track{background:rgba(200,169,110,0.2);border-color:rgba(200,169,110,0.4)}
+.toggle input:checked~.toggle-thumb{transform:translateX(18px);background:var(--accent)}
+.toggle input:disabled~.toggle-track{opacity:0.4;cursor:not-allowed}
+.toggle input:disabled~.toggle-thumb{opacity:0.4}
+
+.lesson-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:14px 16px}
+.lchip{background:none;border:0.5px solid var(--border2);border-radius:8px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text3);padding:7px 0;cursor:pointer;transition:all 0.15s;text-align:center}
+.lchip:active{transform:scale(0.95)}
+.lchip.on{background:rgba(200,169,110,0.12);border-color:rgba(200,169,110,0.4);color:var(--accent)}
+.lesson-actions{display:flex;gap:8px;padding:0 16px 14px}
+.lesson-actions button{flex:1;background:none;border:0.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--text2);padding:7px;cursor:pointer;font-family:'Syne',sans-serif;transition:all 0.15s}
+.lesson-actions button:hover{background:var(--surface2)}
+
+.settings-footer{text-align:center;font-size:11px;color:var(--text3);margin-top:20px;line-height:1.7;padding-bottom:8px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const RAW = [
+  {k:"一",r:"いち",e:"one",l:3},{k:"二",r:"に",e:"two",l:3},{k:"三",r:"さん",e:"three",l:3},{k:"四",r:"よん・し",e:"four",l:3},{k:"五",r:"ご",e:"five",l:3},{k:"六",r:"ろく",e:"six",l:3},{k:"七",r:"しち・なな",e:"seven",l:3},{k:"八",r:"はち",e:"eight",l:3},{k:"九",r:"く・きゅう",e:"nine",l:3},{k:"十",r:"じゅう",e:"ten",l:3},{k:"百",r:"ひゃく",e:"hundred",l:3},{k:"円",r:"えん",e:"yen",l:3},{k:"万",r:"まん",e:"ten-thousand",l:3},{k:"千",r:"せん",e:"thousand",l:3},{k:"時",r:"じ",e:"time / hour",l:3},
+  {k:"日",r:"にち・ひ",e:"day / sun",l:4},{k:"本",r:"ほん",e:"book / origin",l:4},{k:"人",r:"じん・ひと",e:"person",l:4},{k:"月",r:"げつ・つき",e:"moon / month",l:4},{k:"火",r:"か・ひ",e:"fire / Tuesday",l:4},{k:"水",r:"すい・みず",e:"water / Wednesday",l:4},{k:"木",r:"もく・き",e:"tree / Thursday",l:4},{k:"金",r:"きん",e:"gold / Friday",l:4},{k:"土",r:"ど・つち",e:"earth / Saturday",l:4},{k:"曜",r:"よう",e:"day of week",l:4},{k:"上",r:"うえ",e:"above",l:4},{k:"下",r:"した",e:"below",l:4},{k:"中",r:"なか・ちゅう",e:"inside / middle",l:4},{k:"半",r:"はん",e:"half",l:4},
+  {k:"飲",r:"のむ",e:"to drink",l:5},{k:"食",r:"たべる",e:"to eat",l:5},{k:"行",r:"いく",e:"to go",l:5},{k:"見",r:"みる",e:"to see",l:5},{k:"男",r:"おとこ",e:"man",l:5},{k:"女",r:"おんな",e:"woman",l:5},{k:"田",r:"た",e:"rice field",l:5},{k:"今",r:"いま",e:"now",l:5},{k:"私",r:"わたし",e:"I / me",l:5},{k:"天",r:"てん",e:"sky / heaven",l:5},{k:"気",r:"き",e:"spirit / feeling",l:5},{k:"元",r:"もと・げん",e:"origin / health",l:5},{k:"川",r:"かわ",e:"river",l:5},{k:"山",r:"やま",e:"mountain",l:5},
+  {k:"東",r:"ひがし",e:"east",l:6},{k:"西",r:"にし",e:"west",l:6},{k:"南",r:"みなみ",e:"south",l:6},{k:"北",r:"きた",e:"north",l:6},{k:"口",r:"くち",e:"mouth",l:6},{k:"出",r:"でる",e:"to exit",l:6},{k:"右",r:"みぎ",e:"right",l:6},{k:"左",r:"ひだり",e:"left",l:6},{k:"分",r:"ふん・ぶん",e:"minute / part",l:6},{k:"先",r:"さき・せん",e:"ahead / previous",l:6},{k:"生",r:"せい・う",e:"life / birth",l:6},{k:"大",r:"おお・だい",e:"big",l:6},{k:"学",r:"がく",e:"study",l:6},{k:"外",r:"そと・がい",e:"outside",l:6},{k:"国",r:"くに・こく",e:"country",l:6},
+  {k:"入",r:"はいる",e:"to enter",l:7},{k:"帰",r:"かえる",e:"to return home",l:7},{k:"文",r:"ぶん",e:"sentence / writing",l:7},{k:"語",r:"ご",e:"language",l:7},{k:"毎",r:"まい",e:"every",l:7},{k:"校",r:"こう",e:"school",l:7},{k:"高",r:"たかい・こう",e:"tall / expensive",l:7},{k:"母",r:"はは・かあ",e:"mother",l:7},{k:"父",r:"ちち・とう",e:"father",l:7},{k:"社",r:"しゃ",e:"company / shrine",l:7},{k:"会",r:"かい・あう",e:"meeting / to meet",l:7},{k:"小",r:"ちいさい・しょう",e:"small",l:7},{k:"子",r:"こ",e:"child",l:7},{k:"京",r:"きょう",e:"capital",l:7},
+  {k:"何",r:"なに・なん",e:"what",l:8},{k:"次",r:"つぎ",e:"next",l:8},{k:"思",r:"おもう",e:"to think",l:8},{k:"読",r:"よむ",e:"to read",l:8},{k:"言",r:"いう",e:"to say",l:8},{k:"休",r:"やすむ",e:"to rest",l:8},{k:"車",r:"くるま",e:"car",l:8},{k:"電",r:"でん",e:"electricity",l:8},{k:"事",r:"こと",e:"thing / matter",l:8},{k:"仕",r:"し",e:"work / serve",l:8},{k:"作",r:"つくる",e:"to make",l:8},{k:"聞",r:"きく",e:"to listen",l:8},{k:"新",r:"あたらしい",e:"new",l:8},{k:"員",r:"いん",e:"member",l:8},
+  {k:"午",r:"ご",e:"noon",l:9},{k:"後",r:"ご・あと",e:"after / behind",l:9},{k:"前",r:"まえ",e:"before / front",l:9},{k:"名",r:"な・めい",e:"name",l:9},{k:"知",r:"しる",e:"to know",l:9},{k:"白",r:"しろい",e:"white",l:9},{k:"雨",r:"あめ",e:"rain",l:9},{k:"書",r:"かく",e:"to write",l:9},{k:"友",r:"とも",e:"friend",l:9},{k:"間",r:"あいだ・かん",e:"between / interval",l:9},{k:"家",r:"いえ・うち",e:"house / home",l:9},{k:"話",r:"はなす",e:"to speak",l:9},{k:"古",r:"ふるい",e:"old",l:9},{k:"来",r:"くる",e:"to come",l:9},{k:"少",r:"すこし",e:"a little",l:9},
+  {k:"住",r:"すむ",e:"to live / reside",l:10},{k:"年",r:"ねん・とし",e:"year",l:10},{k:"買",r:"かう",e:"to buy",l:10},{k:"長",r:"ながい",e:"long",l:10},{k:"立",r:"たつ",e:"to stand",l:10},{k:"自",r:"じ",e:"self",l:10},{k:"夜",r:"よる",e:"night",l:10},{k:"朝",r:"あさ",e:"morning",l:10},{k:"持",r:"もつ",e:"to hold",l:10},{k:"雪",r:"ゆき",e:"snow",l:10},{k:"売",r:"うる",e:"to sell",l:10},
+  {k:"手",r:"て",e:"hand",l:11},{k:"紙",r:"かみ",e:"paper",l:11},{k:"病",r:"びょう",e:"illness",l:11},{k:"院",r:"いん",e:"institution",l:11},{k:"明",r:"あかるい・あした",e:"bright / tomorrow",l:11},{k:"近",r:"ちかい",e:"near",l:11},{k:"好",r:"すき",e:"to like",l:11},{k:"映",r:"えい",e:"reflect / project",l:11},{k:"画",r:"が",e:"picture",l:11},{k:"勉",r:"べん",e:"diligence",l:11},{k:"強",r:"つよい",e:"strong",l:11},{k:"有",r:"ある・ゆう",e:"to exist / have",l:11},{k:"旅",r:"たび",e:"travel / trip",l:11},{k:"所",r:"ところ",e:"place",l:11},{k:"歌",r:"うたう",e:"to sing",l:11},
+  {k:"早",r:"はやい",e:"early / fast",l:12},{k:"起",r:"おきる",e:"to wake up",l:12},{k:"使",r:"つかう",e:"to use",l:12},{k:"働",r:"はたらく",e:"to work",l:12},{k:"度",r:"ど",e:"degree / time",l:12},{k:"赤",r:"あかい",e:"red",l:12},{k:"青",r:"あおい",e:"blue",l:12},{k:"神",r:"かみ",e:"god / spirit",l:12},{k:"牛",r:"うし",e:"cow",l:12},{k:"色",r:"いろ",e:"color",l:12},
+  {k:"物",r:"もの",e:"thing / object",l:13},{k:"料",r:"りょう",e:"fee / material",l:13},{k:"理",r:"り",e:"reason / logic",l:13},{k:"安",r:"やすい",e:"cheap / safe",l:13},{k:"飯",r:"はん",e:"cooked rice / meal",l:13},{k:"肉",r:"にく",e:"meat",l:13},{k:"悪",r:"わるい",e:"bad",l:13},{k:"体",r:"からだ",e:"body",l:13},{k:"空",r:"そら・くう",e:"sky / empty",l:13},{k:"着",r:"きる",e:"to wear",l:13},{k:"海",r:"うみ",e:"sea / ocean",l:13},{k:"同",r:"おなじ",e:"same",l:13},{k:"昼",r:"ひる",e:"daytime / noon",l:13},
+  {k:"彼",r:"かれ",e:"he / him",l:14},{k:"族",r:"ぞく",e:"family / group",l:14},{k:"親",r:"おや",e:"parent",l:14},{k:"切",r:"きる",e:"to cut",l:14},{k:"英",r:"えい",e:"English",l:14},{k:"店",r:"みせ",e:"shop / store",l:14},{k:"去",r:"きょ・さる",e:"past / to leave",l:14},{k:"当",r:"あたる",e:"to hit / correct",l:14},{k:"音",r:"おと・おん",e:"sound",l:14},{k:"楽",r:"たのしい・がく",e:"fun / music",l:14},{k:"医",r:"い",e:"medicine",l:14},{k:"者",r:"もの・しゃ",e:"person / one who",l:14},
+  {k:"死",r:"しぬ",e:"to die",l:15},{k:"意",r:"い",e:"intention",l:15},{k:"味",r:"あじ",e:"taste / flavor",l:15},{k:"注",r:"ちゅう",e:"pour / attention",l:15},{k:"夏",r:"なつ",e:"summer",l:15},{k:"魚",r:"さかな",e:"fish",l:15},{k:"寺",r:"てら",e:"temple",l:15},{k:"広",r:"ひろい",e:"wide / spacious",l:15},{k:"転",r:"てん",e:"roll / turn",l:15},{k:"借",r:"かりる",e:"to borrow",l:15},{k:"走",r:"はしる",e:"to run",l:15},{k:"建",r:"たてる",e:"to build",l:15},{k:"場",r:"ば",e:"place / scene",l:15},{k:"足",r:"あし",e:"foot / leg",l:15},
+  {k:"供",r:"とも・きょう",e:"accompany",l:16},{k:"世",r:"せ・よ",e:"world / generation",l:16},{k:"界",r:"かい",e:"world / boundary",l:16},{k:"全",r:"ぜん・すべて",e:"all / complete",l:16},{k:"部",r:"ぶ",e:"part / section",l:16},{k:"始",r:"はじまる",e:"to begin",l:16},{k:"週",r:"しゅう",e:"week",l:16},{k:"開",r:"あける",e:"to open",l:16},{k:"屋",r:"や",e:"shop / roof",l:16},{k:"方",r:"ほう・かた",e:"direction / person",l:16},{k:"運",r:"うん",e:"luck / carry",l:16},{k:"動",r:"どう",e:"to move",l:16},{k:"教",r:"おしえる",e:"to teach",l:16},
+  {k:"歳",r:"さい",e:"age (years)",l:17},{k:"習",r:"ならう",e:"to learn / practice",l:17},{k:"主",r:"おも・しゅ",e:"main / master",l:17},{k:"結",r:"けつ",e:"tie / result",l:17},{k:"婚",r:"こん",e:"marriage",l:17},{k:"発",r:"はつ",e:"depart / emit",l:17},{k:"表",r:"ひょう",e:"table / surface",l:17},{k:"品",r:"しな",e:"goods / article",l:17},{k:"字",r:"じ",e:"character / letter",l:17},{k:"活",r:"かつ",e:"lively / life",l:17},{k:"写",r:"うつす",e:"to copy / photograph",l:17},{k:"真",r:"しん",e:"true / genuine",l:17},{k:"歩",r:"あるく",e:"to walk",l:17},
+  {k:"目",r:"め",e:"eye",l:18},{k:"力",r:"ちから",e:"power / strength",l:18},{k:"洋",r:"よう",e:"Western / ocean",l:18},{k:"服",r:"ふく",e:"clothes",l:18},{k:"授",r:"じゅ",e:"grant / teach",l:18},{k:"業",r:"ぎょう",e:"work / industry",l:18},{k:"試",r:"し",e:"test / try",l:18},{k:"験",r:"けん",e:"experience / exam",l:18},{k:"貸",r:"かす",e:"to lend",l:18},{k:"図",r:"ず",e:"map / diagram",l:18},{k:"館",r:"かん",e:"building / hall",l:18},{k:"終",r:"おわる",e:"to end",l:18},{k:"宿",r:"しゅく",e:"lodge / inn",l:18},{k:"題",r:"だい",e:"topic / title",l:18},
+  {k:"春",r:"はる",e:"spring",l:19},{k:"秋",r:"あき",e:"autumn",l:19},{k:"冬",r:"ふゆ",e:"winter",l:19},{k:"花",r:"はな",e:"flower",l:19},{k:"姉",r:"あね",e:"older sister",l:19},{k:"兄",r:"あに",e:"older brother",l:19},{k:"漢",r:"かん",e:"Chinese / Han",l:19},{k:"卒",r:"そつ",e:"graduate",l:19},{k:"工",r:"こう",e:"engineering",l:19},{k:"研",r:"けん",e:"research",l:19},{k:"究",r:"きゅう",e:"investigate",l:19},{k:"質",r:"しつ",e:"quality / nature",l:19},{k:"問",r:"もん",e:"question / problem",l:19},{k:"多",r:"おおい",e:"many / much",l:19},
+  {k:"茶",r:"ちゃ",e:"tea",l:20},{k:"枚",r:"まい",e:"flat-thing counter",l:20},{k:"両",r:"りょう",e:"both",l:20},{k:"払",r:"はらう",e:"to pay",l:20},{k:"心",r:"こころ",e:"heart / mind",l:20},{k:"笑",r:"わらう",e:"to laugh / smile",l:20},{k:"痛",r:"いたい",e:"painful",l:20},{k:"最",r:"さい・もっとも",e:"most / extreme",l:20},{k:"声",r:"こえ",e:"voice",l:20},{k:"止",r:"とまる",e:"to stop",l:20},{k:"無",r:"む",e:"nothing / without",l:20},{k:"絶",r:"ぜつ",e:"absolute / cut off",l:20},{k:"対",r:"たい",e:"opposite / versus",l:20},{k:"続",r:"つづける",e:"to continue",l:20},
+  {k:"犬",r:"いぬ",e:"dog",l:21},{k:"初",r:"はじめて",e:"for the first time",l:21},{k:"若",r:"わかい",e:"young",l:21},{k:"送",r:"おくる",e:"to send",l:21},{k:"幸",r:"しあわせ",e:"happiness",l:21},{k:"遅",r:"おそい",e:"late / slow",l:21},{k:"弟",r:"おとうと",e:"younger brother",l:21},{k:"妹",r:"いもうと",e:"younger sister",l:21},{k:"信",r:"しんじる",e:"to believe",l:21},{k:"経",r:"けいけん",e:"experience",l:21},{k:"台",r:"だい",e:"stand / platform",l:21},{k:"風",r:"かぜ・ふう",e:"wind / style",l:21},{k:"重",r:"おもい",e:"heavy",l:21},{k:"計",r:"けい",e:"plan / meter",l:21},{k:"配",r:"くばる",e:"to distribute",l:21}
+];
+
+const LESSONS = [...new Set(RAW.map(x=>x.l))].sort((a,b)=>a-b);
+const MODES = [
+  {id:'kana_to_kanji', label:'Reading → Kanji', desc:'See hiragana + meaning, recall the kanji'},
+  {id:'kanji_to_kana', label:'Kanji → Reading', desc:'See only the kanji, recall the reading'},
+  {id:'kanji_eng_to_kana', label:'Kanji + Meaning → Reading', desc:'See kanji and meaning, recall the reading'}
+];
+const XP_PER_CORRECT = 10;
+const XP_PER_LEVEL = 100;
+
+function defaultState(){
+  return {scores:{},xp:0,streak:0,bestStreak:0,totalCorrect:0,totalAnswered:0,
+    activeModes:['kana_to_kanji','kanji_to_kana','kanji_eng_to_kana'],
+    activeLessons:LESSONS.slice(),focusWrong:false};
+}
+
+let state = (() => {
+  try { const s=localStorage.getItem('kj_v2'); if(s) return JSON.parse(s); } catch(e){}
+  return defaultState();
+})();
+
+function save(){ try{localStorage.setItem('kj_v2',JSON.stringify(state));}catch(e){} }
+function getLevel(){ return Math.floor(state.xp/XP_PER_LEVEL)+1; }
+function getLevelXP(){ return state.xp%XP_PER_LEVEL; }
+
+let card=null, revealed=false, modeId=null, view='study';
+let sCorrect=0, sWrong=0;
+
+function pickCard(){
+  let pool=RAW.filter(c=>state.activeLessons.includes(c.l));
+  if(state.focusWrong){
+    const w=pool.filter(c=>(state.scores[c.k]||{}).wrong>0);
+    if(w.length) pool=w;
+  }
+  if(!pool.length) return null;
+  const mp=state.activeModes.length?state.activeModes:MODES.map(m=>m.id);
+  modeId=mp[Math.floor(Math.random()*mp.length)];
+  const wts=pool.map(c=>Math.max(1,1+((state.scores[c.k]||{}).wrong||0)*3));
+  const tot=wts.reduce((a,b)=>a+b,0);
+  let r=Math.random()*tot,i=0;
+  for(;i<wts.length-1;i++){r-=wts[i];if(r<=0)break;}
+  return pool[i];
+}
+
+function svgIcon(name){
+  const icons={
+    study:`<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`,
+    stats:`<svg viewBox="0 0 24 24"><path d="M3 20h18M7 20V12M12 20V6M17 20v-4"/></svg>`,
+    settings:`<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`
+  };
+  return icons[name]||'';
+}
+
+function render(){
+  const app=document.getElementById('app');
+  let html='';
+  if(view==='study') html=studyScreen();
+  else if(view==='stats') html=statsScreen();
+  else html=settingsScreen();
+  html+=navBar();
+  app.innerHTML=html;
+  bind();
+}
+
+function navBar(){
+  return `<nav class="nav">
+    ${['study','stats','settings'].map(v=>`
+    <button class="nav-btn${view===v?' active':''}" data-nav="${v}">
+      ${svgIcon(v)}${v==='study'?'Study':v==='stats'?'Progress':'Settings'}
+    </button>`).join('')}
+  </nav>`;
+}
+
+function studyScreen(){
+  if(!card){card=pickCard();revealed=false;}
+  if(!card) return `<div class="screen"><div class="screen-inner">
+    <div class="app-header"><span class="app-title"><span>漢字</span> Trainer</span></div>
+    <div class="empty-state"><div class="empty-icon">🔍</div><p>No cards match your current filters.<br>Adjust lessons or modes in Settings.</p></div>
+  </div></div>`;
+
+  const c=card;
+  const mode=MODES.find(m=>m.id===modeId);
+  const sc=state.scores[c.k]||{};
+  const wc=sc.wrong||0;
+  const lv=getLevel(), lvxp=getLevelXP();
+  const pct=Math.round(lvxp/XP_PER_LEVEL*100);
+
+  let front='',revealHTML='';
+  if(modeId==='kana_to_kanji'){
+    front=`<div class="reading-big">${c.r}</div><div class="eng-tag">${c.e}</div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="kanji-big">${c.k}</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:15px;color:var(--text2)">${c.r} — ${c.e}</div></div>`;
+  } else if(modeId==='kanji_to_kana'){
+    front=`<div class="kanji-big">${c.k}</div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="reading-big">${c.r}</div><div style="font-size:13px;color:var(--text2);margin-top:4px">${c.e}</div></div>`;
+  } else {
+    front=`<div class="kanji-big">${c.k}</div><div class="eng-tag">${c.e}</div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="reading-big">${c.r}</div></div>`;
+  }
+
+  return `<div class="screen"><div class="screen-inner">
+    <div class="app-header">
+      <span class="app-title"><span>漢字</span> Trainer</span>
+      <span class="level-pill"><span class="level-dot"></span>Lv ${lv}</span>
+    </div>
+    <div class="xp-row"><span>XP</span><span>${lvxp} / ${XP_PER_LEVEL}</span></div>
+    <div class="xp-track"><div class="xp-fill" style="width:${pct}%"></div></div>
+    <div class="session-row">
+      <div class="streak-badge"><span class="streak-fire">🔥</span>${state.streak}</div>
+      <div class="session-counts"><span class="s-correct">✓ ${sCorrect}</span><span class="s-wrong">✗ ${sWrong}</span></div>
+    </div>
+    <div class="mode-label">${mode.label}</div>
+    <div class="flashcard" id="fc">
+      <span class="lesson-tag">L${c.l}</span>
+      ${wc>0?`<span class="missed-badge">${wc}✗</span>`:''}
+      ${front}
+      ${revealed?revealHTML:''}
+      ${!revealed?`<button class="btn btn-reveal" id="revBtn">Reveal</button>`:''}
+    </div>
+    ${revealed?`<div class="btn-row">
+      <button class="btn btn-got" id="gotBtn">Got it ✓</button>
+      <button class="btn btn-missed" id="missBtn">Missed ✗</button>
+    </div>`:''}
+    <button class="btn-skip" id="skipBtn">skip →</button>
+  </div></div>`;
+}
+
+function statsScreen(){
+  const acc=state.totalAnswered?Math.round(state.totalCorrect/state.totalAnswered*100):0;
+  const hardest=RAW.filter(c=>(state.scores[c.k]||{}).wrong>0)
+    .sort((a,b)=>((state.scores[b.k]||{}).wrong||0)-((state.scores[a.k]||{}).wrong||0)).slice(0,10);
+  return `<div class="screen"><div class="screen-inner">
+    <div class="app-header"><span class="app-title"><span>漢字</span> Progress</span></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-val">${state.totalAnswered}</div><div class="stat-lbl">cards reviewed</div></div>
+      <div class="stat-card"><div class="stat-val${acc>=80?' green':''}">${acc}%</div><div class="stat-lbl">accuracy</div></div>
+      <div class="stat-card"><div class="stat-val${state.streak>=5?' amber':''}">${state.streak}</div><div class="stat-lbl">current streak</div></div>
+      <div class="stat-card"><div class="stat-val">${state.bestStreak}</div><div class="stat-lbl">best streak</div></div>
+    </div>
+    <div class="section-head">Needs work</div>
+    ${hardest.length?hardest.map(c=>{
+      const s=state.scores[c.k]||{};
+      return `<div class="wrong-card">
+        <div class="wrong-kanji">${c.k}</div>
+        <div class="wrong-info">
+          <div class="wrong-reading">${c.r}</div>
+          <div class="wrong-eng">${c.e} · L${c.l}</div>
+        </div>
+        <span class="wrong-count">${s.wrong||0}✗</span>
+      </div>`;
+    }).join(''):`<div class="no-wrong">No trouble spots yet — keep going!</div>`}
+    <button class="btn reset-btn" id="resetBtn">Reset all progress</button>
+  </div></div>`;
+}
+
+function settingsScreen(){
+  const focusOk=RAW.some(c=>state.activeLessons.includes(c.l)&&(state.scores[c.k]||{}).wrong>0);
+  return `<div class="screen"><div class="screen-inner">
+    <div class="app-header"><span class="app-title"><span>漢字</span> Settings</span></div>
+    <div class="section-head">Study modes</div>
+    <div class="setting-group">
+      ${MODES.map(m=>`<div class="setting-row">
+        <div class="setting-label">
+          <div class="setting-name">${m.label}</div>
+          <div class="setting-desc">${m.desc}</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" data-mode="${m.id}" ${state.activeModes.includes(m.id)?'checked':''}>
+          <span class="toggle-track"></span><span class="toggle-thumb"></span>
+        </label>
+      </div>`).join('')}
+    </div>
+    <div class="section-head">Options</div>
+    <div class="setting-group">
+      <div class="setting-row">
+        <div class="setting-label">
+          <div class="setting-name">Focus on mistakes</div>
+          <div class="setting-desc">Drill kanji you've missed most${!focusOk?' (study more cards first)':''}</div>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="focusTog" ${state.focusWrong?'checked':''} ${!focusOk?'disabled':''}>
+          <span class="toggle-track"></span><span class="toggle-thumb"></span>
+        </label>
+      </div>
+    </div>
+    <div class="section-head">Lessons</div>
+    <div class="setting-group">
+      <div class="lesson-actions">
+        <button id="allL">All lessons</button>
+        <button id="noneL">Clear all</button>
+      </div>
+      <div class="lesson-grid">
+        ${LESSONS.map(l=>`<button class="lchip${state.activeLessons.includes(l)?' on':''}" data-lesson="${l}">L${l}</button>`).join('')}
+      </div>
+    </div>
+    <div class="settings-footer">Progress saves automatically in this browser.<br>漢字 Trainer · L3–L21 · ${RAW.length} cards</div>
+  </div></div>`;
+}
+
+function flash(cls){
+  const fc=document.getElementById('fc');
+  if(!fc) return;
+  fc.classList.add(cls);
+  setTimeout(()=>fc.classList.remove(cls),500);
+}
+
+function record(correct){
+  const c=card;
+  if(!state.scores[c.k]) state.scores[c.k]={correct:0,wrong:0};
+  state.totalAnswered++;
+  if(correct){
+    state.scores[c.k].correct++;
+    state.totalCorrect++;
+    state.streak++;
+    sCorrect++;
+    if(state.streak>state.bestStreak) state.bestStreak=state.streak;
+    state.xp+=XP_PER_CORRECT;
+  } else {
+    state.scores[c.k].wrong++;
+    state.streak=0;
+    sWrong++;
+  }
+  save();
+  card=pickCard();
+  revealed=false;
+  render();
+}
+
+function bind(){
+  document.querySelectorAll('[data-nav]').forEach(el=>{
+    el.addEventListener('click',()=>{view=el.dataset.nav;if(view==='study'&&!card){card=pickCard();revealed=false;}render();});
+  });
+  const rev=document.getElementById('revBtn');
+  if(rev) rev.addEventListener('click',()=>{revealed=true;render();});
+  const got=document.getElementById('gotBtn');
+  if(got) got.addEventListener('click',()=>record(true));
+  const miss=document.getElementById('missBtn');
+  if(miss) miss.addEventListener('click',()=>record(false));
+  const skip=document.getElementById('skipBtn');
+  if(skip) skip.addEventListener('click',()=>{card=pickCard();revealed=false;render();});
+  const rst=document.getElementById('resetBtn');
+  if(rst) rst.addEventListener('click',()=>{
+    if(!confirm('Reset all progress and scores?')) return;
+    const kept={activeModes:state.activeModes,activeLessons:state.activeLessons,focusWrong:state.focusWrong};
+    state=Object.assign(defaultState(),kept);
+    sCorrect=0;sWrong=0;card=null;revealed=false;
+    save();view='study';render();
+  });
+  document.querySelectorAll('[data-mode]').forEach(el=>{
+    el.addEventListener('change',()=>{
+      const id=el.dataset.mode;
+      if(el.checked){if(!state.activeModes.includes(id))state.activeModes.push(id);}
+      else{state.activeModes=state.activeModes.filter(m=>m!==id);if(!state.activeModes.length){state.activeModes=[id];el.checked=true;}}
+      save();render();
+    });
+  });
+  const ft=document.getElementById('focusTog');
+  if(ft) ft.addEventListener('change',()=>{state.focusWrong=ft.checked;save();render();});
+  const allL=document.getElementById('allL');
+  if(allL) allL.addEventListener('click',()=>{state.activeLessons=LESSONS.slice();save();render();});
+  const noneL=document.getElementById('noneL');
+  if(noneL) noneL.addEventListener('click',()=>{state.activeLessons=[LESSONS[0]];save();render();});
+  document.querySelectorAll('[data-lesson]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const l=parseInt(el.dataset.lesson);
+      if(state.activeLessons.includes(l)){if(state.activeLessons.length>1)state.activeLessons=state.activeLessons.filter(x=>x!==l);}
+      else state.activeLessons.push(l);
+      save();render();
+    });
+  });
+}
+
+render();
+</script>
+</body>
+</html>
