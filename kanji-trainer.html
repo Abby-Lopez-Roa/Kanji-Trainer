@@ -13,90 +13,84 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #0f0f13;
-  --surface: #17171e;
-  --surface2: #1e1e28;
-  --border: rgba(255,255,255,0.07);
-  --border2: rgba(255,255,255,0.12);
-  --text: #f0eeeb;
-  --text2: #8b8a96;
-  --text3: #55535f;
-  --accent: #c8a96e;
-  --accent2: #e8c98a;
-  --green: #5ecb8a;
-  --green-bg: rgba(94,203,138,0.12);
-  --red: #e8685a;
-  --red-bg: rgba(232,104,90,0.12);
-  --blue: #6eb4f7;
-  --blue-bg: rgba(110,180,247,0.1);
-  --amber: #f0a84a;
-  --amber-bg: rgba(240,168,74,0.1);
-  --radius: 12px;
-  --radius-lg: 18px;
-  --radius-xl: 24px;
-}
+:root{--bg:#0f0f13;--surface:#17171e;--surface2:#1e1e28;--surface3:#252533;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#f0eeeb;--text2:#8b8a96;--text3:#55535f;--accent:#c8a96e;--accent2:#e8c98a;--green:#5ecb8a;--green-bg:rgba(94,203,138,0.12);--red:#e8685a;--red-bg:rgba(232,104,90,0.12);--blue:#6eb4f7;--blue-bg:rgba(110,180,247,0.1);--amber:#f0a84a;--amber-bg:rgba(240,168,74,0.1);--radius:12px;--radius-lg:18px;--radius-xl:24px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow:hidden}
 #app{height:100vh;height:100dvh;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative}
-
-/* Nav */
-.nav{display:flex;border-top:0.5px solid var(--border);background:var(--bg);padding:0 8px;padding-bottom:env(safe-area-inset-bottom,0)}
+.nav{display:flex;border-top:0.5px solid var(--border);background:var(--bg);padding:0 8px;padding-bottom:env(safe-area-inset-bottom,0);flex-shrink:0}
 .nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;background:none;border:none;cursor:pointer;color:var(--text3);font-size:10px;font-family:'Syne',sans-serif;letter-spacing:0.05em;transition:color 0.2s}
 .nav-btn.active{color:var(--accent)}
 .nav-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-
-/* Screens */
-.screen{flex:1;overflow-y:auto;overflow-x:hidden;padding:0;-webkit-overflow-scrolling:touch}
-.screen-inner{padding:20px 18px;padding-top:max(20px, env(safe-area-inset-top))}
-
-/* Header */
-.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.screen{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
+.screen-inner{padding:20px 18px;padding-top:max(20px,env(safe-area-inset-top))}
+.app-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
 .app-title{font-size:22px;font-weight:700;letter-spacing:-0.02em}
 .app-title span{color:var(--accent)}
 .level-pill{display:flex;align-items:center;gap:6px;background:var(--surface);border:0.5px solid var(--border2);border-radius:99px;padding:5px 12px;font-size:12px;color:var(--text2)}
 .level-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
-
-/* XP bar */
 .xp-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px;font-family:'DM Mono',monospace}
-.xp-track{height:3px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:20px}
+.xp-track{height:3px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:16px}
 .xp-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:99px;transition:width 0.5s cubic-bezier(0.4,0,0.2,1)}
-
-/* Session bar */
-.session-row{display:flex;align-items:center;gap:8px;margin-bottom:18px}
+.session-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
 .streak-badge{display:flex;align-items:center;gap:5px;background:var(--surface);border:0.5px solid var(--border);border-radius:99px;padding:5px 10px;font-size:12px;font-family:'DM Mono',monospace}
-.streak-fire{color:var(--amber);font-size:14px}
 .session-counts{margin-left:auto;display:flex;gap:8px;font-size:12px;font-family:'DM Mono',monospace}
 .s-correct{color:var(--green)}
 .s-wrong{color:var(--red)}
 
-/* Mode chip */
+/* Session options panel */
+.options-panel{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-lg);margin-bottom:14px;overflow:hidden}
+.options-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;user-select:none}
+.options-title{font-size:13px;font-weight:500;color:var(--text2);letter-spacing:0.04em;text-transform:uppercase}
+.options-chevron{width:16px;height:16px;stroke:var(--text3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.25s}
+.options-chevron.open{transform:rotate(180deg)}
+.options-body{border-top:0.5px solid var(--border);padding:14px 16px;display:flex;flex-direction:column;gap:14px}
+.opt-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.opt-label{font-size:13px;color:var(--text);flex:1}
+.opt-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.toggle{position:relative;width:42px;height:24px;flex-shrink:0}
+.toggle input{opacity:0;width:0;height:0;position:absolute}
+.toggle-track{position:absolute;inset:0;background:var(--surface2);border:0.5px solid var(--border2);border-radius:99px;cursor:pointer;transition:background 0.2s,border-color 0.2s}
+.toggle-thumb{position:absolute;width:18px;height:18px;background:var(--text3);border-radius:50%;top:2px;left:2px;transition:transform 0.2s,background 0.2s}
+.toggle input:checked~.toggle-track{background:rgba(200,169,110,0.2);border-color:rgba(200,169,110,0.4)}
+.toggle input:checked~.toggle-thumb{transform:translateX(18px);background:var(--accent)}
+.toggle input:disabled~.toggle-track{opacity:0.4;cursor:not-allowed}
+.toggle input:disabled~.toggle-thumb{opacity:0.4}
+.mode-chips{display:flex;flex-wrap:wrap;gap:6px}
+.mchip{cursor:pointer;font-size:11px;padding:5px 10px;border-radius:8px;border:0.5px solid var(--border2);color:var(--text3);background:transparent;font-family:'Syne',sans-serif;transition:all 0.15s}
+.mchip.on{background:rgba(200,169,110,0.12);border-color:rgba(200,169,110,0.4);color:var(--accent)}
+.lesson-mini-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:5px}
+.lchip{background:none;border:0.5px solid var(--border2);border-radius:7px;font-size:11px;font-family:'DM Mono',monospace;color:var(--text3);padding:6px 0;cursor:pointer;transition:all 0.15s;text-align:center}
+.lchip.on{background:rgba(200,169,110,0.12);border-color:rgba(200,169,110,0.4);color:var(--accent)}
+.qty-row{display:flex;align-items:center;gap:10px}
+.qty-input{width:70px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;padding:6px 10px;text-align:center}
+.qty-input:focus{outline:none;border-color:var(--accent)}
+.qty-hint{font-size:11px;color:var(--text3)}
+
+/* Mode label */
 .mode-label{display:inline-block;background:var(--surface);border:0.5px solid var(--border2);border-radius:6px;padding:3px 9px;font-size:11px;color:var(--text2);margin-bottom:12px;letter-spacing:0.04em;text-transform:uppercase}
 
 /* Flashcard */
-.flashcard{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-xl);min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:32px 24px;position:relative;transition:border-color 0.3s}
-.flashcard.correct-flash{border-color:var(--green);animation:flashGreen 0.5s ease}
-.flashcard.wrong-flash{border-color:var(--red);animation:flashRed 0.5s ease}
-@keyframes flashGreen{0%{background:var(--green-bg)}100%{background:var(--surface)}}
-@keyframes flashRed{0%{background:var(--red-bg)}100%{background:var(--surface)}}
-.kanji-big{font-family:'Noto Sans JP',sans-serif;font-size:88px;line-height:1;color:var(--text);letter-spacing:-0.02em}
-.reading-big{font-family:'Noto Sans JP',sans-serif;font-size:34px;font-weight:500;color:var(--text)}
-.eng-tag{background:var(--surface2);border:0.5px solid var(--border);border-radius:8px;padding:5px 12px;font-size:13px;color:var(--text2)}
-.lesson-tag{position:absolute;top:14px;right:14px;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:0.08em}
-.missed-badge{position:absolute;top:14px;left:14px;background:var(--red-bg);border:0.5px solid rgba(232,104,90,0.3);border-radius:6px;font-size:10px;color:var(--red);padding:3px 7px;font-family:'DM Mono',monospace}
-
-/* Reveal section */
+.flashcard{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-xl);min-height:200px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:28px 24px;position:relative;transition:border-color 0.3s}
+.flashcard.correct-flash{border-color:var(--green);animation:flashG 0.5s ease}
+.flashcard.wrong-flash{border-color:var(--red);animation:flashR 0.5s ease}
+@keyframes flashG{0%{background:var(--green-bg)}100%{background:var(--surface)}}
+@keyframes flashR{0%{background:var(--red-bg)}100%{background:var(--surface)}}
+.kanji-big{font-family:'Noto Sans JP',sans-serif;font-size:80px;line-height:1;color:var(--text)}
+.reading-big{font-family:'Noto Sans JP',sans-serif;font-size:32px;font-weight:500;color:var(--text)}
+.compound-display{font-family:'Noto Sans JP',sans-serif;font-size:28px;font-weight:500;color:var(--text);text-align:center;line-height:1.4}
+.eng-tag{background:var(--surface2);border:0.5px solid var(--border);border-radius:8px;padding:5px 12px;font-size:13px;color:var(--text2);text-align:center}
+.lesson-tag{position:absolute;top:12px;right:12px;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);letter-spacing:0.08em}
+.missed-badge{position:absolute;top:12px;left:12px;background:var(--red-bg);border:0.5px solid rgba(232,104,90,0.3);border-radius:6px;font-size:10px;color:var(--red);padding:3px 7px;font-family:'DM Mono',monospace}
+.type-badge{position:absolute;bottom:12px;right:12px;font-size:10px;font-family:'DM Mono',monospace;color:var(--text3);background:var(--surface2);border-radius:5px;padding:2px 6px}
 .reveal-divider{width:40px;height:1px;background:var(--border2);margin:4px 0}
 .reveal-section{display:flex;flex-direction:column;align-items:center;gap:10px;width:100%;animation:fadeUp 0.25s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-/* Buttons */
 .btn{cursor:pointer;border:0.5px solid var(--border2);border-radius:var(--radius);padding:13px 20px;font-size:14px;font-family:'Syne',sans-serif;font-weight:500;letter-spacing:0.01em;transition:all 0.15s;background:transparent;color:var(--text)}
 .btn:hover{background:var(--surface2)}
 .btn:active{transform:scale(0.97)}
 .btn-reveal{background:var(--accent);border-color:var(--accent);color:#0f0f13;font-weight:600;padding:13px 32px;margin-top:8px}
 .btn-reveal:hover{background:var(--accent2);border-color:var(--accent2)}
-.btn-row{display:flex;gap:8px;margin-top:14px}
+.btn-row{display:flex;gap:8px;margin-top:12px}
 .btn-got{flex:1;background:var(--green-bg);border-color:rgba(94,203,138,0.3);color:var(--green);font-weight:600}
 .btn-got:hover{background:rgba(94,203,138,0.2)}
 .btn-missed{flex:1;background:var(--red-bg);border-color:rgba(232,104,90,0.3);color:var(--red);font-weight:600}
@@ -104,28 +98,30 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 .btn-skip{background:none;border:none;color:var(--text3);font-size:13px;padding:10px;margin:4px auto 0;display:block;cursor:pointer;font-family:'Syne',sans-serif;letter-spacing:0.03em}
 .btn-skip:hover{color:var(--text2)}
 
-/* No cards */
-.empty-state{text-align:center;padding:40px 20px;color:var(--text2)}
-.empty-icon{font-size:48px;margin-bottom:12px}
-.empty-state p{font-size:14px;line-height:1.6}
+/* Progress counter */
+.prog-row{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-bottom:5px;font-family:'DM Mono',monospace}
+.prog-track{height:2px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.prog-fill{height:100%;background:var(--accent);border-radius:99px;transition:width 0.3s}
 
 /* Stats */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px}
 .stat-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px}
-.stat-val{font-size:28px;font-weight:700;letter-spacing:-0.03em;font-family:'Syne',sans-serif}
+.stat-val{font-size:28px;font-weight:700;letter-spacing:-0.03em}
 .stat-lbl{font-size:11px;color:var(--text3);margin-top:3px;letter-spacing:0.05em;text-transform:uppercase}
 .stat-val.green{color:var(--green)}
 .stat-val.amber{color:var(--amber)}
-
 .section-head{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;margin-top:8px}
-.wrong-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:12px 14px;margin-bottom:7px}
-.wrong-kanji{font-family:'Noto Sans JP',sans-serif;font-size:28px;min-width:36px;text-align:center}
+.lesson-group{margin-bottom:16px}
+.lesson-group-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.lesson-group-title{font-size:13px;font-weight:500;color:var(--text2)}
+.lesson-error-pill{font-size:11px;font-family:'DM Mono',monospace;color:var(--red);background:var(--red-bg);border-radius:99px;padding:2px 8px}
+.wrong-card{display:flex;align-items:center;gap:12px;background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);padding:11px 14px;margin-bottom:6px}
+.wrong-kanji{font-family:'Noto Sans JP',sans-serif;font-size:26px;min-width:34px;text-align:center}
 .wrong-info{flex:1;min-width:0}
 .wrong-reading{font-family:'Noto Sans JP',sans-serif;font-size:13px;color:var(--text2)}
 .wrong-eng{font-size:11px;color:var(--text3);margin-top:1px}
 .wrong-count{font-family:'DM Mono',monospace;font-size:12px;color:var(--red);background:var(--red-bg);border-radius:6px;padding:3px 8px;white-space:nowrap}
 .no-wrong{font-size:13px;color:var(--text3);text-align:center;padding:20px}
-
 .reset-btn{width:100%;margin-top:16px;border-color:rgba(232,104,90,0.3);color:var(--red);font-size:13px;padding:11px}
 
 /* Settings */
@@ -135,55 +131,522 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 .setting-label{flex:1;min-width:0}
 .setting-name{font-size:14px;color:var(--text)}
 .setting-desc{font-size:11px;color:var(--text3);margin-top:2px}
-.toggle{position:relative;width:42px;height:24px;flex-shrink:0}
-.toggle input{opacity:0;width:0;height:0;position:absolute}
-.toggle-track{position:absolute;inset:0;background:var(--surface2);border:0.5px solid var(--border2);border-radius:99px;cursor:pointer;transition:background 0.2s,border-color 0.2s}
-.toggle-thumb{position:absolute;width:18px;height:18px;background:var(--text3);border-radius:50%;top:2px;left:2px;transition:transform 0.2s,background 0.2s}
-.toggle input:checked~.toggle-track{background:rgba(200,169,110,0.2);border-color:rgba(200,169,110,0.4)}
-.toggle input:checked~.toggle-thumb{transform:translateX(18px);background:var(--accent)}
-.toggle input:disabled~.toggle-track{opacity:0.4;cursor:not-allowed}
-.toggle input:disabled~.toggle-thumb{opacity:0.4}
-
-.lesson-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:14px 16px}
-.lchip{background:none;border:0.5px solid var(--border2);border-radius:8px;font-size:12px;font-family:'DM Mono',monospace;color:var(--text3);padding:7px 0;cursor:pointer;transition:all 0.15s;text-align:center}
-.lchip:active{transform:scale(0.95)}
-.lchip.on{background:rgba(200,169,110,0.12);border-color:rgba(200,169,110,0.4);color:var(--accent)}
+.lesson-grid-full{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;padding:14px 16px}
 .lesson-actions{display:flex;gap:8px;padding:0 16px 14px}
 .lesson-actions button{flex:1;background:none;border:0.5px solid var(--border);border-radius:8px;font-size:12px;color:var(--text2);padding:7px;cursor:pointer;font-family:'Syne',sans-serif;transition:all 0.15s}
 .lesson-actions button:hover{background:var(--surface2)}
-
 .settings-footer{text-align:center;font-size:11px;color:var(--text3);margin-top:20px;line-height:1.7;padding-bottom:8px}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
+// type: 'single' = individual kanji, 'compound' = vocab word (kanji+kana mix)
 const RAW = [
-  {k:"一",r:"いち",e:"one",l:3},{k:"二",r:"に",e:"two",l:3},{k:"三",r:"さん",e:"three",l:3},{k:"四",r:"よん・し",e:"four",l:3},{k:"五",r:"ご",e:"five",l:3},{k:"六",r:"ろく",e:"six",l:3},{k:"七",r:"しち・なな",e:"seven",l:3},{k:"八",r:"はち",e:"eight",l:3},{k:"九",r:"く・きゅう",e:"nine",l:3},{k:"十",r:"じゅう",e:"ten",l:3},{k:"百",r:"ひゃく",e:"hundred",l:3},{k:"円",r:"えん",e:"yen",l:3},{k:"万",r:"まん",e:"ten-thousand",l:3},{k:"千",r:"せん",e:"thousand",l:3},{k:"時",r:"じ",e:"time / hour",l:3},
-  {k:"日",r:"にち・ひ",e:"day / sun",l:4},{k:"本",r:"ほん",e:"book / origin",l:4},{k:"人",r:"じん・ひと",e:"person",l:4},{k:"月",r:"げつ・つき",e:"moon / month",l:4},{k:"火",r:"か・ひ",e:"fire / Tuesday",l:4},{k:"水",r:"すい・みず",e:"water / Wednesday",l:4},{k:"木",r:"もく・き",e:"tree / Thursday",l:4},{k:"金",r:"きん",e:"gold / Friday",l:4},{k:"土",r:"ど・つち",e:"earth / Saturday",l:4},{k:"曜",r:"よう",e:"day of week",l:4},{k:"上",r:"うえ",e:"above",l:4},{k:"下",r:"した",e:"below",l:4},{k:"中",r:"なか・ちゅう",e:"inside / middle",l:4},{k:"半",r:"はん",e:"half",l:4},
-  {k:"飲",r:"のむ",e:"to drink",l:5},{k:"食",r:"たべる",e:"to eat",l:5},{k:"行",r:"いく",e:"to go",l:5},{k:"見",r:"みる",e:"to see",l:5},{k:"男",r:"おとこ",e:"man",l:5},{k:"女",r:"おんな",e:"woman",l:5},{k:"田",r:"た",e:"rice field",l:5},{k:"今",r:"いま",e:"now",l:5},{k:"私",r:"わたし",e:"I / me",l:5},{k:"天",r:"てん",e:"sky / heaven",l:5},{k:"気",r:"き",e:"spirit / feeling",l:5},{k:"元",r:"もと・げん",e:"origin / health",l:5},{k:"川",r:"かわ",e:"river",l:5},{k:"山",r:"やま",e:"mountain",l:5},
-  {k:"東",r:"ひがし",e:"east",l:6},{k:"西",r:"にし",e:"west",l:6},{k:"南",r:"みなみ",e:"south",l:6},{k:"北",r:"きた",e:"north",l:6},{k:"口",r:"くち",e:"mouth",l:6},{k:"出",r:"でる",e:"to exit",l:6},{k:"右",r:"みぎ",e:"right",l:6},{k:"左",r:"ひだり",e:"left",l:6},{k:"分",r:"ふん・ぶん",e:"minute / part",l:6},{k:"先",r:"さき・せん",e:"ahead / previous",l:6},{k:"生",r:"せい・う",e:"life / birth",l:6},{k:"大",r:"おお・だい",e:"big",l:6},{k:"学",r:"がく",e:"study",l:6},{k:"外",r:"そと・がい",e:"outside",l:6},{k:"国",r:"くに・こく",e:"country",l:6},
-  {k:"入",r:"はいる",e:"to enter",l:7},{k:"帰",r:"かえる",e:"to return home",l:7},{k:"文",r:"ぶん",e:"sentence / writing",l:7},{k:"語",r:"ご",e:"language",l:7},{k:"毎",r:"まい",e:"every",l:7},{k:"校",r:"こう",e:"school",l:7},{k:"高",r:"たかい・こう",e:"tall / expensive",l:7},{k:"母",r:"はは・かあ",e:"mother",l:7},{k:"父",r:"ちち・とう",e:"father",l:7},{k:"社",r:"しゃ",e:"company / shrine",l:7},{k:"会",r:"かい・あう",e:"meeting / to meet",l:7},{k:"小",r:"ちいさい・しょう",e:"small",l:7},{k:"子",r:"こ",e:"child",l:7},{k:"京",r:"きょう",e:"capital",l:7},
-  {k:"何",r:"なに・なん",e:"what",l:8},{k:"次",r:"つぎ",e:"next",l:8},{k:"思",r:"おもう",e:"to think",l:8},{k:"読",r:"よむ",e:"to read",l:8},{k:"言",r:"いう",e:"to say",l:8},{k:"休",r:"やすむ",e:"to rest",l:8},{k:"車",r:"くるま",e:"car",l:8},{k:"電",r:"でん",e:"electricity",l:8},{k:"事",r:"こと",e:"thing / matter",l:8},{k:"仕",r:"し",e:"work / serve",l:8},{k:"作",r:"つくる",e:"to make",l:8},{k:"聞",r:"きく",e:"to listen",l:8},{k:"新",r:"あたらしい",e:"new",l:8},{k:"員",r:"いん",e:"member",l:8},
-  {k:"午",r:"ご",e:"noon",l:9},{k:"後",r:"ご・あと",e:"after / behind",l:9},{k:"前",r:"まえ",e:"before / front",l:9},{k:"名",r:"な・めい",e:"name",l:9},{k:"知",r:"しる",e:"to know",l:9},{k:"白",r:"しろい",e:"white",l:9},{k:"雨",r:"あめ",e:"rain",l:9},{k:"書",r:"かく",e:"to write",l:9},{k:"友",r:"とも",e:"friend",l:9},{k:"間",r:"あいだ・かん",e:"between / interval",l:9},{k:"家",r:"いえ・うち",e:"house / home",l:9},{k:"話",r:"はなす",e:"to speak",l:9},{k:"古",r:"ふるい",e:"old",l:9},{k:"来",r:"くる",e:"to come",l:9},{k:"少",r:"すこし",e:"a little",l:9},
-  {k:"住",r:"すむ",e:"to live / reside",l:10},{k:"年",r:"ねん・とし",e:"year",l:10},{k:"買",r:"かう",e:"to buy",l:10},{k:"長",r:"ながい",e:"long",l:10},{k:"立",r:"たつ",e:"to stand",l:10},{k:"自",r:"じ",e:"self",l:10},{k:"夜",r:"よる",e:"night",l:10},{k:"朝",r:"あさ",e:"morning",l:10},{k:"持",r:"もつ",e:"to hold",l:10},{k:"雪",r:"ゆき",e:"snow",l:10},{k:"売",r:"うる",e:"to sell",l:10},
-  {k:"手",r:"て",e:"hand",l:11},{k:"紙",r:"かみ",e:"paper",l:11},{k:"病",r:"びょう",e:"illness",l:11},{k:"院",r:"いん",e:"institution",l:11},{k:"明",r:"あかるい・あした",e:"bright / tomorrow",l:11},{k:"近",r:"ちかい",e:"near",l:11},{k:"好",r:"すき",e:"to like",l:11},{k:"映",r:"えい",e:"reflect / project",l:11},{k:"画",r:"が",e:"picture",l:11},{k:"勉",r:"べん",e:"diligence",l:11},{k:"強",r:"つよい",e:"strong",l:11},{k:"有",r:"ある・ゆう",e:"to exist / have",l:11},{k:"旅",r:"たび",e:"travel / trip",l:11},{k:"所",r:"ところ",e:"place",l:11},{k:"歌",r:"うたう",e:"to sing",l:11},
-  {k:"早",r:"はやい",e:"early / fast",l:12},{k:"起",r:"おきる",e:"to wake up",l:12},{k:"使",r:"つかう",e:"to use",l:12},{k:"働",r:"はたらく",e:"to work",l:12},{k:"度",r:"ど",e:"degree / time",l:12},{k:"赤",r:"あかい",e:"red",l:12},{k:"青",r:"あおい",e:"blue",l:12},{k:"神",r:"かみ",e:"god / spirit",l:12},{k:"牛",r:"うし",e:"cow",l:12},{k:"色",r:"いろ",e:"color",l:12},
-  {k:"物",r:"もの",e:"thing / object",l:13},{k:"料",r:"りょう",e:"fee / material",l:13},{k:"理",r:"り",e:"reason / logic",l:13},{k:"安",r:"やすい",e:"cheap / safe",l:13},{k:"飯",r:"はん",e:"cooked rice / meal",l:13},{k:"肉",r:"にく",e:"meat",l:13},{k:"悪",r:"わるい",e:"bad",l:13},{k:"体",r:"からだ",e:"body",l:13},{k:"空",r:"そら・くう",e:"sky / empty",l:13},{k:"着",r:"きる",e:"to wear",l:13},{k:"海",r:"うみ",e:"sea / ocean",l:13},{k:"同",r:"おなじ",e:"same",l:13},{k:"昼",r:"ひる",e:"daytime / noon",l:13},
-  {k:"彼",r:"かれ",e:"he / him",l:14},{k:"族",r:"ぞく",e:"family / group",l:14},{k:"親",r:"おや",e:"parent",l:14},{k:"切",r:"きる",e:"to cut",l:14},{k:"英",r:"えい",e:"English",l:14},{k:"店",r:"みせ",e:"shop / store",l:14},{k:"去",r:"きょ・さる",e:"past / to leave",l:14},{k:"当",r:"あたる",e:"to hit / correct",l:14},{k:"音",r:"おと・おん",e:"sound",l:14},{k:"楽",r:"たのしい・がく",e:"fun / music",l:14},{k:"医",r:"い",e:"medicine",l:14},{k:"者",r:"もの・しゃ",e:"person / one who",l:14},
-  {k:"死",r:"しぬ",e:"to die",l:15},{k:"意",r:"い",e:"intention",l:15},{k:"味",r:"あじ",e:"taste / flavor",l:15},{k:"注",r:"ちゅう",e:"pour / attention",l:15},{k:"夏",r:"なつ",e:"summer",l:15},{k:"魚",r:"さかな",e:"fish",l:15},{k:"寺",r:"てら",e:"temple",l:15},{k:"広",r:"ひろい",e:"wide / spacious",l:15},{k:"転",r:"てん",e:"roll / turn",l:15},{k:"借",r:"かりる",e:"to borrow",l:15},{k:"走",r:"はしる",e:"to run",l:15},{k:"建",r:"たてる",e:"to build",l:15},{k:"場",r:"ば",e:"place / scene",l:15},{k:"足",r:"あし",e:"foot / leg",l:15},
-  {k:"供",r:"とも・きょう",e:"accompany",l:16},{k:"世",r:"せ・よ",e:"world / generation",l:16},{k:"界",r:"かい",e:"world / boundary",l:16},{k:"全",r:"ぜん・すべて",e:"all / complete",l:16},{k:"部",r:"ぶ",e:"part / section",l:16},{k:"始",r:"はじまる",e:"to begin",l:16},{k:"週",r:"しゅう",e:"week",l:16},{k:"開",r:"あける",e:"to open",l:16},{k:"屋",r:"や",e:"shop / roof",l:16},{k:"方",r:"ほう・かた",e:"direction / person",l:16},{k:"運",r:"うん",e:"luck / carry",l:16},{k:"動",r:"どう",e:"to move",l:16},{k:"教",r:"おしえる",e:"to teach",l:16},
-  {k:"歳",r:"さい",e:"age (years)",l:17},{k:"習",r:"ならう",e:"to learn / practice",l:17},{k:"主",r:"おも・しゅ",e:"main / master",l:17},{k:"結",r:"けつ",e:"tie / result",l:17},{k:"婚",r:"こん",e:"marriage",l:17},{k:"発",r:"はつ",e:"depart / emit",l:17},{k:"表",r:"ひょう",e:"table / surface",l:17},{k:"品",r:"しな",e:"goods / article",l:17},{k:"字",r:"じ",e:"character / letter",l:17},{k:"活",r:"かつ",e:"lively / life",l:17},{k:"写",r:"うつす",e:"to copy / photograph",l:17},{k:"真",r:"しん",e:"true / genuine",l:17},{k:"歩",r:"あるく",e:"to walk",l:17},
-  {k:"目",r:"め",e:"eye",l:18},{k:"力",r:"ちから",e:"power / strength",l:18},{k:"洋",r:"よう",e:"Western / ocean",l:18},{k:"服",r:"ふく",e:"clothes",l:18},{k:"授",r:"じゅ",e:"grant / teach",l:18},{k:"業",r:"ぎょう",e:"work / industry",l:18},{k:"試",r:"し",e:"test / try",l:18},{k:"験",r:"けん",e:"experience / exam",l:18},{k:"貸",r:"かす",e:"to lend",l:18},{k:"図",r:"ず",e:"map / diagram",l:18},{k:"館",r:"かん",e:"building / hall",l:18},{k:"終",r:"おわる",e:"to end",l:18},{k:"宿",r:"しゅく",e:"lodge / inn",l:18},{k:"題",r:"だい",e:"topic / title",l:18},
-  {k:"春",r:"はる",e:"spring",l:19},{k:"秋",r:"あき",e:"autumn",l:19},{k:"冬",r:"ふゆ",e:"winter",l:19},{k:"花",r:"はな",e:"flower",l:19},{k:"姉",r:"あね",e:"older sister",l:19},{k:"兄",r:"あに",e:"older brother",l:19},{k:"漢",r:"かん",e:"Chinese / Han",l:19},{k:"卒",r:"そつ",e:"graduate",l:19},{k:"工",r:"こう",e:"engineering",l:19},{k:"研",r:"けん",e:"research",l:19},{k:"究",r:"きゅう",e:"investigate",l:19},{k:"質",r:"しつ",e:"quality / nature",l:19},{k:"問",r:"もん",e:"question / problem",l:19},{k:"多",r:"おおい",e:"many / much",l:19},
-  {k:"茶",r:"ちゃ",e:"tea",l:20},{k:"枚",r:"まい",e:"flat-thing counter",l:20},{k:"両",r:"りょう",e:"both",l:20},{k:"払",r:"はらう",e:"to pay",l:20},{k:"心",r:"こころ",e:"heart / mind",l:20},{k:"笑",r:"わらう",e:"to laugh / smile",l:20},{k:"痛",r:"いたい",e:"painful",l:20},{k:"最",r:"さい・もっとも",e:"most / extreme",l:20},{k:"声",r:"こえ",e:"voice",l:20},{k:"止",r:"とまる",e:"to stop",l:20},{k:"無",r:"む",e:"nothing / without",l:20},{k:"絶",r:"ぜつ",e:"absolute / cut off",l:20},{k:"対",r:"たい",e:"opposite / versus",l:20},{k:"続",r:"つづける",e:"to continue",l:20},
-  {k:"犬",r:"いぬ",e:"dog",l:21},{k:"初",r:"はじめて",e:"for the first time",l:21},{k:"若",r:"わかい",e:"young",l:21},{k:"送",r:"おくる",e:"to send",l:21},{k:"幸",r:"しあわせ",e:"happiness",l:21},{k:"遅",r:"おそい",e:"late / slow",l:21},{k:"弟",r:"おとうと",e:"younger brother",l:21},{k:"妹",r:"いもうと",e:"younger sister",l:21},{k:"信",r:"しんじる",e:"to believe",l:21},{k:"経",r:"けいけん",e:"experience",l:21},{k:"台",r:"だい",e:"stand / platform",l:21},{k:"風",r:"かぜ・ふう",e:"wind / style",l:21},{k:"重",r:"おもい",e:"heavy",l:21},{k:"計",r:"けい",e:"plan / meter",l:21},{k:"配",r:"くばる",e:"to distribute",l:21}
+  // L3
+  {k:"一",r:"いち",e:"one",l:3,type:"single"},
+  {k:"二",r:"に",e:"two",l:3,type:"single"},
+  {k:"三",r:"さん",e:"three",l:3,type:"single"},
+  {k:"四",r:"よん・し",e:"four",l:3,type:"single"},
+  {k:"五",r:"ご",e:"five",l:3,type:"single"},
+  {k:"六",r:"ろく",e:"six",l:3,type:"single"},
+  {k:"七",r:"しち・なな",e:"seven",l:3,type:"single"},
+  {k:"八",r:"はち",e:"eight",l:3,type:"single"},
+  {k:"九",r:"く・きゅう",e:"nine",l:3,type:"single"},
+  {k:"十",r:"じゅう",e:"ten",l:3,type:"single"},
+  {k:"百",r:"ひゃく",e:"hundred",l:3,type:"single"},
+  {k:"円",r:"えん",e:"yen",l:3,type:"single"},
+  {k:"万",r:"まん",e:"ten-thousand",l:3,type:"single"},
+  {k:"千",r:"せん",e:"thousand",l:3,type:"single"},
+  {k:"時",r:"じ",e:"hour / o'clock",l:3,type:"single"},
+  // L3 compounds
+  {k:"一時",r:"いちじ",e:"1 o'clock",l:3,type:"compound"},
+  {k:"三百円",r:"さんびゃくえん",e:"300 yen",l:3,type:"compound"},
+  {k:"六百円",r:"ろっぴゃくえん",e:"600 yen",l:3,type:"compound"},
+  {k:"八百円",r:"はっぴゃくえん",e:"800 yen",l:3,type:"compound"},
+  {k:"三千",r:"さんぜん",e:"3,000",l:3,type:"compound"},
+  {k:"八千",r:"はっせん",e:"8,000",l:3,type:"compound"},
+  {k:"一万",r:"いちまん",e:"10,000",l:3,type:"compound"},
+  // L4
+  {k:"日",r:"にち・ひ",e:"day / sun",l:4,type:"single"},
+  {k:"本",r:"ほん",e:"book / origin",l:4,type:"single"},
+  {k:"人",r:"じん・ひと",e:"person",l:4,type:"single"},
+  {k:"月",r:"げつ・つき",e:"moon / month",l:4,type:"single"},
+  {k:"火",r:"か",e:"fire / Tuesday",l:4,type:"single"},
+  {k:"水",r:"すい・みず",e:"water / Wednesday",l:4,type:"single"},
+  {k:"木",r:"もく・き",e:"tree / Thursday",l:4,type:"single"},
+  {k:"金",r:"きん",e:"gold / Friday",l:4,type:"single"},
+  {k:"土",r:"ど・つち",e:"earth / Saturday",l:4,type:"single"},
+  {k:"曜",r:"よう",e:"day of week",l:4,type:"single"},
+  {k:"上",r:"うえ",e:"above",l:4,type:"single"},
+  {k:"下",r:"した",e:"below",l:4,type:"single"},
+  {k:"中",r:"なか・ちゅう",e:"inside / middle",l:4,type:"single"},
+  {k:"半",r:"はん",e:"half",l:4,type:"single"},
+  // L4 compounds
+  {k:"日本人",r:"にほんじん",e:"Japanese person",l:4,type:"compound"},
+  {k:"月曜日",r:"げつようび",e:"Monday",l:4,type:"compound"},
+  {k:"火曜日",r:"かようび",e:"Tuesday",l:4,type:"compound"},
+  {k:"水曜日",r:"すいようび",e:"Wednesday",l:4,type:"compound"},
+  {k:"木曜日",r:"もくようび",e:"Thursday",l:4,type:"compound"},
+  {k:"金曜日",r:"きんようび",e:"Friday",l:4,type:"compound"},
+  {k:"土曜日",r:"どようび",e:"Saturday",l:4,type:"compound"},
+  {k:"日曜日",r:"にちようび",e:"Sunday",l:4,type:"compound"},
+  {k:"一日",r:"ついたち",e:"1st of the month",l:4,type:"compound"},
+  {k:"二日",r:"ふつか",e:"2nd / 2 days",l:4,type:"compound"},
+  {k:"三日",r:"みっか",e:"3rd / 3 days",l:4,type:"compound"},
+  {k:"四日",r:"よっか",e:"4th / 4 days",l:4,type:"compound"},
+  {k:"五日",r:"いつか",e:"5th / 5 days",l:4,type:"compound"},
+  {k:"六日",r:"むいか",e:"6th / 6 days",l:4,type:"compound"},
+  {k:"八日",r:"ようか",e:"8th / 8 days",l:4,type:"compound"},
+  {k:"九日",r:"ここのか",e:"9th / 9 days",l:4,type:"compound"},
+  {k:"十日",r:"とおか",e:"10th / 10 days",l:4,type:"compound"},
+  {k:"二十日",r:"はつか",e:"20th / 20 days",l:4,type:"compound"},
+  {k:"四月",r:"しがつ",e:"April",l:4,type:"compound"},
+  {k:"九月",r:"くがつ",e:"September",l:4,type:"compound"},
+  {k:"上",r:"うえ",e:"above (location)",l:4,type:"single"},
+  {k:"下",r:"した",e:"below (location)",l:4,type:"single"},
+  {k:"中",r:"なか",e:"inside (location)",l:4,type:"single"},
+  {k:"四時半",r:"よじはん",e:"4:30",l:4,type:"compound"},
+  // L5
+  {k:"飲",r:"のむ",e:"to drink",l:5,type:"single"},
+  {k:"食",r:"たべる",e:"to eat",l:5,type:"single"},
+  {k:"行",r:"いく",e:"to go",l:5,type:"single"},
+  {k:"見",r:"みる",e:"to see",l:5,type:"single"},
+  {k:"男",r:"おとこ",e:"man",l:5,type:"single"},
+  {k:"女",r:"おんな",e:"woman",l:5,type:"single"},
+  {k:"田",r:"た",e:"rice field",l:5,type:"single"},
+  {k:"今",r:"いま",e:"now",l:5,type:"single"},
+  {k:"私",r:"わたし",e:"I / me",l:5,type:"single"},
+  {k:"天",r:"てん",e:"sky / heaven",l:5,type:"single"},
+  {k:"気",r:"き",e:"spirit / feeling",l:5,type:"single"},
+  {k:"元",r:"もと・げん",e:"origin / health",l:5,type:"single"},
+  {k:"川",r:"かわ",e:"river",l:5,type:"single"},
+  {k:"山",r:"やま",e:"mountain",l:5,type:"single"},
+  // L5 compounds
+  {k:"元気",r:"げんき",e:"healthy / energetic",l:5,type:"compound"},
+  {k:"天気",r:"てんき",e:"weather",l:5,type:"compound"},
+  {k:"今日",r:"きょう",e:"today",l:5,type:"compound"},
+  {k:"田中",r:"たなか",e:"Tanaka (surname)",l:5,type:"compound"},
+  {k:"川山",r:"やまかわ",e:"Yamakawa (surname)",l:5,type:"compound"},
+  {k:"男の人",r:"おとこのひと",e:"man (polite)",l:5,type:"compound"},
+  {k:"女の人",r:"おんなのひと",e:"woman (polite)",l:5,type:"compound"},
+  // L6
+  {k:"東",r:"ひがし",e:"east",l:6,type:"single"},
+  {k:"西",r:"にし",e:"west",l:6,type:"single"},
+  {k:"南",r:"みなみ",e:"south",l:6,type:"single"},
+  {k:"北",r:"きた",e:"north",l:6,type:"single"},
+  {k:"口",r:"くち",e:"mouth",l:6,type:"single"},
+  {k:"出",r:"でる",e:"to exit",l:6,type:"single"},
+  {k:"右",r:"みぎ",e:"right",l:6,type:"single"},
+  {k:"左",r:"ひだり",e:"left",l:6,type:"single"},
+  {k:"分",r:"ふん・ぶん",e:"minute / part",l:6,type:"single"},
+  {k:"先",r:"さき・せん",e:"ahead / previous",l:6,type:"single"},
+  {k:"生",r:"せい・う",e:"life / birth",l:6,type:"single"},
+  {k:"大",r:"おお・だい",e:"big",l:6,type:"single"},
+  {k:"学",r:"がく",e:"study",l:6,type:"single"},
+  {k:"外",r:"そと・がい",e:"outside",l:6,type:"single"},
+  {k:"国",r:"くに・こく",e:"country",l:6,type:"single"},
+  // L6 compounds
+  {k:"五分",r:"ごふん",e:"5 minutes",l:6,type:"compound"},
+  {k:"十分",r:"じゅっぷん",e:"10 minutes",l:6,type:"compound"},
+  {k:"先生",r:"せんせい",e:"teacher",l:6,type:"compound"},
+  {k:"学生",r:"がくせい",e:"student",l:6,type:"compound"},
+  {k:"大学",r:"だいがく",e:"university",l:6,type:"compound"},
+  {k:"中国",r:"ちゅうごく",e:"China",l:6,type:"compound"},
+  {k:"国外",r:"がいこく",e:"foreign country",l:6,type:"compound"},
+  {k:"南口",r:"みなみぐち",e:"south exit",l:6,type:"compound"},
+  {k:"出口",r:"でぐち",e:"exit",l:6,type:"compound"},
+  // L7
+  {k:"入",r:"はいる",e:"to enter",l:7,type:"single"},
+  {k:"帰",r:"かえる",e:"to return home",l:7,type:"single"},
+  {k:"文",r:"ぶん",e:"sentence / writing",l:7,type:"single"},
+  {k:"語",r:"ご",e:"language",l:7,type:"single"},
+  {k:"毎",r:"まい",e:"every",l:7,type:"single"},
+  {k:"校",r:"こう",e:"school",l:7,type:"single"},
+  {k:"高",r:"たかい・こう",e:"tall / expensive",l:7,type:"single"},
+  {k:"母",r:"はは・かあ",e:"mother",l:7,type:"single"},
+  {k:"父",r:"ちち・とう",e:"father",l:7,type:"single"},
+  {k:"社",r:"しゃ",e:"company / shrine",l:7,type:"single"},
+  {k:"会",r:"かい・あう",e:"meeting / to meet",l:7,type:"single"},
+  {k:"小",r:"ちいさい・しょう",e:"small",l:7,type:"single"},
+  {k:"子",r:"こ",e:"child",l:7,type:"single"},
+  {k:"京",r:"きょう",e:"capital",l:7,type:"single"},
+  // L7 compounds
+  {k:"日本語",r:"にほんご",e:"Japanese language",l:7,type:"compound"},
+  {k:"会社",r:"かいしゃ",e:"company",l:7,type:"compound"},
+  {k:"高校",r:"こうこう",e:"high school",l:7,type:"compound"},
+  {k:"小学校",r:"しょうがっこう",e:"elementary school",l:7,type:"compound"},
+  {k:"中学校",r:"ちゅうがっこう",e:"middle school",l:7,type:"compound"},
+  {k:"東京",r:"とうきょう",e:"Tokyo",l:7,type:"compound"},
+  {k:"毎日",r:"まいにち",e:"every day",l:7,type:"compound"},
+  {k:"文学",r:"ぶんがく",e:"literature",l:7,type:"compound"},
+  {k:"二人",r:"ふたり",e:"two people",l:7,type:"compound"},
+  {k:"三人",r:"さんにん",e:"three people",l:7,type:"compound"},
+  // L8
+  {k:"何",r:"なに・なん",e:"what",l:8,type:"single"},
+  {k:"次",r:"つぎ",e:"next",l:8,type:"single"},
+  {k:"思",r:"おもう",e:"to think",l:8,type:"single"},
+  {k:"読",r:"よむ",e:"to read",l:8,type:"single"},
+  {k:"言",r:"いう",e:"to say",l:8,type:"single"},
+  {k:"休",r:"やすむ",e:"to rest",l:8,type:"single"},
+  {k:"車",r:"くるま",e:"car",l:8,type:"single"},
+  {k:"電",r:"でん",e:"electricity",l:8,type:"single"},
+  {k:"事",r:"こと",e:"thing / matter",l:8,type:"single"},
+  {k:"仕",r:"し",e:"work / serve",l:8,type:"single"},
+  {k:"作",r:"つくる",e:"to make",l:8,type:"single"},
+  {k:"聞",r:"きく",e:"to listen",l:8,type:"single"},
+  {k:"新",r:"あたらしい",e:"new",l:8,type:"single"},
+  {k:"員",r:"いん",e:"member",l:8,type:"single"},
+  // L8 compounds
+  {k:"新聞",r:"しんぶん",e:"newspaper",l:8,type:"compound"},
+  {k:"電気",r:"でんき",e:"electricity / light",l:8,type:"compound"},
+  {k:"電車",r:"でんしゃ",e:"train",l:8,type:"compound"},
+  {k:"仕事",r:"しごと",e:"work / job",l:8,type:"compound"},
+  {k:"会社員",r:"かいしゃいん",e:"company employee",l:8,type:"compound"},
+  {k:"何時",r:"なんじ",e:"what time",l:8,type:"compound"},
+  {k:"今月",r:"こんげつ",e:"this month",l:8,type:"compound"},
+  // L9
+  {k:"午",r:"ご",e:"noon",l:9,type:"single"},
+  {k:"後",r:"ご・あと",e:"after / behind",l:9,type:"single"},
+  {k:"前",r:"まえ",e:"before / front",l:9,type:"single"},
+  {k:"名",r:"な・めい",e:"name",l:9,type:"single"},
+  {k:"知",r:"しる",e:"to know",l:9,type:"single"},
+  {k:"白",r:"しろい",e:"white",l:9,type:"single"},
+  {k:"雨",r:"あめ",e:"rain",l:9,type:"single"},
+  {k:"書",r:"かく",e:"to write",l:9,type:"single"},
+  {k:"友",r:"とも",e:"friend",l:9,type:"single"},
+  {k:"間",r:"あいだ・かん",e:"between / interval",l:9,type:"single"},
+  {k:"家",r:"いえ・うち",e:"house / home",l:9,type:"single"},
+  {k:"話",r:"はなす",e:"to speak",l:9,type:"single"},
+  {k:"古",r:"ふるい",e:"old",l:9,type:"single"},
+  {k:"来",r:"くる",e:"to come",l:9,type:"single"},
+  {k:"少",r:"すこし",e:"a little",l:9,type:"single"},
+  // L9 compounds
+  {k:"午後",r:"ごご",e:"afternoon / PM",l:9,type:"compound"},
+  {k:"午前",r:"ごぜん",e:"morning / AM",l:9,type:"compound"},
+  {k:"名前",r:"なまえ",e:"name",l:9,type:"compound"},
+  {k:"友だち",r:"ともだち",e:"friend",l:9,type:"compound"},
+  {k:"時間",r:"じかん",e:"time / hours",l:9,type:"compound"},
+  {k:"会話",r:"かいわ",e:"conversation",l:9,type:"compound"},
+  {k:"電話",r:"でんわ",e:"telephone",l:9,type:"compound"},
+  {k:"先月",r:"せんげつ",e:"last month",l:9,type:"compound"},
+  {k:"来月",r:"らいげつ",e:"next month",l:9,type:"compound"},
+  // L10
+  {k:"住",r:"すむ",e:"to live / reside",l:10,type:"single"},
+  {k:"年",r:"ねん・とし",e:"year",l:10,type:"single"},
+  {k:"買",r:"かう",e:"to buy",l:10,type:"single"},
+  {k:"長",r:"ながい",e:"long",l:10,type:"single"},
+  {k:"立",r:"たつ",e:"to stand",l:10,type:"single"},
+  {k:"自",r:"じ",e:"self",l:10,type:"single"},
+  {k:"夜",r:"よる",e:"night",l:10,type:"single"},
+  {k:"朝",r:"あさ",e:"morning",l:10,type:"single"},
+  {k:"持",r:"もつ",e:"to hold",l:10,type:"single"},
+  {k:"雪",r:"ゆき",e:"snow",l:10,type:"single"},
+  {k:"売",r:"うる",e:"to sell",l:10,type:"single"},
+  // L10 compounds
+  {k:"四年生",r:"よねんせい",e:"4th-year student",l:10,type:"compound"},
+  {k:"来年",r:"らいねん",e:"next year",l:10,type:"compound"},
+  {k:"今年",r:"ことし",e:"this year",l:10,type:"compound"},
+  {k:"毎年",r:"まいとし",e:"every year",l:10,type:"compound"},
+  {k:"自分",r:"じぶん",e:"oneself",l:10,type:"compound"},
+  {k:"今朝",r:"けさ",e:"this morning",l:10,type:"compound"},
+  {k:"お金持ち",r:"おかねもち",e:"wealthy person",l:10,type:"compound"},
+  {k:"三年後",r:"さんねんご",e:"three years later",l:10,type:"compound"},
+  // L11
+  {k:"手",r:"て",e:"hand",l:11,type:"single"},
+  {k:"紙",r:"かみ",e:"paper",l:11,type:"single"},
+  {k:"病",r:"びょう",e:"illness",l:11,type:"single"},
+  {k:"院",r:"いん",e:"institution",l:11,type:"single"},
+  {k:"明",r:"あかるい・あした",e:"bright / tomorrow",l:11,type:"single"},
+  {k:"近",r:"ちかい",e:"near",l:11,type:"single"},
+  {k:"好",r:"すき",e:"to like",l:11,type:"single"},
+  {k:"映",r:"えい",e:"reflect / project",l:11,type:"single"},
+  {k:"画",r:"が",e:"picture",l:11,type:"single"},
+  {k:"勉",r:"べん",e:"diligence",l:11,type:"single"},
+  {k:"強",r:"つよい",e:"strong",l:11,type:"single"},
+  {k:"有",r:"ある・ゆう",e:"to exist / have",l:11,type:"single"},
+  {k:"旅",r:"たび",e:"travel",l:11,type:"single"},
+  {k:"所",r:"ところ",e:"place",l:11,type:"single"},
+  {k:"歌",r:"うたう",e:"to sing",l:11,type:"single"},
+  // L11 compounds
+  {k:"上手",r:"じょうず",e:"skilled / good at",l:11,type:"compound"},
+  {k:"下手",r:"へた",e:"unskilled / bad at",l:11,type:"compound"},
+  {k:"手紙",r:"てがみ",e:"letter (mail)",l:11,type:"compound"},
+  {k:"病院",r:"びょういん",e:"hospital",l:11,type:"compound"},
+  {k:"病気",r:"びょうき",e:"illness / sickness",l:11,type:"compound"},
+  {k:"大学院",r:"だいがくいん",e:"graduate school",l:11,type:"compound"},
+  {k:"明日",r:"あした",e:"tomorrow",l:11,type:"compound"},
+  {k:"映画",r:"えいが",e:"movie",l:11,type:"compound"},
+  {k:"勉強",r:"べんきょう",e:"studying",l:11,type:"compound"},
+  {k:"有名",r:"ゆうめい",e:"famous",l:11,type:"compound"},
+  {k:"旅行",r:"りょこう",e:"travel / trip",l:11,type:"compound"},
+  {k:"場所",r:"ばしょ",e:"place / location",l:11,type:"compound"},
+  {k:"社長",r:"しゃちょう",e:"company president",l:11,type:"compound"},
+  // L12
+  {k:"早",r:"はやい",e:"early / fast",l:12,type:"single"},
+  {k:"起",r:"おきる",e:"to wake up",l:12,type:"single"},
+  {k:"使",r:"つかう",e:"to use",l:12,type:"single"},
+  {k:"働",r:"はたらく",e:"to work",l:12,type:"single"},
+  {k:"度",r:"ど",e:"degree / time",l:12,type:"single"},
+  {k:"赤",r:"あかい",e:"red",l:12,type:"single"},
+  {k:"青",r:"あおい",e:"blue",l:12,type:"single"},
+  {k:"神",r:"かみ",e:"god / spirit",l:12,type:"single"},
+  {k:"牛",r:"うし",e:"cow",l:12,type:"single"},
+  {k:"色",r:"いろ",e:"color",l:12,type:"single"},
+  // L12 compounds
+  {k:"今度",r:"こんど",e:"this time / next time",l:12,type:"compound"},
+  {k:"一度",r:"いちど",e:"once / one time",l:12,type:"compound"},
+  {k:"神社",r:"じんじゃ",e:"Shinto shrine",l:12,type:"compound"},
+  {k:"大事",r:"だいじ",e:"important",l:12,type:"compound"},
+  {k:"時々",r:"ときどき",e:"sometimes",l:12,type:"compound"},
+  {k:"人々",r:"ひとびと",e:"people (plural)",l:12,type:"compound"},
+  // L13
+  {k:"物",r:"もの",e:"thing / object",l:13,type:"single"},
+  {k:"料",r:"りょう",e:"fee / material",l:13,type:"single"},
+  {k:"理",r:"り",e:"reason / logic",l:13,type:"single"},
+  {k:"安",r:"やすい",e:"cheap / safe",l:13,type:"single"},
+  {k:"飯",r:"はん",e:"cooked rice / meal",l:13,type:"single"},
+  {k:"肉",r:"にく",e:"meat",l:13,type:"single"},
+  {k:"悪",r:"わるい",e:"bad",l:13,type:"single"},
+  {k:"体",r:"からだ",e:"body",l:13,type:"single"},
+  {k:"空",r:"そら・くう",e:"sky / empty",l:13,type:"single"},
+  {k:"着",r:"きる",e:"to wear",l:13,type:"single"},
+  {k:"海",r:"うみ",e:"sea / ocean",l:13,type:"single"},
+  {k:"同",r:"おなじ",e:"same",l:13,type:"single"},
+  {k:"昼",r:"ひる",e:"daytime / noon",l:13,type:"single"},
+  // L13 compounds
+  {k:"食べ物",r:"たべもの",e:"food",l:13,type:"compound"},
+  {k:"買い物",r:"かいもの",e:"shopping",l:13,type:"compound"},
+  {k:"料理",r:"りょうり",e:"cooking / cuisine",l:13,type:"compound"},
+  {k:"牛肉",r:"ぎゅうにく",e:"beef",l:13,type:"compound"},
+  {k:"着物",r:"きもの",e:"kimono",l:13,type:"compound"},
+  {k:"空気",r:"くうき",e:"air",l:13,type:"compound"},
+  {k:"空港",r:"くうこう",e:"airport",l:13,type:"compound"},
+  {k:"空手",r:"からて",e:"karate",l:13,type:"compound"},
+  {k:"昼ご飯",r:"ひるごはん",e:"lunch",l:13,type:"compound"},
+  {k:"大人",r:"おとな",e:"adult",l:13,type:"compound"},
+  {k:"一日中",r:"いちにちじゅう",e:"all day long",l:13,type:"compound"},
+  // L14
+  {k:"彼",r:"かれ",e:"he / him",l:14,type:"single"},
+  {k:"族",r:"ぞく",e:"family / group",l:14,type:"single"},
+  {k:"親",r:"おや",e:"parent",l:14,type:"single"},
+  {k:"切",r:"きる",e:"to cut",l:14,type:"single"},
+  {k:"英",r:"えい",e:"English",l:14,type:"single"},
+  {k:"店",r:"みせ",e:"shop / store",l:14,type:"single"},
+  {k:"去",r:"きょ・さる",e:"past / to leave",l:14,type:"single"},
+  {k:"当",r:"あたる",e:"to hit / correct",l:14,type:"single"},
+  {k:"音",r:"おと・おん",e:"sound",l:14,type:"single"},
+  {k:"楽",r:"たのしい・がく",e:"fun / music",l:14,type:"single"},
+  {k:"医",r:"い",e:"medicine",l:14,type:"single"},
+  {k:"者",r:"もの・しゃ",e:"person / one who",l:14,type:"single"},
+  // L14 compounds
+  {k:"彼女",r:"かのじょ",e:"she / girlfriend",l:14,type:"compound"},
+  {k:"留学生",r:"りゅうがくせい",e:"international student",l:14,type:"compound"},
+  {k:"家族",r:"かぞく",e:"family",l:14,type:"compound"},
+  {k:"父親",r:"ちちおや",e:"father",l:14,type:"compound"},
+  {k:"母親",r:"ははおや",e:"mother",l:14,type:"compound"},
+  {k:"親切",r:"しんせつ",e:"kind / kindness",l:14,type:"compound"},
+  {k:"英語",r:"えいご",e:"English language",l:14,type:"compound"},
+  {k:"店員",r:"てんいん",e:"store clerk",l:14,type:"compound"},
+  {k:"去年",r:"きょねん",e:"last year",l:14,type:"compound"},
+  {k:"本当に",r:"ほんとうに",e:"truly / really",l:14,type:"compound"},
+  {k:"音楽",r:"おんがく",e:"music",l:14,type:"compound"},
+  {k:"医者",r:"いしゃ",e:"doctor",l:14,type:"compound"},
+  {k:"時代",r:"じだい",e:"era / period",l:14,type:"compound"},
+  {k:"一本",r:"いっぽん",e:"one (long object)",l:14,type:"compound"},
+  {k:"年上",r:"としうえ",e:"older (in age)",l:14,type:"compound"},
+  {k:"年下",r:"としした",e:"younger (in age)",l:14,type:"compound"},
+  // L15
+  {k:"死",r:"しぬ",e:"to die",l:15,type:"single"},
+  {k:"意",r:"い",e:"intention",l:15,type:"single"},
+  {k:"味",r:"あじ",e:"taste / flavor",l:15,type:"single"},
+  {k:"注",r:"ちゅう",e:"pour / attention",l:15,type:"single"},
+  {k:"夏",r:"なつ",e:"summer",l:15,type:"single"},
+  {k:"魚",r:"さかな",e:"fish",l:15,type:"single"},
+  {k:"寺",r:"てら",e:"temple",l:15,type:"single"},
+  {k:"広",r:"ひろい",e:"wide / spacious",l:15,type:"single"},
+  {k:"転",r:"てん",e:"roll / turn",l:15,type:"single"},
+  {k:"借",r:"かりる",e:"to borrow",l:15,type:"single"},
+  {k:"走",r:"はしる",e:"to run",l:15,type:"single"},
+  {k:"建",r:"たてる",e:"to build",l:15,type:"single"},
+  {k:"場",r:"ば",e:"place / scene",l:15,type:"single"},
+  {k:"足",r:"あし",e:"foot / leg",l:15,type:"single"},
+  // L15 compounds
+  {k:"意味",r:"いみ",e:"meaning",l:15,type:"compound"},
+  {k:"注意",r:"ちゅうい",e:"caution / attention",l:15,type:"compound"},
+  {k:"夏休み",r:"なつやすみ",e:"summer vacation",l:15,type:"compound"},
+  {k:"自転車",r:"じてんしゃ",e:"bicycle",l:15,type:"compound"},
+  {k:"建物",r:"たてもの",e:"building",l:15,type:"compound"},
+  {k:"地下鉄",r:"ちかてつ",e:"subway",l:15,type:"compound"},
+  {k:"広場",r:"ひろば",e:"plaza / open space",l:15,type:"compound"},
+  {k:"足りる",r:"たりる",e:"to be sufficient",l:15,type:"compound"},
+  // L16
+  {k:"供",r:"とも・きょう",e:"accompany",l:16,type:"single"},
+  {k:"世",r:"せ・よ",e:"world / generation",l:16,type:"single"},
+  {k:"界",r:"かい",e:"world / boundary",l:16,type:"single"},
+  {k:"全",r:"ぜん・すべて",e:"all / complete",l:16,type:"single"},
+  {k:"部",r:"ぶ",e:"part / section",l:16,type:"single"},
+  {k:"始",r:"はじまる",e:"to begin",l:16,type:"single"},
+  {k:"週",r:"しゅう",e:"week",l:16,type:"single"},
+  {k:"開",r:"あける",e:"to open",l:16,type:"single"},
+  {k:"屋",r:"や",e:"shop / roof",l:16,type:"single"},
+  {k:"方",r:"ほう・かた",e:"direction / person",l:16,type:"single"},
+  {k:"運",r:"うん",e:"luck / carry",l:16,type:"single"},
+  {k:"動",r:"どう",e:"to move",l:16,type:"single"},
+  {k:"教",r:"おしえる",e:"to teach",l:16,type:"single"},
+  // L16 compounds
+  {k:"子供",r:"こども",e:"child",l:16,type:"compound"},
+  {k:"世界",r:"せかい",e:"world",l:16,type:"compound"},
+  {k:"全部",r:"ぜんぶ",e:"all / everything",l:16,type:"compound"},
+  {k:"部屋",r:"へや",e:"room",l:16,type:"compound"},
+  {k:"毎週",r:"まいしゅう",e:"every week",l:16,type:"compound"},
+  {k:"今週",r:"こんしゅう",e:"this week",l:16,type:"compound"},
+  {k:"先週",r:"せんしゅう",e:"last week",l:16,type:"compound"},
+  {k:"来週",r:"らいしゅう",e:"next week",l:16,type:"compound"},
+  {k:"本屋",r:"ほんや",e:"bookstore",l:16,type:"compound"},
+  {k:"運転",r:"うんてん",e:"driving",l:16,type:"compound"},
+  {k:"運動",r:"うんどう",e:"exercise",l:16,type:"compound"},
+  {k:"教室",r:"きょうしつ",e:"classroom",l:16,type:"compound"},
+  {k:"読み方",r:"よみかた",e:"how to read",l:16,type:"compound"},
+  // L17
+  {k:"歳",r:"さい",e:"age (years)",l:17,type:"single"},
+  {k:"習",r:"ならう",e:"to learn / practice",l:17,type:"single"},
+  {k:"主",r:"おも・しゅ",e:"main / master",l:17,type:"single"},
+  {k:"結",r:"けつ",e:"tie / result",l:17,type:"single"},
+  {k:"婚",r:"こん",e:"marriage",l:17,type:"single"},
+  {k:"発",r:"はつ",e:"depart / emit",l:17,type:"single"},
+  {k:"表",r:"ひょう",e:"table / surface",l:17,type:"single"},
+  {k:"品",r:"しな",e:"goods / article",l:17,type:"single"},
+  {k:"字",r:"じ",e:"character / letter",l:17,type:"single"},
+  {k:"活",r:"かつ",e:"lively / life",l:17,type:"single"},
+  {k:"写",r:"うつす",e:"to copy / photograph",l:17,type:"single"},
+  {k:"真",r:"しん",e:"true / genuine",l:17,type:"single"},
+  {k:"歩",r:"あるく",e:"to walk",l:17,type:"single"},
+  // L17 compounds
+  {k:"結婚",r:"けっこん",e:"marriage",l:17,type:"compound"},
+  {k:"発表",r:"はっぴょう",e:"presentation / announcement",l:17,type:"compound"},
+  {k:"作品",r:"さくひん",e:"work of art / piece",l:17,type:"compound"},
+  {k:"文字",r:"もじ",e:"letter / character",l:17,type:"compound"},
+  {k:"活動",r:"かつどう",e:"activity",l:17,type:"compound"},
+  {k:"生活",r:"せいかつ",e:"daily life",l:17,type:"compound"},
+  {k:"写真",r:"しゃしん",e:"photograph",l:17,type:"compound"},
+  {k:"主人",r:"しゅじん",e:"husband / master",l:17,type:"compound"},
+  {k:"旅行会社",r:"りょこうがいしゃ",e:"travel agency",l:17,type:"compound"},
+  // L18
+  {k:"目",r:"め",e:"eye",l:18,type:"single"},
+  {k:"力",r:"ちから",e:"power / strength",l:18,type:"single"},
+  {k:"洋",r:"よう",e:"Western / ocean",l:18,type:"single"},
+  {k:"服",r:"ふく",e:"clothes",l:18,type:"single"},
+  {k:"授",r:"じゅ",e:"grant / teach",l:18,type:"single"},
+  {k:"業",r:"ぎょう",e:"work / industry",l:18,type:"single"},
+  {k:"試",r:"し",e:"test / try",l:18,type:"single"},
+  {k:"験",r:"けん",e:"experience / exam",l:18,type:"single"},
+  {k:"貸",r:"かす",e:"to lend",l:18,type:"single"},
+  {k:"図",r:"ず",e:"map / diagram",l:18,type:"single"},
+  {k:"館",r:"かん",e:"building / hall",l:18,type:"single"},
+  {k:"終",r:"おわる",e:"to end",l:18,type:"single"},
+  {k:"宿",r:"しゅく",e:"lodge / inn",l:18,type:"single"},
+  {k:"題",r:"だい",e:"topic / title",l:18,type:"single"},
+  // L18 compounds
+  {k:"目的",r:"もくてき",e:"purpose / goal",l:18,type:"compound"},
+  {k:"力仕事",r:"ちからしごと",e:"physical labor",l:18,type:"compound"},
+  {k:"洋服",r:"ようふく",e:"Western clothes",l:18,type:"compound"},
+  {k:"食堂",r:"しょくどう",e:"cafeteria / dining hall",l:18,type:"compound"},
+  {k:"授業",r:"じゅぎょう",e:"class / lesson",l:18,type:"compound"},
+  {k:"試験",r:"しけん",e:"exam / test",l:18,type:"compound"},
+  {k:"図書館",r:"としょかん",e:"library",l:18,type:"compound"},
+  {k:"地図",r:"ちず",e:"map",l:18,type:"compound"},
+  {k:"映画館",r:"えいがかん",e:"movie theater",l:18,type:"compound"},
+  {k:"旅館",r:"りょかん",e:"Japanese inn",l:18,type:"compound"},
+  {k:"宿題",r:"しゅくだい",e:"homework",l:18,type:"compound"},
+  {k:"注文",r:"ちゅうもん",e:"order (food etc.)",l:18,type:"compound"},
+  {k:"女子",r:"じょし",e:"girl / female",l:18,type:"compound"},
+  {k:"男子",r:"だんし",e:"boy / male",l:18,type:"compound"},
+  // L19
+  {k:"春",r:"はる",e:"spring",l:19,type:"single"},
+  {k:"秋",r:"あき",e:"autumn",l:19,type:"single"},
+  {k:"冬",r:"ふゆ",e:"winter",l:19,type:"single"},
+  {k:"花",r:"はな",e:"flower",l:19,type:"single"},
+  {k:"姉",r:"あね",e:"older sister",l:19,type:"single"},
+  {k:"兄",r:"あに",e:"older brother",l:19,type:"single"},
+  {k:"漢",r:"かん",e:"Chinese / Han",l:19,type:"single"},
+  {k:"卒",r:"そつ",e:"graduate",l:19,type:"single"},
+  {k:"工",r:"こう",e:"engineering",l:19,type:"single"},
+  {k:"研",r:"けん",e:"research",l:19,type:"single"},
+  {k:"究",r:"きゅう",e:"investigate",l:19,type:"single"},
+  {k:"質",r:"しつ",e:"quality / nature",l:19,type:"single"},
+  {k:"問",r:"もん",e:"question / problem",l:19,type:"single"},
+  {k:"多",r:"おおい",e:"many / much",l:19,type:"single"},
+  // L19 compounds
+  {k:"冬休み",r:"ふゆやすみ",e:"winter vacation",l:19,type:"compound"},
+  {k:"漢字",r:"かんじ",e:"kanji",l:19,type:"compound"},
+  {k:"卒業",r:"そつぎょう",e:"graduation",l:19,type:"compound"},
+  {k:"工学",r:"こうがく",e:"engineering (field)",l:19,type:"compound"},
+  {k:"工学部",r:"こうがくぶ",e:"engineering department",l:19,type:"compound"},
+  {k:"研究",r:"けんきゅう",e:"research",l:19,type:"compound"},
+  {k:"質問",r:"しつもん",e:"question",l:19,type:"compound"},
+  {k:"問題",r:"もんだい",e:"problem / question",l:19,type:"compound"},
+  {k:"部長",r:"ぶちょう",e:"department head",l:19,type:"compound"},
+  {k:"大切",r:"たいせつ",e:"important / precious",l:19,type:"compound"},
+  // L20
+  {k:"茶",r:"ちゃ",e:"tea",l:20,type:"single"},
+  {k:"枚",r:"まい",e:"flat-thing counter",l:20,type:"single"},
+  {k:"両",r:"りょう",e:"both",l:20,type:"single"},
+  {k:"払",r:"はらう",e:"to pay",l:20,type:"single"},
+  {k:"心",r:"こころ",e:"heart / mind",l:20,type:"single"},
+  {k:"笑",r:"わらう",e:"to laugh / smile",l:20,type:"single"},
+  {k:"痛",r:"いたい",e:"painful",l:20,type:"single"},
+  {k:"最",r:"さい・もっとも",e:"most / extreme",l:20,type:"single"},
+  {k:"声",r:"こえ",e:"voice",l:20,type:"single"},
+  {k:"止",r:"とまる",e:"to stop",l:20,type:"single"},
+  {k:"無",r:"む",e:"nothing / without",l:20,type:"single"},
+  {k:"絶",r:"ぜつ",e:"absolute / cut off",l:20,type:"single"},
+  {k:"対",r:"たい",e:"opposite / versus",l:20,type:"single"},
+  {k:"続",r:"つづける",e:"to continue",l:20,type:"single"},
+  // L20 compounds
+  {k:"お茶",r:"おちゃ",e:"tea (polite)",l:20,type:"compound"},
+  {k:"茶色",r:"ちゃいろ",e:"brown (tea color)",l:20,type:"compound"},
+  {k:"一枚",r:"いちまい",e:"one sheet / one piece",l:20,type:"compound"},
+  {k:"両親",r:"りょうしん",e:"both parents",l:20,type:"compound"},
+  {k:"最悪",r:"さいあく",e:"worst",l:20,type:"compound"},
+  {k:"最近",r:"さいきん",e:"recently",l:20,type:"compound"},
+  {k:"最高",r:"さいこう",e:"best / highest",l:20,type:"compound"},
+  {k:"最後",r:"さいご",e:"last / final",l:20,type:"compound"},
+  {k:"無理",r:"むり",e:"impossible / unreasonable",l:20,type:"compound"},
+  {k:"絶対に",r:"ぜったいに",e:"absolutely",l:20,type:"compound"},
+  {k:"心配",r:"しんぱい",e:"worry / concern",l:20,type:"compound"},
+  // L21
+  {k:"犬",r:"いぬ",e:"dog",l:21,type:"single"},
+  {k:"初",r:"はじめて",e:"for the first time",l:21,type:"single"},
+  {k:"若",r:"わかい",e:"young",l:21,type:"single"},
+  {k:"送",r:"おくる",e:"to send",l:21,type:"single"},
+  {k:"幸",r:"しあわせ",e:"happiness",l:21,type:"single"},
+  {k:"遅",r:"おそい",e:"late / slow",l:21,type:"single"},
+  {k:"弟",r:"おとうと",e:"younger brother",l:21,type:"single"},
+  {k:"妹",r:"いもうと",e:"younger sister",l:21,type:"single"},
+  {k:"信",r:"しんじる",e:"to believe",l:21,type:"single"},
+  {k:"経",r:"けいけん",e:"experience",l:21,type:"single"},
+  {k:"台",r:"だい",e:"stand / platform",l:21,type:"single"},
+  {k:"風",r:"かぜ・ふう",e:"wind / style",l:21,type:"single"},
+  {k:"重",r:"おもい",e:"heavy",l:21,type:"single"},
+  {k:"計",r:"けい",e:"plan / meter",l:21,type:"single"},
+  {k:"配",r:"くばる",e:"to distribute",l:21,type:"single"},
+  // L21 compounds
+  {k:"最初",r:"さいしょ",e:"first / beginning",l:21,type:"compound"},
+  {k:"兄弟",r:"きょうだい",e:"siblings (brothers)",l:21,type:"compound"},
+  {k:"姉妹",r:"しまい",e:"sisters",l:21,type:"compound"},
+  {k:"経験",r:"けいけん",e:"experience",l:21,type:"compound"},
+  {k:"台風",r:"たいふう",e:"typhoon",l:21,type:"compound"},
+  {k:"風邪",r:"かぜ",e:"cold (illness)",l:21,type:"compound"},
+  {k:"体重",r:"たいじゅう",e:"body weight",l:21,type:"compound"},
+  {k:"時計",r:"とけい",e:"clock / watch",l:21,type:"compound"},
+  {k:"心配",r:"しんぱい",e:"worry / concern",l:21,type:"compound"},
 ];
 
 const LESSONS = [...new Set(RAW.map(x=>x.l))].sort((a,b)=>a-b);
 const MODES = [
   {id:'kana_to_kanji', label:'Reading → Kanji', desc:'See hiragana + meaning, recall the kanji'},
-  {id:'kanji_to_kana', label:'Kanji → Reading', desc:'See only the kanji, recall the reading'},
+  {id:'kanji_to_kana', label:'Kanji → Reading', desc:'See kanji only, recall the reading'},
   {id:'kanji_eng_to_kana', label:'Kanji + Meaning → Reading', desc:'See kanji and meaning, recall the reading'}
 ];
 const XP_PER_CORRECT = 10;
@@ -192,23 +655,73 @@ const XP_PER_LEVEL = 100;
 function defaultState(){
   return {scores:{},xp:0,streak:0,bestStreak:0,totalCorrect:0,totalAnswered:0,
     activeModes:['kana_to_kanji','kanji_to_kana','kanji_eng_to_kana'],
-    activeLessons:LESSONS.slice(),focusWrong:false};
+    activeLessons:LESSONS.slice(),focusWrong:false,
+    includeCompounds:true, includeSingles:true,
+    sessionLimit:0};
 }
 
-let state = (() => {
-  try { const s=localStorage.getItem('kj_v2'); if(s) return JSON.parse(s); } catch(e){}
+let state = (()=>{
+  try{const s=localStorage.getItem('kj_v3');if(s)return JSON.parse(s);}catch(e){}
   return defaultState();
 })();
 
-function save(){ try{localStorage.setItem('kj_v2',JSON.stringify(state));}catch(e){} }
-function getLevel(){ return Math.floor(state.xp/XP_PER_LEVEL)+1; }
-function getLevelXP(){ return state.xp%XP_PER_LEVEL; }
+// migrate older saves
+if(state.includeCompounds===undefined) state.includeCompounds=true;
+if(state.includeSingles===undefined) state.includeSingles=true;
+if(state.sessionLimit===undefined) state.sessionLimit=0;
+
+function save(){try{localStorage.setItem('kj_v3',JSON.stringify(state));}catch(e){}}
+function getLevel(){return Math.floor(state.xp/XP_PER_LEVEL)+1;}
+function getLevelXP(){return state.xp%XP_PER_LEVEL;}
 
 let card=null, revealed=false, modeId=null, view='study';
 let sCorrect=0, sWrong=0;
+let sessionDeck=[], sessionIdx=0, sessionActive=false;
+let optionsOpen=false;
+
+function buildSessionDeck(){
+  let pool=RAW.filter(c=>{
+    if(!state.activeLessons.includes(c.l)) return false;
+    if(c.type==='compound'&&!state.includeCompounds) return false;
+    if(c.type==='single'&&!state.includeSingles) return false;
+    return true;
+  });
+  if(state.focusWrong){
+    const w=pool.filter(c=>(state.scores[c.k]||{}).wrong>0);
+    if(w.length) pool=w;
+  }
+  const wts=pool.map(c=>Math.max(1,1+((state.scores[c.k]||{}).wrong||0)*3));
+  const tot=wts.reduce((a,b)=>a+b,0);
+  const shuffled=[];
+  const used=new Set();
+  const limit=state.sessionLimit>0?Math.min(state.sessionLimit,pool.length):pool.length;
+  let attempts=0;
+  while(shuffled.length<limit&&attempts<pool.length*3){
+    attempts++;
+    let r=Math.random()*tot,i=0;
+    for(;i<wts.length-1;i++){r-=wts[i];if(r<=0)break;}
+    if(!used.has(i)){used.add(i);shuffled.push(pool[i]);}
+  }
+  return shuffled;
+}
 
 function pickCard(){
-  let pool=RAW.filter(c=>state.activeLessons.includes(c.l));
+  if(sessionActive){
+    if(sessionIdx>=sessionDeck.length){
+      sessionActive=false; sessionDeck=[]; sessionIdx=0;
+      return null;
+    }
+    const c=sessionDeck[sessionIdx++];
+    const mp=state.activeModes.length?state.activeModes:MODES.map(m=>m.id);
+    modeId=mp[Math.floor(Math.random()*mp.length)];
+    return c;
+  }
+  let pool=RAW.filter(c=>{
+    if(!state.activeLessons.includes(c.l)) return false;
+    if(c.type==='compound'&&!state.includeCompounds) return false;
+    if(c.type==='single'&&!state.includeSingles) return false;
+    return true;
+  });
   if(state.focusWrong){
     const w=pool.filter(c=>(state.scores[c.k]||{}).wrong>0);
     if(w.length) pool=w;
@@ -252,11 +765,84 @@ function navBar(){
   </nav>`;
 }
 
+function optionsPanel(){
+  const focusOk=RAW.some(c=>state.activeLessons.includes(c.l)&&(state.scores[c.k]||{}).wrong>0);
+  const chevron=`<svg class="options-chevron${optionsOpen?' open':''}" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>`;
+  let body='';
+  if(optionsOpen){
+    body=`<div class="options-body">
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase">Modes</div>
+        <div class="mode-chips">
+          ${MODES.map(m=>`<button class="mchip${state.activeModes.includes(m.id)?' on':''}" data-mode="${m.id}">${m.label}</button>`).join('')}
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase">Card types</div>
+        <div class="mode-chips">
+          <button class="mchip${state.includeSingles?' on':''}" data-cardtype="singles">Single kanji</button>
+          <button class="mchip${state.includeCompounds?' on':''}" data-cardtype="compounds">Compound words</button>
+        </div>
+      </div>
+      <div class="opt-row">
+        <div class="opt-label">
+          Focus on mistakes
+          <div class="opt-sub">${focusOk?'Drill your weak spots only':'Study more cards first'}</div>
+        </div>
+        <label class="toggle"><input type="checkbox" id="focusTog" ${state.focusWrong?'checked':''} ${!focusOk?'disabled':''}><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase">Lessons</div>
+        <div class="lesson-mini-grid">
+          ${LESSONS.map(l=>`<button class="lchip${state.activeLessons.includes(l)?' on':''}" data-lesson="${l}">L${l}</button>`).join('')}
+        </div>
+        <div style="display:flex;gap:6px;margin-top:8px">
+          <button class="mchip on" id="allL" style="font-size:11px">All</button>
+          <button class="mchip" id="noneL" style="font-size:11px">Clear</button>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:8px;letter-spacing:0.04em;text-transform:uppercase">Session size</div>
+        <div class="qty-row">
+          <input type="number" class="qty-input" id="qtyInput" min="1" max="999" value="${state.sessionLimit||''}" placeholder="∞">
+          <span class="qty-hint">cards per session (leave blank for unlimited)</span>
+        </div>
+        <button class="mchip on" id="startSession" style="margin-top:10px;font-size:12px;padding:7px 14px">Start session</button>
+      </div>
+    </div>`;
+  }
+  return `<div class="options-panel">
+    <div class="options-header" id="optHeader">
+      <span class="options-title">Study options</span>
+      ${chevron}
+    </div>
+    ${body}
+  </div>`;
+}
+
 function studyScreen(){
-  if(!card){card=pickCard();revealed=false;}
+  if(!card&&!sessionActive){card=pickCard();revealed=false;}
+
+  if(sessionActive&&!card&&sessionIdx>=sessionDeck.length){
+    return `<div class="screen"><div class="screen-inner">
+      <div class="app-header"><span class="app-title"><span>漢字</span> Trainer</span><span class="level-pill"><span class="level-dot"></span>Lv ${getLevel()}</span></div>
+      ${optionsPanel()}
+      <div style="text-align:center;padding:40px 20px">
+        <div style="font-size:48px;margin-bottom:12px">🎉</div>
+        <div style="font-size:18px;font-weight:500;margin-bottom:8px">Session complete!</div>
+        <div style="font-size:14px;color:var(--text2);margin-bottom:24px">${sCorrect} correct · ${sWrong} missed</div>
+        <button class="btn btn-reveal" id="newSession">Start new session</button>
+      </div>
+    </div></div>`;
+  }
+
   if(!card) return `<div class="screen"><div class="screen-inner">
     <div class="app-header"><span class="app-title"><span>漢字</span> Trainer</span></div>
-    <div class="empty-state"><div class="empty-icon">🔍</div><p>No cards match your current filters.<br>Adjust lessons or modes in Settings.</p></div>
+    ${optionsPanel()}
+    <div style="text-align:center;padding:40px 20px;color:var(--text2)">
+      <div style="font-size:36px;margin-bottom:12px">🔍</div>
+      <p style="font-size:14px;line-height:1.7">No cards match your filters.<br>Adjust options above.</p>
+    </div>
   </div></div>`;
 
   const c=card;
@@ -266,16 +852,27 @@ function studyScreen(){
   const lv=getLevel(), lvxp=getLevelXP();
   const pct=Math.round(lvxp/XP_PER_LEVEL*100);
 
+  let progHTML='';
+  if(sessionActive){
+    const done=sessionIdx-1;
+    const total=sessionDeck.length;
+    const ppct=Math.round(done/total*100);
+    progHTML=`<div class="prog-row"><span>Session</span><span>${done} / ${total}</span></div>
+    <div class="prog-track"><div class="prog-fill" style="width:${ppct}%"></div></div>`;
+  }
+
   let front='',revealHTML='';
+  const isCompound=c.type==='compound';
+
   if(modeId==='kana_to_kanji'){
-    front=`<div class="reading-big">${c.r}</div><div class="eng-tag">${c.e}</div>`;
-    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="kanji-big">${c.k}</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:15px;color:var(--text2)">${c.r} — ${c.e}</div></div>`;
+    front=`<div class="reading-big" style="font-family:'Noto Sans JP',sans-serif">${c.r}</div><div class="eng-tag">${c.e}</div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="${isCompound?'compound-display':'kanji-big'}">${c.k}</div><div style="font-family:'Noto Sans JP',sans-serif;font-size:14px;color:var(--text2)">${c.r} — ${c.e}</div></div>`;
   } else if(modeId==='kanji_to_kana'){
-    front=`<div class="kanji-big">${c.k}</div>`;
-    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="reading-big">${c.r}</div><div style="font-size:13px;color:var(--text2);margin-top:4px">${c.e}</div></div>`;
+    front=`<div class="${isCompound?'compound-display':'kanji-big'}">${c.k}</div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div style="font-family:'Noto Sans JP',sans-serif;font-size:28px;font-weight:500;color:var(--text)">${c.r}</div><div style="font-size:13px;color:var(--text2);margin-top:4px">${c.e}</div></div>`;
   } else {
-    front=`<div class="kanji-big">${c.k}</div><div class="eng-tag">${c.e}</div>`;
-    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div class="reading-big">${c.r}</div></div>`;
+    front=`<div class="${isCompound?'compound-display':'kanji-big'}">${c.k}</div><div class="eng-tag">${c.e}</div>`;
+    revealHTML=`<div class="reveal-divider"></div><div class="reveal-section"><div style="font-family:'Noto Sans JP',sans-serif;font-size:28px;font-weight:500;color:var(--text)">${c.r}</div></div>`;
   }
 
   return `<div class="screen"><div class="screen-inner">
@@ -286,13 +883,16 @@ function studyScreen(){
     <div class="xp-row"><span>XP</span><span>${lvxp} / ${XP_PER_LEVEL}</span></div>
     <div class="xp-track"><div class="xp-fill" style="width:${pct}%"></div></div>
     <div class="session-row">
-      <div class="streak-badge"><span class="streak-fire">🔥</span>${state.streak}</div>
+      <div class="streak-badge"><span style="color:var(--amber)">🔥</span>${state.streak}</div>
       <div class="session-counts"><span class="s-correct">✓ ${sCorrect}</span><span class="s-wrong">✗ ${sWrong}</span></div>
     </div>
+    ${progHTML}
+    ${optionsPanel()}
     <div class="mode-label">${mode.label}</div>
     <div class="flashcard" id="fc">
       <span class="lesson-tag">L${c.l}</span>
       ${wc>0?`<span class="missed-badge">${wc}✗</span>`:''}
+      ${isCompound?`<span class="type-badge">compound</span>`:''}
       ${front}
       ${revealed?revealHTML:''}
       ${!revealed?`<button class="btn btn-reveal" id="revBtn">Reveal</button>`:''}
@@ -307,81 +907,67 @@ function studyScreen(){
 
 function statsScreen(){
   const acc=state.totalAnswered?Math.round(state.totalCorrect/state.totalAnswered*100):0;
-  const hardest=RAW.filter(c=>(state.scores[c.k]||{}).wrong>0)
-    .sort((a,b)=>((state.scores[b.k]||{}).wrong||0)-((state.scores[a.k]||{}).wrong||0)).slice(0,10);
+
+  const wrongByLesson={};
+  RAW.forEach(c=>{
+    const s=state.scores[c.k]||{};
+    if((s.wrong||0)>0){
+      if(!wrongByLesson[c.l]) wrongByLesson[c.l]=[];
+      wrongByLesson[c.l].push({c,wrong:s.wrong});
+    }
+  });
+  const lessonKeys=Object.keys(wrongByLesson).map(Number).sort((a,b)=>a-b);
+
+  let wrongHTML='';
+  if(lessonKeys.length===0){
+    wrongHTML=`<div class="no-wrong">No trouble spots yet — keep going!</div>`;
+  } else {
+    wrongHTML=lessonKeys.map(l=>{
+      const items=wrongByLesson[l].sort((a,b)=>b.wrong-a.wrong);
+      const totalWrong=items.reduce((s,x)=>s+x.wrong,0);
+      return `<div class="lesson-group">
+        <div class="lesson-group-header">
+          <span class="lesson-group-title">Lesson ${l}</span>
+          <span class="lesson-error-pill">${totalWrong} missed</span>
+        </div>
+        ${items.map(({c,wrong})=>`<div class="wrong-card">
+          <div class="wrong-kanji">${c.k}</div>
+          <div class="wrong-info">
+            <div class="wrong-reading">${c.r}</div>
+            <div class="wrong-eng">${c.e}${c.type==='compound'?' · compound':''}</div>
+          </div>
+          <span class="wrong-count">${wrong}✗</span>
+        </div>`).join('')}
+      </div>`;
+    }).join('');
+  }
+
   return `<div class="screen"><div class="screen-inner">
     <div class="app-header"><span class="app-title"><span>漢字</span> Progress</span></div>
     <div class="stats-grid">
       <div class="stat-card"><div class="stat-val">${state.totalAnswered}</div><div class="stat-lbl">cards reviewed</div></div>
       <div class="stat-card"><div class="stat-val${acc>=80?' green':''}">${acc}%</div><div class="stat-lbl">accuracy</div></div>
-      <div class="stat-card"><div class="stat-val${state.streak>=5?' amber':''}">${state.streak}</div><div class="stat-lbl">current streak</div></div>
+      <div class="stat-card"><div class="stat-val${state.streak>=5?' amber':''}">${state.streak}</div><div class="stat-lbl">streak</div></div>
       <div class="stat-card"><div class="stat-val">${state.bestStreak}</div><div class="stat-lbl">best streak</div></div>
     </div>
-    <div class="section-head">Needs work</div>
-    ${hardest.length?hardest.map(c=>{
-      const s=state.scores[c.k]||{};
-      return `<div class="wrong-card">
-        <div class="wrong-kanji">${c.k}</div>
-        <div class="wrong-info">
-          <div class="wrong-reading">${c.r}</div>
-          <div class="wrong-eng">${c.e} · L${c.l}</div>
-        </div>
-        <span class="wrong-count">${s.wrong||0}✗</span>
-      </div>`;
-    }).join(''):`<div class="no-wrong">No trouble spots yet — keep going!</div>`}
+    <div class="section-head">Missed by lesson</div>
+    ${wrongHTML}
     <button class="btn reset-btn" id="resetBtn">Reset all progress</button>
   </div></div>`;
 }
 
 function settingsScreen(){
-  const focusOk=RAW.some(c=>state.activeLessons.includes(c.l)&&(state.scores[c.k]||{}).wrong>0);
   return `<div class="screen"><div class="screen-inner">
     <div class="app-header"><span class="app-title"><span>漢字</span> Settings</span></div>
-    <div class="section-head">Study modes</div>
-    <div class="setting-group">
-      ${MODES.map(m=>`<div class="setting-row">
-        <div class="setting-label">
-          <div class="setting-name">${m.label}</div>
-          <div class="setting-desc">${m.desc}</div>
-        </div>
-        <label class="toggle">
-          <input type="checkbox" data-mode="${m.id}" ${state.activeModes.includes(m.id)?'checked':''}>
-          <span class="toggle-track"></span><span class="toggle-thumb"></span>
-        </label>
-      </div>`).join('')}
-    </div>
-    <div class="section-head">Options</div>
-    <div class="setting-group">
-      <div class="setting-row">
-        <div class="setting-label">
-          <div class="setting-name">Focus on mistakes</div>
-          <div class="setting-desc">Drill kanji you've missed most${!focusOk?' (study more cards first)':''}</div>
-        </div>
-        <label class="toggle">
-          <input type="checkbox" id="focusTog" ${state.focusWrong?'checked':''} ${!focusOk?'disabled':''}>
-          <span class="toggle-track"></span><span class="toggle-thumb"></span>
-        </label>
-      </div>
-    </div>
     <div class="section-head">Lessons</div>
     <div class="setting-group">
-      <div class="lesson-actions">
-        <button id="allL">All lessons</button>
-        <button id="noneL">Clear all</button>
-      </div>
-      <div class="lesson-grid">
-        ${LESSONS.map(l=>`<button class="lchip${state.activeLessons.includes(l)?' on':''}" data-lesson="${l}">L${l}</button>`).join('')}
+      <div class="lesson-actions"><button id="allLs">All lessons</button><button id="noneLs">Clear all</button></div>
+      <div class="lesson-grid-full">
+        ${LESSONS.map(l=>`<button class="lchip${state.activeLessons.includes(l)?' on':''}" data-lesson2="${l}">L${l}</button>`).join('')}
       </div>
     </div>
-    <div class="settings-footer">Progress saves automatically in this browser.<br>漢字 Trainer · L3–L21 · ${RAW.length} cards</div>
+    <div class="settings-footer">Progress saves automatically in this browser.<br>漢字 Trainer · L3–L21 · ${RAW.length} cards (${RAW.filter(c=>c.type==='compound').length} compounds)</div>
   </div></div>`;
-}
-
-function flash(cls){
-  const fc=document.getElementById('fc');
-  if(!fc) return;
-  fc.classList.add(cls);
-  setTimeout(()=>fc.classList.remove(cls),500);
 }
 
 function record(correct){
@@ -408,7 +994,11 @@ function record(correct){
 
 function bind(){
   document.querySelectorAll('[data-nav]').forEach(el=>{
-    el.addEventListener('click',()=>{view=el.dataset.nav;if(view==='study'&&!card){card=pickCard();revealed=false;}render();});
+    el.addEventListener('click',()=>{
+      view=el.dataset.nav;
+      if(view==='study'&&!card&&!sessionActive){card=pickCard();revealed=false;}
+      render();
+    });
   });
   const rev=document.getElementById('revBtn');
   if(rev) rev.addEventListener('click',()=>{revealed=true;render();});
@@ -418,28 +1008,57 @@ function bind(){
   if(miss) miss.addEventListener('click',()=>record(false));
   const skip=document.getElementById('skipBtn');
   if(skip) skip.addEventListener('click',()=>{card=pickCard();revealed=false;render();});
+  const newSess=document.getElementById('newSession');
+  if(newSess) newSess.addEventListener('click',()=>{
+    sessionActive=false;sessionDeck=[];sessionIdx=0;
+    card=pickCard();revealed=false;render();
+  });
   const rst=document.getElementById('resetBtn');
   if(rst) rst.addEventListener('click',()=>{
     if(!confirm('Reset all progress and scores?')) return;
-    const kept={activeModes:state.activeModes,activeLessons:state.activeLessons,focusWrong:state.focusWrong};
+    const kept={activeModes:state.activeModes,activeLessons:state.activeLessons,
+      focusWrong:state.focusWrong,includeCompounds:state.includeCompounds,
+      includeSingles:state.includeSingles,sessionLimit:state.sessionLimit};
     state=Object.assign(defaultState(),kept);
-    sCorrect=0;sWrong=0;card=null;revealed=false;
+    sCorrect=0;sWrong=0;card=null;revealed=false;sessionActive=false;
     save();view='study';render();
   });
+
+  const optH=document.getElementById('optHeader');
+  if(optH) optH.addEventListener('click',()=>{optionsOpen=!optionsOpen;render();});
+
   document.querySelectorAll('[data-mode]').forEach(el=>{
-    el.addEventListener('change',()=>{
+    el.addEventListener('click',()=>{
       const id=el.dataset.mode;
-      if(el.checked){if(!state.activeModes.includes(id))state.activeModes.push(id);}
-      else{state.activeModes=state.activeModes.filter(m=>m!==id);if(!state.activeModes.length){state.activeModes=[id];el.checked=true;}}
+      if(state.activeModes.includes(id)){
+        if(state.activeModes.length>1) state.activeModes=state.activeModes.filter(m=>m!==id);
+      } else { state.activeModes.push(id); }
       save();render();
     });
   });
+
+  document.querySelectorAll('[data-cardtype]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const t=el.dataset.cardtype;
+      if(t==='singles'){
+        state.includeSingles=!state.includeSingles;
+        if(!state.includeCompounds&&!state.includeSingles) state.includeCompounds=true;
+      } else {
+        state.includeCompounds=!state.includeCompounds;
+        if(!state.includeCompounds&&!state.includeSingles) state.includeSingles=true;
+      }
+      save();render();
+    });
+  });
+
   const ft=document.getElementById('focusTog');
   if(ft) ft.addEventListener('change',()=>{state.focusWrong=ft.checked;save();render();});
+
   const allL=document.getElementById('allL');
   if(allL) allL.addEventListener('click',()=>{state.activeLessons=LESSONS.slice();save();render();});
   const noneL=document.getElementById('noneL');
   if(noneL) noneL.addEventListener('click',()=>{state.activeLessons=[LESSONS[0]];save();render();});
+
   document.querySelectorAll('[data-lesson]').forEach(el=>{
     el.addEventListener('click',()=>{
       const l=parseInt(el.dataset.lesson);
@@ -447,6 +1066,39 @@ function bind(){
       else state.activeLessons.push(l);
       save();render();
     });
+  });
+
+  const allLs=document.getElementById('allLs');
+  if(allLs) allLs.addEventListener('click',()=>{state.activeLessons=LESSONS.slice();save();render();});
+  const noneLs=document.getElementById('noneLs');
+  if(noneLs) noneLs.addEventListener('click',()=>{state.activeLessons=[LESSONS[0]];save();render();});
+  document.querySelectorAll('[data-lesson2]').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const l=parseInt(el.dataset.lesson2);
+      if(state.activeLessons.includes(l)){if(state.activeLessons.length>1)state.activeLessons=state.activeLessons.filter(x=>x!==l);}
+      else state.activeLessons.push(l);
+      save();render();
+    });
+  });
+
+  const qi=document.getElementById('qtyInput');
+  if(qi) qi.addEventListener('change',()=>{
+    const v=parseInt(qi.value);
+    state.sessionLimit=isNaN(v)||v<1?0:v;
+    save();
+  });
+  const ss=document.getElementById('startSession');
+  if(ss) ss.addEventListener('click',()=>{
+    const qi2=document.getElementById('qtyInput');
+    if(qi2){const v=parseInt(qi2.value);state.sessionLimit=isNaN(v)||v<1?0:v;save();}
+    sessionDeck=buildSessionDeck();
+    sessionIdx=0;
+    sessionActive=true;
+    sCorrect=0;sWrong=0;
+    optionsOpen=false;
+    card=pickCard();
+    revealed=false;
+    render();
   });
 }
 
