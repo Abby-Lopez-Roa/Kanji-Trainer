@@ -13,7 +13,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f0f13;--surface:#17171e;--surface2:#1e1e28;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#f0eeeb;--text2:#8b8a96;--text3:#55535f;--accent:#c8a96e;--accent2:#e8c98a;--green:#5ecb8a;--green-bg:rgba(94,203,138,0.12);--red:#e8685a;--red-bg:rgba(232,104,90,0.12);--blue:#6eb4f7;--blue-bg:rgba(110,180,247,0.1);--amber:#f0a84a;--radius:12px;--radius-lg:18px;--radius-xl:24px}
+:root{--bg:#0f0f13;--surface:#17171e;--surface2:#1e1e28;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);--text:#f0eeeb;--text2:#8b8a96;--text3:#55535f;--accent:#c8a96e;--accent2:#e8c98a;--accent-ink:#0f0f13;--green:#5ecb8a;--green-bg:rgba(94,203,138,0.12);--red:#e8685a;--red-bg:rgba(232,104,90,0.12);--blue:#6eb4f7;--blue-bg:rgba(110,180,247,0.1);--amber:#f0a84a;--radius:12px;--radius-lg:18px;--radius-xl:24px}
+[data-theme="light"]{--bg:#faf8f4;--surface:#ffffff;--surface2:#f0ede6;--border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.14);--text:#1f1d1a;--text2:#6b6860;--text3:#a8a49a;--accent:#9c7a3c;--accent2:#b8954f;--accent-ink:#ffffff;--green:#2e9e63;--green-bg:rgba(46,158,99,0.12);--red:#cf4538;--red-bg:rgba(207,69,56,0.1);--blue:#3a7fc4;--blue-bg:rgba(58,127,196,0.1);--amber:#c87f1e}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',sans-serif;overflow:hidden}
 #app{height:100vh;height:100dvh;display:flex;flex-direction:column;max-width:480px;margin:0 auto;position:relative;overflow:hidden}
@@ -51,7 +52,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 .qty-input{width:64px;background:var(--surface2);border:0.5px solid var(--border2);border-radius:8px;color:var(--text);font-family:'DM Mono',monospace;font-size:14px;padding:6px 8px;text-align:center}
 .qty-input:focus{outline:none;border-color:var(--accent)}
 .qty-hint{font-size:11px;color:var(--text3)}
-.panel-btn{width:100%;background:var(--accent);border:none;border-radius:var(--radius);color:#0f0f13;font-size:13px;font-weight:600;font-family:'Syne',sans-serif;padding:11px;cursor:pointer;margin-top:10px;transition:background 0.15s}
+.panel-btn{width:100%;background:var(--accent);border:none;border-radius:var(--radius);color:var(--accent-ink);font-size:13px;font-weight:600;font-family:'Syne',sans-serif;padding:11px;cursor:pointer;margin-top:10px;transition:background 0.15s}
 .panel-btn:hover{background:var(--accent2)}
 .panel-btn:active{transform:scale(0.98)}
 
@@ -123,7 +124,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 /* Buttons */
 .btn{cursor:pointer;border:0.5px solid var(--border2);border-radius:var(--radius);padding:12px 18px;font-size:14px;font-family:'Syne',sans-serif;font-weight:500;letter-spacing:0.01em;transition:all 0.15s;background:transparent;color:var(--text)}
 .btn:active{transform:scale(0.97)}
-.btn-reveal{background:var(--accent);border-color:var(--accent);color:#0f0f13;font-weight:600;padding:12px 30px;margin-top:8px}
+.btn-reveal{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:600;padding:12px 30px;margin-top:8px}
 .btn-reveal:hover{background:var(--accent2)}
 .btn-row{display:flex;gap:8px;margin-top:10px}
 .btn-got{flex:1;background:var(--green-bg);border-color:rgba(94,203,138,0.3);color:var(--green);font-weight:600}
@@ -159,6 +160,30 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 /* Empty state */
 .empty-state{text-align:center;padding:40px 20px;color:var(--text2)}
 .empty-icon{font-size:40px;margin-bottom:10px}
+
+/* Pin button on flashcard */
+.pin-btn{position:absolute;top:9px;left:50%;transform:translateX(-50%);background:none;border:none;cursor:pointer;font-size:15px;line-height:1;padding:4px;opacity:0.35;transition:opacity 0.15s,transform 0.15s}
+.pin-btn.pinned{opacity:1}
+.pin-btn:active{transform:translateX(-50%) scale(1.2)}
+
+/* Theme toggle button */
+.theme-btn{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius);padding:6px 8px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;line-height:1}
+
+/* Shuffle button */
+.shuffle-btn{width:100%;background:none;border:0.5px solid var(--border2);border-radius:var(--radius);color:var(--text2);font-size:12px;font-family:'Syne',sans-serif;padding:9px;cursor:pointer;margin-top:6px}
+.shuffle-btn:hover{background:var(--surface2)}
+
+/* Glossary */
+.glossary-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.glossary-chevron{width:14px;height:14px;stroke:var(--text3);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.25s}
+.glossary-chevron.open{transform:rotate(180deg)}
+.glossary-body{margin-top:10px;display:flex;flex-direction:column;gap:9px}
+.gloss-term{font-size:12px}
+.gloss-name{color:var(--text);font-weight:500}
+.gloss-def{color:var(--text3);font-size:11px;line-height:1.5;margin-top:1px}
+
+/* Pinned filter chip in panel */
+.pin-count{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-left:4px}
 </style>
 </head>
 <body>
@@ -670,6 +695,10 @@ function defaultState(){
     includeCompounds:true,includeSingles:true,includeReadingOnly:true,
     sessionLimit:0,
     masteryMode:false,
+    redemptionMode:false,
+    pinnedOnly:false,
+    pinned:[],
+    theme:'dark',
     timerEnabled:false,timerMinutes:10,
     showStats:{streak:true,correct:true,wrong:true,practiced:false}
   };
@@ -681,6 +710,10 @@ let state=(()=>{
     if(p.includeReadingOnly===undefined)p.includeReadingOnly=true;
     if(p.masteryMode===undefined)p.masteryMode=false;
     if(p.timerEnabled===undefined){p.timerEnabled=false;p.timerMinutes=10;}
+    if(p.redemptionMode===undefined)p.redemptionMode=false;
+    if(p.pinnedOnly===undefined)p.pinnedOnly=false;
+    if(!Array.isArray(p.pinned))p.pinned=[];
+    if(!p.theme)p.theme='dark';
     return p;
   }}catch(e){}
   return defaultState();
@@ -701,6 +734,16 @@ let masteryQueue=[],masteryMastered=new Set(),masteryOriginalSize=0;
 let timerInterval=null,timerSecondsLeft=0,timerRunning=false;
 // Panel
 let panelOpen=false;
+let glossaryOpen=false;
+
+// ─── Pin / theme helpers ─────────────────────────────────────────────────────
+function isPinned(k){return state.pinned.includes(k);}
+function togglePin(k){
+  if(isPinned(k))state.pinned=state.pinned.filter(x=>x!==k);
+  else state.pinned.push(k);
+  save();
+}
+function applyTheme(){document.documentElement.setAttribute('data-theme',state.theme==='light'?'light':'dark');}
 
 // ─── Timer ──────────────────────────────────────────────────────────────────
 function fmtTime(s){
@@ -761,6 +804,7 @@ function modesForCard(c){
 
 function buildPool(){
   return RAW.filter(c=>{
+    if(state.pinnedOnly&&!isPinned(c.k))return false;
     if(!state.activeLessons.includes(c.l))return false;
     if(c.type==='compound'&&!state.includeCompounds)return false;
     if(c.type==='single'&&!state.includeSingles)return false;
@@ -853,6 +897,7 @@ function record(correct){
     state.streak++;sCorrect++;
     if(state.streak>state.bestStreak)state.bestStreak=state.streak;
     state.xp+=XP_PER_CORRECT;
+    if(state.redemptionMode&&state.scores[c.k].wrong>0)state.scores[c.k].wrong--;
   }else{
     state.scores[c.k].wrong++;state.streak=0;sWrong++;
   }
@@ -897,7 +942,11 @@ function icon(name){
 
 // ─── Render ──────────────────────────────────────────────────────────────────
 function render(){
+  applyTheme();
   const app=document.getElementById('app');
+  // Preserve side-panel scroll position across re-renders
+  const prevPanel=document.getElementById('sidePanel');
+  const panelScroll=prevPanel?prevPanel.scrollTop:0;
   const bdClass='panel-backdrop'+(panelOpen?' open':'');
   const spClass='side-panel'+(panelOpen?' open':'');
   app.innerHTML=`
@@ -906,6 +955,8 @@ function render(){
     <div class="screen">${view==='study'?studyScreen():statsScreen()}</div>
     ${navBar()}
   `;
+  // Restore scroll
+  if(panelOpen){const np=document.getElementById('sidePanel');if(np)np.scrollTop=panelScroll;}
   bind();
 }
 
@@ -944,6 +995,12 @@ function renderPanel(){
       <button class="pchip${state.includeCompounds?' on':''}" data-ctype="compounds">Compounds</button>
       <button class="pchip${state.includeReadingOnly?' on':''}" data-ctype="readingonly">Reading only</button>
     </div>
+    <div class="panel-toggle-row" style="margin-top:10px">
+      <div class="panel-toggle-label">Pinned only 📌<span class="pin-count">${state.pinned.length} pinned</span>
+        <div class="panel-toggle-sub">Study only the cards you've pinned</div>
+      </div>
+      <label class="toggle"><input type="checkbox" id="pinnedTog" ${state.pinnedOnly?'checked':''} ${state.pinned.length===0?'disabled':''}><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+    </div>
   </div>
 
   <div class="panel-section">
@@ -954,11 +1011,18 @@ function renderPanel(){
     </div>
     <div class="panel-toggle-row" style="margin-top:10px">
       <div class="panel-toggle-label">Drill mode
-        <div class="panel-toggle-sub">Repeats wrong cards until all correct</div>
+        <div class="panel-toggle-sub">Locks your chosen cards for the session and repeats any you miss until you've gotten them all right</div>
       </div>
       <label class="toggle"><input type="checkbox" id="masteryTog" ${state.masteryMode?'checked':''}><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
     </div>
+    <div class="panel-toggle-row">
+      <div class="panel-toggle-label">Redemption mode
+        <div class="panel-toggle-sub">A correct answer on a previously-missed card removes one from its wrong count (never below zero)</div>
+      </div>
+      <label class="toggle"><input type="checkbox" id="redeemTog" ${state.redemptionMode?'checked':''}><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+    </div>
     <button class="panel-btn" id="startBtn">▶ Start session${state.sessionLimit?` (${totalCards} cards)`:''}</button>
+    <button class="shuffle-btn" id="shuffleBtn">🔀 Shuffle &amp; restart with a new set</button>
   </div>
 
   <div class="panel-section">
@@ -1010,6 +1074,31 @@ function renderPanel(){
     <div class="lesson-grid-panel">
       ${LESSONS.map(l=>`<button class="pchip${state.activeLessons.includes(l)?' on':''}" data-lesson="${l}" style="font-size:10px">L${l}</button>`).join('')}
     </div>
+  </div>
+
+  <div class="panel-section">
+    <div class="glossary-toggle" id="glossToggle">
+      <span class="panel-section-title" style="margin-bottom:0">Glossary</span>
+      <svg class="glossary-chevron${glossaryOpen?' open':''}" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    ${glossaryOpen?`<div class="glossary-body">
+      ${[
+        ['Reading → Kanji','You see the hiragana reading and English meaning, then recall and picture the kanji.'],
+        ['Kanji → Reading','You see only the kanji and recall how it is read in hiragana.'],
+        ['Kanji + Meaning → Reading','You see the kanji and its meaning, then recall the reading.'],
+        ['Single kanji','An individual character studied on its own.'],
+        ['Compounds','Vocabulary words made of kanji (sometimes mixed with hiragana), e.g. 友だち.'],
+        ['Reading only','Kanji you only need to recognise and read, not write. These never appear in Reading → Kanji mode.'],
+        ['Pinned only','Restricts study to the cards you have pinned with the 📌 on a card.'],
+        ['Drill mode','Locks your chosen cards for the session and repeats any you miss until every card has been answered correctly.'],
+        ['Redemption mode','A correct answer on a previously-missed card removes one from its wrong count. Counts never drop below zero; a later miss adds one back.'],
+        ['Focus on mistakes','Limits the pool to cards you have missed before, so you drill weak spots.'],
+        ['Streak','Consecutive correct answers in a row. Resets to zero on a miss.'],
+        ['XP / Level','You earn 10 XP per correct answer; every 100 XP raises your level.'],
+        ['Session','A study run of a set number of cards. Leave the card count blank to study the whole pool.'],
+        ['Countdown timer','An optional timer for timed study. Turns amber under a minute and red under thirty seconds.']
+      ].map(([n,d])=>`<div class="gloss-term"><div class="gloss-name">${n}</div><div class="gloss-def">${d}</div></div>`).join('')}
+    </div>`:''}
   </div>
   `;
 }
@@ -1100,6 +1189,7 @@ function studyScreen(){
       <span class="app-title"><span>漢字</span> Trainer</span>
       <div class="header-right">
         ${timerEl}
+        <button class="theme-btn" id="themeBtn" title="Toggle light / dark">${state.theme==='light'?'🌙':'☀️'}</button>
         <span class="level-pill"><span class="level-dot"></span>Lv ${lv}</span>
       </div>
     </div>
@@ -1109,6 +1199,7 @@ function studyScreen(){
     ${progHTML}
     <div class="mode-label">${mode.label}</div>
     <div class="flashcard" id="fc">
+      <button class="pin-btn${isPinned(c.k)?' pinned':''}" id="pinBtn" title="${isPinned(c.k)?'Unpin':'Pin'} this card">📌</button>
       <span class="lesson-tag">L${c.l}</span>
       ${wc>0?`<span class="missed-badge">${wc}✗</span>`:''}
       ${isCompound?`<span class="type-badge">compound</span>`:''}
@@ -1210,6 +1301,14 @@ function bind(){
   const mt=document.getElementById('masteryTog');
   if(mt)mt.addEventListener('change',()=>{state.masteryMode=mt.checked;save();render();});
 
+  // Panel: redemption toggle
+  const rd=document.getElementById('redeemTog');
+  if(rd)rd.addEventListener('change',()=>{state.redemptionMode=rd.checked;save();render();});
+
+  // Panel: pinned-only toggle
+  const po=document.getElementById('pinnedTog');
+  if(po)po.addEventListener('change',()=>{state.pinnedOnly=po.checked;save();render();});
+
   // Panel: focus
   const ft=document.getElementById('focusTog');
   if(ft)ft.addEventListener('change',()=>{state.focusWrong=ft.checked;save();render();});
@@ -1262,6 +1361,14 @@ function bind(){
   const sb=document.getElementById('startBtn');
   if(sb)sb.addEventListener('click',startSession);
 
+  // Panel: shuffle & restart
+  const shf=document.getElementById('shuffleBtn');
+  if(shf)shf.addEventListener('click',()=>{sessionActive=false;masteryQueue=[];card=null;startSession();});
+
+  // Panel: glossary toggle
+  const gt=document.getElementById('glossToggle');
+  if(gt)gt.addEventListener('click',()=>{glossaryOpen=!glossaryOpen;render();});
+
   // Study: reveal
   const rev=document.getElementById('revBtn');
   if(rev)rev.addEventListener('click',()=>{revealed=true;render();});
@@ -1280,13 +1387,22 @@ function bind(){
   const ns=document.getElementById('newSessBtn');
   if(ns)ns.addEventListener('click',()=>{sessionActive=false;card=pickCard();revealed=false;render();});
 
+  // Study: pin toggle
+  const pb=document.getElementById('pinBtn');
+  if(pb)pb.addEventListener('click',()=>{if(card){togglePin(card.k);render();}});
+
+  // Header: theme toggle
+  const thb=document.getElementById('themeBtn');
+  if(thb)thb.addEventListener('click',()=>{state.theme=state.theme==='light'?'dark':'light';save();render();});
+
   // Stats: reset
   const rb=document.getElementById('resetBtn');
   if(rb)rb.addEventListener('click',()=>{
     if(!confirm('Reset all progress?'))return;
     const kept={activeModes:state.activeModes,activeLessons:state.activeLessons,focusWrong:state.focusWrong,
       includeCompounds:state.includeCompounds,includeSingles:state.includeSingles,includeReadingOnly:state.includeReadingOnly,
-      sessionLimit:state.sessionLimit,masteryMode:state.masteryMode,
+      sessionLimit:state.sessionLimit,masteryMode:state.masteryMode,redemptionMode:state.redemptionMode,
+      pinnedOnly:false,pinned:state.pinned,theme:state.theme,
       timerEnabled:state.timerEnabled,timerMinutes:state.timerMinutes,showStats:{...state.showStats}};
     state=Object.assign(defaultState(),kept);
     sCorrect=0;sWrong=0;card=null;revealed=false;sessionActive=false;masteryQueue=[];
