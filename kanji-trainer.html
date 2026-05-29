@@ -221,7 +221,8 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 .summary-btns{display:flex;gap:8px;margin-top:18px}
 .summary-btns .btn{flex:1;padding:12px 10px;font-size:13px}
 /* new-drill inline setup */
-.nds{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-lg);padding:14px;margin-top:14px;animation:fadeUp 0.25s ease}
+.nds{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-lg);padding:14px;margin-top:14px}
+.nds.intro{animation:fadeUp 0.25s ease}
 .nds-title{font-size:13px;font-weight:600;margin-bottom:12px;letter-spacing:0.02em}
 .nds-label{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
 .nds-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
@@ -786,11 +787,13 @@ let sessionComplete=false;
 let drillStats={};       // { key: {attempts,misses,firstTryCorrect,card} }
 let drillDeckCards=[];   // original deck (for reshuffle / retry)
 let newDrillOpen=false;  // inline new-drill setup visibility
+let newDrillJustOpened=false;
 // Timer
 let timerInterval=null,timerSecondsLeft=0,timerRunning=false;
 // Panel
 let panelOpen=false;
 let glossaryOpen=false;
+let resetScroll=false;
 
 // ─── Pin / theme helpers ─────────────────────────────────────────────────────
 function isPinned(k){return state.pinned.includes(k);}
@@ -956,6 +959,7 @@ function startSession(){
   revealed=false;
   if(state.timerEnabled)startTimer();
   panelOpen=false;
+  resetScroll=true;
   render();
 }
 
@@ -971,6 +975,7 @@ function retryDrill(){
   modeId=modes.length?modes[Math.floor(Math.random()*modes.length)]:'kanji_to_kana';
   card=c;revealed=false;
   if(state.timerEnabled)startTimer();
+  resetScroll=true;
   render();
 }
 
@@ -1022,6 +1027,7 @@ function record(correct){
     card=pickCard();
   }
   revealed=false;
+  resetScroll=true;
   render();
 }
 
@@ -1039,19 +1045,23 @@ function icon(name){
 function render(){
   applyTheme();
   const app=document.getElementById('app');
-  // Preserve side-panel scroll position across re-renders
+  // Preserve scroll positions across re-renders
   const prevPanel=document.getElementById('sidePanel');
   const panelScroll=prevPanel?prevPanel.scrollTop:0;
+  const prevScreen=document.getElementById('screen');
+  const screenScroll=resetScroll?0:(prevScreen?prevScreen.scrollTop:0);
+  resetScroll=false;
   const bdClass='panel-backdrop'+(panelOpen?' open':'');
   const spClass='side-panel'+(panelOpen?' open':'');
   app.innerHTML=`
     <div class="${bdClass}" id="backdrop"></div>
     <div class="${spClass}" id="sidePanel">${renderPanel()}</div>
-    <div class="screen">${view==='study'?studyScreen():statsScreen()}</div>
+    <div class="screen" id="screen">${view==='study'?studyScreen():statsScreen()}</div>
     ${navBar()}
   `;
   // Restore scroll
   if(panelOpen){const np=document.getElementById('sidePanel');if(np)np.scrollTop=panelScroll;}
+  const ns=document.getElementById('screen');if(ns)ns.scrollTop=screenScroll;
   bind();
 }
 
@@ -1233,15 +1243,23 @@ function drillSummaryScreen(){
   // New-drill inline setup
   const pool=buildPool();
   const ndsCards=state.sessionLimit>0?Math.min(state.sessionLimit,pool.length):pool.length;
+  const introCls=newDrillJustOpened?' intro':'';
+  newDrillJustOpened=false;
   const newDrillPanel=newDrillOpen?`
-    <div class="nds">
+    <div class="nds${introCls}">
       <div class="nds-title">New drill</div>
       <div class="nds-label">How many cards?</div>
       <div class="nds-row">
         <input type="number" class="qty-input" id="ndsCount" min="1" max="999" value="${state.sessionLimit||''}" placeholder="∞">
         <span class="qty-hint">blank = all ${pool.length} available</span>
       </div>
-      <div class="nds-label">Lessons</div>
+      <div class="nds-label" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Lessons</span>
+        <span style="display:flex;gap:5px">
+          <button class="pchip on" id="ndsAllL" style="font-size:10px;padding:3px 8px">All</button>
+          <button class="pchip" id="ndsNoneL" style="font-size:10px;padding:3px 8px">Clear</button>
+        </span>
+      </div>
       <div class="nds-lessons">
         ${LESSONS.map(l=>`<button class="pchip${state.activeLessons.includes(l)?' on':''}" data-ndslesson="${l}" style="font-size:10px">L${l}</button>`).join('')}
       </div>
@@ -1437,7 +1455,7 @@ function statsScreen(){
 function bind(){
   // Nav
   document.querySelectorAll('[data-nav]').forEach(el=>{
-    el.addEventListener('click',()=>{view=el.dataset.nav;if(view==='study'&&!card){card=pickCard();revealed=false;}render();});
+    el.addEventListener('click',()=>{view=el.dataset.nav;if(view==='study'&&!card&&!sessionComplete){card=pickCard();revealed=false;}resetScroll=true;render();});
   });
 
   // Panel open/close
@@ -1553,11 +1571,11 @@ function bind(){
 
   // Study: skip
   const skip=document.getElementById('skipBtn');
-  if(skip)skip.addEventListener('click',()=>{card=pickCard();revealed=false;render();});
+  if(skip)skip.addEventListener('click',()=>{card=pickCard();revealed=false;resetScroll=true;render();});
 
   // Study: back to free study after a normal session completes
   const ns=document.getElementById('newSessBtn');
-  if(ns)ns.addEventListener('click',()=>{sessionActive=false;sessionComplete=false;card=pickCard();revealed=false;render();});
+  if(ns)ns.addEventListener('click',()=>{sessionActive=false;sessionComplete=false;card=pickCard();revealed=false;resetScroll=true;render();});
 
   // Drill summary: try again (reshuffled)
   const rt=document.getElementById('retryDrillBtn');
@@ -1565,7 +1583,7 @@ function bind(){
 
   // Drill summary: open new-drill setup
   const ond=document.getElementById('openNewDrillBtn');
-  if(ond)ond.addEventListener('click',()=>{newDrillOpen=true;render();});
+  if(ond)ond.addEventListener('click',()=>{newDrillOpen=true;newDrillJustOpened=true;render();});
 
   // New-drill setup: lesson chips
   document.querySelectorAll('[data-ndslesson]').forEach(el=>el.addEventListener('click',()=>{
@@ -1574,6 +1592,11 @@ function bind(){
     else state.activeLessons.push(l);
     save();render();
   }));
+  // New-drill setup: All / Clear
+  const ndAll=document.getElementById('ndsAllL');
+  if(ndAll)ndAll.addEventListener('click',()=>{state.activeLessons=LESSONS.slice();save();render();});
+  const ndNone=document.getElementById('ndsNoneL');
+  if(ndNone)ndNone.addEventListener('click',()=>{state.activeLessons=[LESSONS[0]];save();render();});
   // New-drill setup: card count
   const ndc=document.getElementById('ndsCount');
   if(ndc)ndc.addEventListener('change',()=>{const v=parseInt(ndc.value);state.sessionLimit=isNaN(v)||v<1?0:v;save();render();});
