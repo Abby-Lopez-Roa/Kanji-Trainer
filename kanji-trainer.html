@@ -184,6 +184,55 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Syne',
 
 /* Pinned filter chip in panel */
 .pin-count{font-size:10px;color:var(--text3);font-family:'DM Mono',monospace;margin-left:4px}
+
+/* Drill summary */
+.summary-head{display:flex;flex-direction:column;align-items:center;margin-bottom:16px}
+.summary-emoji{font-size:38px;margin-bottom:6px}
+.summary-title{font-size:18px;font-weight:600;letter-spacing:-0.01em}
+.summary-sub{font-size:12px;color:var(--text3);margin-top:3px}
+.summary-stats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:18px}
+.sum-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px}
+.sum-val{font-size:24px;font-weight:700;letter-spacing:-0.03em}
+.sum-val.green{color:var(--green)}
+.sum-val.amber{color:var(--amber)}
+.sum-lbl{font-size:10px;color:var(--text3);margin-top:3px;letter-spacing:0.04em;text-transform:uppercase}
+.sum-section{font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);margin:14px 0 9px}
+/* bar chart */
+.bar-row{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+.bar-kanji{font-family:'Klee One',sans-serif;font-size:18px;min-width:30px;text-align:center;color:var(--text)}
+.bar-track{flex:1;height:18px;background:var(--surface2);border-radius:6px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:6px;transition:width 0.4s}
+.bar-fill.ok{background:var(--green)}
+.bar-fill.warn{background:var(--amber)}
+.bar-fill.bad{background:var(--red)}
+.bar-val{font-family:'DM Mono',monospace;font-size:11px;color:var(--text2);min-width:42px;text-align:right}
+.all-firsttry{font-size:13px;color:var(--green);text-align:center;padding:14px;background:var(--green-bg);border-radius:var(--radius);border:0.5px solid rgba(94,203,138,0.25)}
+/* practiced list */
+.prac-row{display:flex;align-items:center;gap:10px;background:var(--surface);border:0.5px solid var(--border);border-radius:10px;padding:8px 11px;margin-bottom:5px}
+.prac-kanji{font-family:'Klee One',sans-serif;font-size:20px;min-width:28px;text-align:center}
+.prac-info{flex:1;min-width:0}
+.prac-reading{font-family:'Klee One',sans-serif;font-size:12px;color:var(--text2)}
+.prac-eng{font-size:10px;color:var(--text3);margin-top:1px}
+.prac-badge{font-size:10px;font-family:'DM Mono',monospace;border-radius:6px;padding:3px 8px;white-space:nowrap}
+.prac-badge.first{color:var(--green);background:var(--green-bg)}
+.prac-badge.retry{color:var(--amber);background:rgba(240,168,74,0.12)}
+.prac-badge.hard{color:var(--red);background:var(--red-bg)}
+/* summary buttons */
+.summary-btns{display:flex;gap:8px;margin-top:18px}
+.summary-btns .btn{flex:1;padding:12px 10px;font-size:13px}
+/* new-drill inline setup */
+.nds{background:var(--surface);border:0.5px solid var(--border2);border-radius:var(--radius-lg);padding:14px;margin-top:14px;animation:fadeUp 0.25s ease}
+.nds-title{font-size:13px;font-weight:600;margin-bottom:12px;letter-spacing:0.02em}
+.nds-label{font-size:10px;letter-spacing:0.08em;text-transform:uppercase;color:var(--text3);margin-bottom:7px}
+.nds-row{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.nds-lessons{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;margin-bottom:14px}
+.nds-pin-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px}
+.nds-pin-label{font-size:12px;color:var(--text)}
+.nds-pin-sub{font-size:10px;color:var(--text3);margin-top:1px}
+.nds-btns{display:flex;gap:8px}
+.nds-btns button{flex:1;border-radius:var(--radius);font-size:13px;font-family:'Syne',sans-serif;padding:10px;cursor:pointer;font-weight:500}
+.nds-go{background:var(--accent);border:none;color:var(--accent-ink);font-weight:600}
+.nds-cancel{background:none;border:0.5px solid var(--border2);color:var(--text2)}
 </style>
 </head>
 <body>
@@ -697,6 +746,7 @@ function defaultState(){
     masteryMode:false,
     redemptionMode:false,
     pinnedOnly:false,
+    includePinned:false,
     pinned:[],
     theme:'dark',
     timerEnabled:false,timerMinutes:10,
@@ -712,6 +762,7 @@ let state=(()=>{
     if(p.timerEnabled===undefined){p.timerEnabled=false;p.timerMinutes=10;}
     if(p.redemptionMode===undefined)p.redemptionMode=false;
     if(p.pinnedOnly===undefined)p.pinnedOnly=false;
+    if(p.includePinned===undefined)p.includePinned=false;
     if(!Array.isArray(p.pinned))p.pinned=[];
     if(!p.theme)p.theme='dark';
     return p;
@@ -730,6 +781,11 @@ let sCorrect=0,sWrong=0;
 let sessionDeck=[],sessionIdx=0,sessionActive=false;
 // Mastery session
 let masteryQueue=[],masteryMastered=new Set(),masteryOriginalSize=0;
+// Drill summary tracking
+let sessionComplete=false;
+let drillStats={};       // { key: {attempts,misses,firstTryCorrect,card} }
+let drillDeckCards=[];   // original deck (for reshuffle / retry)
+let newDrillOpen=false;  // inline new-drill setup visibility
 // Timer
 let timerInterval=null,timerSecondsLeft=0,timerRunning=false;
 // Panel
@@ -803,7 +859,7 @@ function modesForCard(c){
 }
 
 function buildPool(){
-  return RAW.filter(c=>{
+  let pool=RAW.filter(c=>{
     if(state.pinnedOnly&&!isPinned(c.k))return false;
     if(!state.activeLessons.includes(c.l))return false;
     if(c.type==='compound'&&!state.includeCompounds)return false;
@@ -812,6 +868,15 @@ function buildPool(){
     if(c.readingOnly&&modesForCard(c).length===0)return false;
     return true;
   });
+  if(state.includePinned&&!state.pinnedOnly){
+    RAW.forEach(c=>{
+      if(isPinned(c.k)&&!pool.includes(c)){
+        if(c.readingOnly&&modesForCard(c).length===0)return;
+        pool.push(c);
+      }
+    });
+  }
+  return pool;
 }
 
 function weightedPick(pool){
@@ -860,18 +925,25 @@ function pickCard(){
 }
 
 function endSession(){
-  sessionActive=false;
+  sessionComplete=true;stopTimer();
 }
 
 // ─── Session start ───────────────────────────────────────────────────────────
+function initDrillStats(deck){
+  drillDeckCards=[...deck];
+  drillStats={};
+  deck.forEach(c=>{drillStats[c.k]={attempts:0,misses:0,firstTryCorrect:null,card:c};});
+}
+
 function startSession(){
-  sCorrect=0;sWrong=0;
+  sCorrect=0;sWrong=0;sessionComplete=false;newDrillOpen=false;
   const deck=buildSessionDeck();
   if(!deck.length){showToast('No cards match your filters');return;}
   if(state.masteryMode){
     masteryQueue=[...deck];
     masteryMastered=new Set();
     masteryOriginalSize=deck.length;
+    initDrillStats(deck);
     sessionActive=true;
     const c=masteryQueue[0];
     const modes=modesForCard(c);
@@ -884,6 +956,21 @@ function startSession(){
   revealed=false;
   if(state.timerEnabled)startTimer();
   panelOpen=false;
+  render();
+}
+
+// Retry the just-finished drill with the same cards reshuffled
+function retryDrill(){
+  const deck=[...drillDeckCards];
+  for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}
+  sCorrect=0;sWrong=0;sessionComplete=false;newDrillOpen=false;
+  masteryQueue=deck;masteryMastered=new Set();masteryOriginalSize=deck.length;
+  initDrillStats(deck);
+  sessionActive=true;
+  const c=masteryQueue[0];const modes=modesForCard(c);
+  modeId=modes.length?modes[Math.floor(Math.random()*modes.length)]:'kanji_to_kana';
+  card=c;revealed=false;
+  if(state.timerEnabled)startTimer();
   render();
 }
 
@@ -904,6 +991,13 @@ function record(correct){
   save();
 
   if(state.masteryMode&&sessionActive){
+    // Track per-card drill stats
+    const st=drillStats[c.k];
+    if(st){
+      st.attempts++;
+      if(st.firstTryCorrect===null)st.firstTryCorrect=correct;
+      if(!correct)st.misses++;
+    }
     if(correct){
       masteryMastered.add(c.k);
       masteryQueue.shift();
@@ -914,7 +1008,7 @@ function record(correct){
       masteryQueue.splice(insertPos,0,c);
     }
     if(masteryQueue.length===0){
-      sessionActive=false;card=null;
+      sessionComplete=true;card=null;stopTimer();
     }else{
       const nc=masteryQueue[0];
       const modes=modesForCard(nc);
@@ -923,6 +1017,7 @@ function record(correct){
     }
   }else if(sessionActive){
     card=pickCard();
+    if(!card){sessionComplete=true;}
   }else{
     card=pickCard();
   }
@@ -1103,29 +1198,106 @@ function renderPanel(){
   `;
 }
 
+// ─── Completion screens ───────────────────────────────────────────────────────
+function appHeaderSimple(titleWord){
+  return`<div class="app-header">
+    <button class="panel-toggle-btn" id="panelToggle">${icon('menu')}</button>
+    <span class="app-title"><span>漢字</span> ${titleWord}</span>
+    <div class="header-right"><button class="theme-btn" id="themeBtn" title="Toggle light / dark">${state.theme==='light'?'🌙':'☀️'}</button><span class="level-pill"><span class="level-dot"></span>Lv ${getLevel()}</span></div>
+  </div>`;
+}
+
+function normalCompleteScreen(){
+  return`<div class="screen-inner">
+    ${appHeaderSimple('Trainer')}
+    <div class="empty-state" style="padding:50px 20px">
+      <div class="empty-icon">🎉</div>
+      <div style="font-size:18px;font-weight:500;margin-bottom:8px">Session complete!</div>
+      <div style="font-size:13px;color:var(--text2);margin-bottom:20px">${sCorrect} correct · ${sWrong} missed</div>
+      <button class="btn btn-reveal" id="newSessBtn">Back to study</button>
+    </div>
+  </div>`;
+}
+
+function drillSummaryScreen(){
+  const cards=drillDeckCards;
+  const total=cards.length;
+  const firstTry=cards.filter(c=>(drillStats[c.k]||{}).firstTryCorrect===true).length;
+  const ftPct=total?Math.round(firstTry/total*100):0;
+  const totalAnswers=sCorrect+sWrong;
+  // Cards that needed a repeat (attempts > 1), sorted by attempts desc
+  const struggled=cards.map(c=>({c,st:drillStats[c.k]||{attempts:0,misses:0}}))
+    .filter(x=>x.st.attempts>1).sort((a,b)=>b.st.attempts-a.st.attempts);
+  const maxAtt=struggled.length?struggled[0].st.attempts:1;
+
+  // New-drill inline setup
+  const pool=buildPool();
+  const ndsCards=state.sessionLimit>0?Math.min(state.sessionLimit,pool.length):pool.length;
+  const newDrillPanel=newDrillOpen?`
+    <div class="nds">
+      <div class="nds-title">New drill</div>
+      <div class="nds-label">How many cards?</div>
+      <div class="nds-row">
+        <input type="number" class="qty-input" id="ndsCount" min="1" max="999" value="${state.sessionLimit||''}" placeholder="∞">
+        <span class="qty-hint">blank = all ${pool.length} available</span>
+      </div>
+      <div class="nds-label">Lessons</div>
+      <div class="nds-lessons">
+        ${LESSONS.map(l=>`<button class="pchip${state.activeLessons.includes(l)?' on':''}" data-ndslesson="${l}" style="font-size:10px">L${l}</button>`).join('')}
+      </div>
+      <div class="nds-pin-row">
+        <div><div class="nds-pin-label">Include pinned cards 📌</div><div class="nds-pin-sub">${state.pinned.length} pinned — add them to the pool</div></div>
+        <label class="toggle"><input type="checkbox" id="ndsPin" ${state.includePinned?'checked':''} ${state.pinned.length===0?'disabled':''}><span class="toggle-track"></span><span class="toggle-thumb"></span></label>
+      </div>
+      <div class="nds-btns">
+        <button class="nds-cancel" id="ndsCancel">Cancel</button>
+        <button class="nds-go" id="ndsGo">▶ Start drill</button>
+      </div>
+    </div>`:'';
+
+  return`<div class="screen-inner">
+    ${appHeaderSimple('Drill')}
+    <div class="summary-head">
+      <div class="summary-emoji">🎯</div>
+      <div class="summary-title">Drill complete!</div>
+      <div class="summary-sub">${total} cards · ${totalAnswers} total answers</div>
+    </div>
+    <div class="summary-stats">
+      <div class="sum-card"><div class="sum-val ${ftPct>=80?'green':ftPct>=50?'amber':''}">${ftPct}%</div><div class="sum-lbl">first-try accuracy</div></div>
+      <div class="sum-card"><div class="sum-val">${firstTry}/${total}</div><div class="sum-lbl">aced on first try</div></div>
+    </div>
+
+    <div class="sum-section">Attempts per card${struggled.length?' (needed a repeat)':''}</div>
+    ${struggled.length?struggled.map(({c,st})=>{
+      const pct=Math.round(st.attempts/maxAtt*100);
+      const cls=st.attempts>=4?'bad':st.attempts>=3?'warn':'ok';
+      return`<div class="bar-row"><span class="bar-kanji">${c.k}</span><div class="bar-track"><div class="bar-fill ${cls}" style="width:${pct}%"></div></div><span class="bar-val">${st.attempts} tries</span></div>`;
+    }).join(''):`<div class="all-firsttry">✓ Every card on the first try — flawless run!</div>`}
+
+    <div class="sum-section">Cards practiced</div>
+    ${cards.map(c=>{
+      const st=drillStats[c.k]||{attempts:1,misses:0,firstTryCorrect:true};
+      let badge,bc;
+      if(st.misses===0){badge='✓ first try';bc='first';}
+      else if(st.misses===1){badge='1 miss';bc='retry';}
+      else{badge=st.misses+' misses';bc='hard';}
+      return`<div class="prac-row"><span class="prac-kanji">${c.k}</span><div class="prac-info"><div class="prac-reading">${c.r}</div><div class="prac-eng">${c.e}</div></div><span class="prac-badge ${bc}">${badge}</span></div>`;
+    }).join('')}
+
+    ${newDrillOpen?newDrillPanel:`<div class="summary-btns">
+      <button class="btn" id="retryDrillBtn">↻ Try again</button>
+      <button class="btn btn-reveal" id="openNewDrillBtn" style="margin-top:0">＋ New drill</button>
+    </div>`}
+  </div>`;
+}
+
 // ─── Study Screen ─────────────────────────────────────────────────────────────
 function studyScreen(){
-  if(!card&&!sessionActive){card=pickCard();revealed=false;}
+  if(!card&&!sessionActive&&!sessionComplete){card=pickCard();revealed=false;}
 
-  // Session complete
-  const masteryDone=state.masteryMode&&sessionActive&&masteryQueue.length===0;
-  const normalDone=!state.masteryMode&&sessionActive&&sessionIdx>=sessionDeck.length&&!card;
-  if(masteryDone||normalDone){
-    const totalAnswers=sCorrect+sWrong;
-    return`<div class="screen-inner">
-      <div class="app-header">
-        <button class="panel-toggle-btn" id="panelToggle">${icon('menu')}</button>
-        <span class="app-title"><span>漢字</span> Trainer</span>
-        <div class="header-right"><span class="level-pill"><span class="level-dot"></span>Lv ${getLevel()}</span></div>
-      </div>
-      <div class="empty-state" style="padding:50px 20px">
-        <div class="empty-icon">${state.masteryMode?'🎯':'🎉'}</div>
-        <div style="font-size:18px;font-weight:500;margin-bottom:8px">${state.masteryMode?'Drill complete!':'Session complete!'}</div>
-        <div style="font-size:13px;color:var(--text2);margin-bottom:6px">${sCorrect} correct · ${sWrong} missed</div>
-        ${state.masteryMode?`<div style="font-size:12px;color:var(--text3);margin-bottom:20px">${masteryOriginalSize} unique cards · ${totalAnswers} total answers</div>`:'<div style="margin-bottom:20px"></div>'}
-        <button class="btn btn-reveal" id="newSessBtn">Start new session</button>
-      </div>
-    </div>`;
+  // ── Session complete ──
+  if(sessionComplete){
+    return state.masteryMode?drillSummaryScreen():normalCompleteScreen();
   }
 
   if(!card){
@@ -1383,9 +1555,40 @@ function bind(){
   const skip=document.getElementById('skipBtn');
   if(skip)skip.addEventListener('click',()=>{card=pickCard();revealed=false;render();});
 
-  // Study: new session after complete
+  // Study: back to free study after a normal session completes
   const ns=document.getElementById('newSessBtn');
-  if(ns)ns.addEventListener('click',()=>{sessionActive=false;card=pickCard();revealed=false;render();});
+  if(ns)ns.addEventListener('click',()=>{sessionActive=false;sessionComplete=false;card=pickCard();revealed=false;render();});
+
+  // Drill summary: try again (reshuffled)
+  const rt=document.getElementById('retryDrillBtn');
+  if(rt)rt.addEventListener('click',retryDrill);
+
+  // Drill summary: open new-drill setup
+  const ond=document.getElementById('openNewDrillBtn');
+  if(ond)ond.addEventListener('click',()=>{newDrillOpen=true;render();});
+
+  // New-drill setup: lesson chips
+  document.querySelectorAll('[data-ndslesson]').forEach(el=>el.addEventListener('click',()=>{
+    const l=parseInt(el.dataset.ndslesson);
+    if(state.activeLessons.includes(l)){if(state.activeLessons.length>1)state.activeLessons=state.activeLessons.filter(x=>x!==l);}
+    else state.activeLessons.push(l);
+    save();render();
+  }));
+  // New-drill setup: card count
+  const ndc=document.getElementById('ndsCount');
+  if(ndc)ndc.addEventListener('change',()=>{const v=parseInt(ndc.value);state.sessionLimit=isNaN(v)||v<1?0:v;save();render();});
+  // New-drill setup: include pinned
+  const ndp=document.getElementById('ndsPin');
+  if(ndp)ndp.addEventListener('change',()=>{state.includePinned=ndp.checked;save();render();});
+  // New-drill setup: cancel / go
+  const ndcancel=document.getElementById('ndsCancel');
+  if(ndcancel)ndcancel.addEventListener('click',()=>{newDrillOpen=false;render();});
+  const ndgo=document.getElementById('ndsGo');
+  if(ndgo)ndgo.addEventListener('click',()=>{
+    state.masteryMode=true;
+    sessionActive=false;sessionComplete=false;newDrillOpen=false;
+    startSession();
+  });
 
   // Study: pin toggle
   const pb=document.getElementById('pinBtn');
